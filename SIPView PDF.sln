@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIPView PDF", "SIPView PDF\SIPView PDF.csproj", "{F323AE11-C4A6-4DE3-8721-17990D5E6E88}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Debug|x64.ActiveCfg = Debug|x64
+		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Debug|x64.Build.0 = Debug|x64
+		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Release|x64.ActiveCfg = Release|x64
+		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8913E94-CAE0-4859-B691-83AA6B183E8C}
+	EndGlobalSection
+EndGlobal
