@@ -7,6 +7,7 @@ using ImageGear.Display;
 using ImageGear.Formats;
 using ImageGear.Formats.PDF;
 using ImageGear.Evaluation;
+using System.Drawing;
 
 namespace SIPView_PDF
 {
@@ -17,10 +18,7 @@ namespace SIPView_PDF
 
         public Form1()
         {
-            // Initialize evaluation license.
-            ImGearEvaluationManager.Initialize();
-            ImGearEvaluationManager.Mode = ImGearEvaluationMode.Watermark;
-
+            
             // Add support for PDF and PS files.
             ImGearCommonFormats.Initialize();
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePDFFormat());
@@ -125,7 +123,6 @@ namespace SIPView_PDF
                     imGearPageView1.Invalidate();
                     currentPageIndex = pageNumber;
                     toolStripStatusLabel1.Text = string.Format("{0} of {1}", pageNumber + 1, igDocument.Pages.Count);
-
                 }
             }
             catch (ImGearException ex)
@@ -157,6 +154,48 @@ namespace SIPView_PDF
             imGearPageView1.Display = null;
         }
 
-       
+        private void rotateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (igDocument != null)
+            {
+                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
+
+                imGearPageView1.Refresh();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (igDocument != null)
+            {
+                if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
+                    imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
+                else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.LEFT_BOTTOM)
+                    imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
+                else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.BOTTOM_RIGHT)
+                    imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
+                else
+                    imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
+
+                imGearPageView1.Refresh();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (igDocument != null)
+            {
+                if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
+                    imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
+                else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.RIGHT_TOP)
+                    imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
+                else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.BOTTOM_RIGHT)
+                    imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
+                else
+                    imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
+
+                imGearPageView1.Refresh();
+            }
+        }
     }
 }
