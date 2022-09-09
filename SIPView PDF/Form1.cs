@@ -18,7 +18,7 @@ namespace SIPView_PDF
 
         public Form1()
         {
-            
+
             // Add support for PDF and PS files.
             ImGearCommonFormats.Initialize();
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePDFFormat());
@@ -131,47 +131,20 @@ namespace SIPView_PDF
                 MessageBox.Show(ex.Message);
             }
         }
-
-       
-
-        private void nextPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (igDocument != null)
-                if (currentPageIndex < igDocument.Pages.Count - 1)
-                    renderPage(currentPageIndex + 1);
-        }
-
-        private void previousPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (igDocument != null)
-                if (currentPageIndex > 0)
-                    renderPage(currentPageIndex - 1);
-        }
-
-        protected override void OnFormClosed(FormClosedEventArgs e)
-        {
-            ImGearPDF.Terminate();
-            imGearPageView1.Display = null;
-        }
-
-        private void rotateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (igDocument != null)
-            {
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
-
-                imGearPageView1.Refresh();
-            }
-        }
+      
 
         private void button3_Click(object sender, EventArgs e)
         {
             if (igDocument != null)
             {
                 if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
+
                     imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
+
                 else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.LEFT_BOTTOM)
+
                     imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
+
                 else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.BOTTOM_RIGHT)
                     imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
                 else
@@ -196,6 +169,28 @@ namespace SIPView_PDF
 
                 imGearPageView1.Refresh();
             }
+        }
+
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (igDocument != null)
+                if (currentPageIndex > 0)
+                    renderPage(currentPageIndex - 1);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (igDocument != null)
+                if (currentPageIndex < igDocument.Pages.Count - 1)
+                    renderPage(currentPageIndex + 1);
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            ImGearPDF.Terminate();
+            imGearPageView1.Display = null;
         }
     }
 }
