@@ -65,28 +65,28 @@
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // nextPageToolStripMenuItem
             // 
             this.nextPageToolStripMenuItem.Name = "nextPageToolStripMenuItem";
-            this.nextPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nextPageToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.nextPageToolStripMenuItem.Text = "Next Page";
             this.nextPageToolStripMenuItem.Click += new System.EventHandler(this.nextPageToolStripMenuItem_Click);
             // 
             // previousPageToolStripMenuItem
             // 
             this.previousPageToolStripMenuItem.Name = "previousPageToolStripMenuItem";
-            this.previousPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.previousPageToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.previousPageToolStripMenuItem.Text = "Previous Page";
             this.previousPageToolStripMenuItem.Click += new System.EventHandler(this.previousPageToolStripMenuItem_Click);
             // 
@@ -105,7 +105,6 @@
             this.imGearPageView1.TabIndex = 1;
             this.imGearPageView1.UseConfiguredScrollbarIncrements = false;
             this.imGearPageView1.VerticalArrowIncerment = 1;
-            this.imGearPageView1.Load += new System.EventHandler(this.imGearPageView1_Load);
             // 
             // statusStrip1
             // 
@@ -120,8 +119,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
             // 
             // Form1
             // 

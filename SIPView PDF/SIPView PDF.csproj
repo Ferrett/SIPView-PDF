@@ -55,38 +55,45 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ImageGear.Art, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.PDF.25.2.0\lib\net20\ImageGear.Art.dll</HintPath>
+    <Reference Include="ImageGear24.Comparison, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.PDF.24.14.0\lib\net20\ImageGear24.Comparison.dll</HintPath>
     </Reference>
-    <Reference Include="ImageGear.Comparison, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.PDF.25.2.0\lib\net20\ImageGear.Comparison.dll</HintPath>
+    <Reference Include="ImageGear24.Core, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.Core.24.14.0\lib\net20\ImageGear24.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ImageGear.Core, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.Core.25.2.0\lib\net20\ImageGear.Core.dll</HintPath>
+    <Reference Include="ImageGear24.Evaluation, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.Core.24.14.0\lib\net20\ImageGear24.Evaluation.dll</HintPath>
     </Reference>
-    <Reference Include="ImageGear.Evaluation, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.Core.25.2.0\lib\net20\ImageGear.Evaluation.dll</HintPath>
+    <Reference Include="ImageGear24.Formats.Common, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.Core.24.14.0\lib\net20\ImageGear24.Formats.Common.dll</HintPath>
     </Reference>
-    <Reference Include="ImageGear.Formats.Common, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.Core.25.2.0\lib\net20\ImageGear.Formats.Common.dll</HintPath>
+    <Reference Include="ImageGear24.Formats.Pdf, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.PDF.24.14.0\lib\net20\ImageGear24.Formats.Pdf.dll</HintPath>
     </Reference>
-    <Reference Include="ImageGear.Formats.Pdf, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.PDF.25.2.0\lib\net20\ImageGear.Formats.Pdf.dll</HintPath>
+    <Reference Include="ImageGear24.Formats.SimplifiedMetadata, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.Core.24.14.0\lib\net20\ImageGear24.Formats.SimplifiedMetadata.dll</HintPath>
     </Reference>
-    <Reference Include="ImageGear.Formats.SimplifiedMetadata, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.Core.25.2.0\lib\net20\ImageGear.Formats.SimplifiedMetadata.dll</HintPath>
+    <Reference Include="ImageGear24.Formats.Vector, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.Vector.24.14.0\lib\net20\ImageGear24.Formats.Vector.dll</HintPath>
     </Reference>
-    <Reference Include="ImageGear.Formats.Vector, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.Vector.25.2.0\lib\net20\ImageGear.Formats.Vector.dll</HintPath>
+    <Reference Include="ImageGear24.Presentation, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.Vector.24.14.0\lib\net20\ImageGear24.Presentation.dll</HintPath>
     </Reference>
-    <Reference Include="ImageGear.Presentation, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.WinForms.25.2.0\lib\net20\ImageGear.Presentation.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageGear.Windows.Forms, Version=25.2.0.2647, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.WinForms.25.2.0\lib\net20\ImageGear.Windows.Forms.dll</HintPath>
+    <Reference Include="ImageGear24.Windows.Forms, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.WinForms.24.14.0\lib\net20\ImageGear24.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.5.0.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -133,15 +140,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Accusoft.ImageGear.Core.25.2.0\build\Accusoft.ImageGear.Core.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Core.25.2.0\build\Accusoft.ImageGear.Core.targets')" />
+  <Import Project="..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Accusoft.ImageGear.Core.25.2.0\build\Accusoft.ImageGear.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.Core.25.2.0\build\Accusoft.ImageGear.Core.targets'))" />
-    <Error Condition="!Exists('..\packages\Accusoft.ImageGear.Vector.25.2.0\build\Accusoft.ImageGear.Vector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.Vector.25.2.0\build\Accusoft.ImageGear.Vector.targets'))" />
-    <Error Condition="!Exists('..\packages\Accusoft.ImageGear.PDF.25.2.0\build\Accusoft.ImageGear.PDF.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.PDF.25.2.0\build\Accusoft.ImageGear.PDF.targets'))" />
+    <Error Condition="!Exists('..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets'))" />
+    <Error Condition="!Exists('..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets'))" />
   </Target>
-  <Import Project="..\packages\Accusoft.ImageGear.Vector.25.2.0\build\Accusoft.ImageGear.Vector.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Vector.25.2.0\build\Accusoft.ImageGear.Vector.targets')" />
-  <Import Project="..\packages\Accusoft.ImageGear.PDF.25.2.0\build\Accusoft.ImageGear.PDF.targets" Condition="Exists('..\packages\Accusoft.ImageGear.PDF.25.2.0\build\Accusoft.ImageGear.PDF.targets')" />
+  <Import Project="..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets')" />
+  <Import Project="..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets" Condition="Exists('..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets')" />
 </Project>

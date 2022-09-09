@@ -10,7 +10,6 @@ using ImageGear.Evaluation;
 
 namespace SIPView_PDF
 {
-
     public partial class Form1 : Form
     {
         private ImGearDocument igDocument = null;
@@ -18,6 +17,7 @@ namespace SIPView_PDF
 
         public Form1()
         {
+            // Initialize evaluation license.
             ImGearEvaluationManager.Initialize();
             ImGearEvaluationManager.Mode = ImGearEvaluationMode.Watermark;
 
@@ -30,10 +30,7 @@ namespace SIPView_PDF
             InitializeComponent();
         }
 
-        private void imGearPageView1_Load(object sender, EventArgs e)
-        {
 
-        }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -138,11 +135,7 @@ namespace SIPView_PDF
             }
         }
 
-        protected override void OnFormClosed(FormClosedEventArgs e)
-        {
-            ImGearPDF.Terminate();
-            imGearPageView1.Display = null;
-        }
+       
 
         private void nextPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -158,6 +151,12 @@ namespace SIPView_PDF
                     renderPage(currentPageIndex - 1);
         }
 
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            ImGearPDF.Terminate();
+            imGearPageView1.Display = null;
+        }
 
+       
     }
 }
