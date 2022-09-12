@@ -111,7 +111,7 @@ namespace SIPView_PDF
 
         private void AllFilesToPDFs()
         {
-            string[] files = Directory.GetFiles(textBox1.Text);
+            string[] files =checkBox1.Checked? Directory.GetFiles(textBox1.Text,".",SearchOption.AllDirectories) : Directory.GetFiles(textBox1.Text);
 
             progressBar1.Visible = true;
             label3.Visible = true;
