@@ -8,6 +8,7 @@ using ImageGear.Formats;
 using ImageGear.Formats.PDF;
 using ImageGear.Evaluation;
 using System.Drawing;
+using System.Drawing.Printing;
 
 namespace SIPView_PDF
 {
@@ -18,7 +19,6 @@ namespace SIPView_PDF
 
         public Form1()
         {
-
             // Add support for PDF and PS files.
             ImGearCommonFormats.Initialize();
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePDFFormat());
@@ -135,9 +135,10 @@ namespace SIPView_PDF
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (igDocument != null)
-            {
-                if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
+            if (igDocument == null)
+                return;
+
+            if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
 
                     imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
 
@@ -151,14 +152,15 @@ namespace SIPView_PDF
                     imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
 
                 imGearPageView1.Refresh();
-            }
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (igDocument != null)
-            {
-                if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
+            if (igDocument == null)
+                return;
+
+            if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
                     imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
                 else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.RIGHT_TOP)
                     imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
@@ -168,29 +170,54 @@ namespace SIPView_PDF
                     imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
 
                 imGearPageView1.Refresh();
-            }
+            
         }
 
 
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (igDocument != null)
-                if (currentPageIndex > 0)
+            if (igDocument == null)
+                return;
+
+            if (currentPageIndex > 0)
                     renderPage(currentPageIndex - 1);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (igDocument != null)
-                if (currentPageIndex < igDocument.Pages.Count - 1)
+            if (igDocument == null)
+                return;
+
+            if (currentPageIndex < igDocument.Pages.Count - 1)
                     renderPage(currentPageIndex + 1);
         }
+
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             ImGearPDF.Terminate();
             imGearPageView1.Display = null;
+        }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (igDocument == null)
+                return;
+
+            using (ImGearPDFDocument igPDFDocument = (ImGearPDFDocument)igDocument)
+            {
+                ImGearPDFPrintOptions printOptions = new ImGearPDFPrintOptions();
+                PrintDocument printDocument = new PrintDocument();
+
+                // Use default Windows printer.
+                printOptions.DeviceName = printDocument.PrinterSettings.PrinterName;
+
+                // Print all pages.
+                printOptions.StartPage = 0;
+                printOptions.EndPage = igDocument.Pages.Count;
+                igPDFDocument.Print(printOptions);
+            }
         }
     }
 }
