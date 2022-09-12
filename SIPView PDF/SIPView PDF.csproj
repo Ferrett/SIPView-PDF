@@ -55,6 +55,12 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ImageGear24.Art, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.ART.WinForms.24.14.0\lib\net20\ImageGear24.Art.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageGear24.Art.Forms, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.ART.WinForms.24.14.0\lib\net20\ImageGear24.Art.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="ImageGear24.Comparison, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
       <HintPath>..\packages\Accusoft.ImageGear.PDF.24.14.0\lib\net20\ImageGear24.Comparison.dll</HintPath>
     </Reference>
@@ -105,16 +111,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="BatchProcessesEnum.cs" />
+    <Compile Include="BatchProcessesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="BatchProcessesForm.Designer.cs">
+      <DependentUpon>BatchProcessesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="BatchProcessesForm.resx">
+      <DependentUpon>BatchProcessesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

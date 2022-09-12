@@ -1,6 +1,6 @@
 ﻿namespace SIPView_PDF
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -32,6 +32,11 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.batchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allFilesToPDFsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allFilesToSinglePDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imGearPageView1 = new ImageGear.Windows.Forms.ImGearPageView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -39,7 +44,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +51,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.batchToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(916, 24);
@@ -67,16 +72,54 @@
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.loadToolStripMenuItem.Text = "Open";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // printToolStripMenuItem
+            // 
+            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.printToolStripMenuItem.Text = "Print";
+            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            // 
+            // batchToolStripMenuItem
+            // 
+            this.batchToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allFilesToPDFsToolStripMenuItem,
+            this.allFilesToSinglePDFToolStripMenuItem,
+            this.splitToolStripMenuItem});
+            this.batchToolStripMenuItem.Name = "batchToolStripMenuItem";
+            this.batchToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.batchToolStripMenuItem.Text = "Batch";
+            // 
+            // allFilesToPDFsToolStripMenuItem
+            // 
+            this.allFilesToPDFsToolStripMenuItem.Name = "allFilesToPDFsToolStripMenuItem";
+            this.allFilesToPDFsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.allFilesToPDFsToolStripMenuItem.Text = "All files to PDFs";
+            this.allFilesToPDFsToolStripMenuItem.Click += new System.EventHandler(this.allFilesToPDFsToolStripMenuItem_Click);
+            // 
+            // allFilesToSinglePDFToolStripMenuItem
+            // 
+            this.allFilesToSinglePDFToolStripMenuItem.Name = "allFilesToSinglePDFToolStripMenuItem";
+            this.allFilesToSinglePDFToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.allFilesToSinglePDFToolStripMenuItem.Text = "All files to single PDF";
+            this.allFilesToSinglePDFToolStripMenuItem.Click += new System.EventHandler(this.allFilesToSinglePDFToolStripMenuItem_Click);
+            // 
+            // splitToolStripMenuItem
+            // 
+            this.splitToolStripMenuItem.Name = "splitToolStripMenuItem";
+            this.splitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.splitToolStripMenuItem.Text = "Split multipage PDFs";
+            this.splitToolStripMenuItem.Click += new System.EventHandler(this.splitToolStripMenuItem_Click);
             // 
             // imGearPageView1
             // 
@@ -154,14 +197,7 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // printToolStripMenuItem
-            // 
-            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.printToolStripMenuItem.Text = "Print";
-            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
-            // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -174,7 +210,7 @@
             this.Controls.Add(this.imGearPageView1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "SIPView PDF";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -199,6 +235,10 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem batchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allFilesToPDFsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allFilesToSinglePDFToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem splitToolStripMenuItem;
     }
 }
 
