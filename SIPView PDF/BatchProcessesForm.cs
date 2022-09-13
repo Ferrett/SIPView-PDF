@@ -25,6 +25,7 @@ namespace SIPView_PDF
     public partial class BatchProcessesForm : Form
     {
         BatchProcess process;
+        string[] files;
         public BatchProcessesForm(BatchProcess proc)
         {
             process = proc;
@@ -101,7 +102,7 @@ namespace SIPView_PDF
                     }
                 case BatchProcess.SPLIT_MULTIPAGE_PDFS:
                     {
-
+                        SplitMultipagePDFs();
                         break;
                     }
                 default:
@@ -109,15 +110,57 @@ namespace SIPView_PDF
             }
         }
 
+        private void SplitMultipagePDFs()
+        {
+            aboba();
+
+            foreach (string file in files)
+            {
+                label3.Text = $"Splitting \"{Path.GetFileName(file)}\"";
+                // Open file for reading.
+                using (FileStream pdfData = new FileStream(file, FileMode.Open, FileAccess.Read))
+                {
+                    // Read PDF document to memory.
+                    using (ImGearPDFDocument igSourceDocument = ImGearFileFormats.LoadDocument(
+                        pdfData, 0, (int)ImGearPDFPageRange.ALL_PAGES) as ImGearPDFDocument)
+                    {
+                        // For each page in document.
+                        for (int i = 0; i < igSourceDocument.Pages.Count; i++)
+                        {
+                            // Construct the output filepath.
+                            String outputFileName = String.Format("{0}_{1}.pdf",
+                               Path.GetFileNameWithoutExtension(file), i + 1);
+                            String outputPath = System.IO.Path.Combine(textBox2.Text, outputFileName);
+
+                            // Create a new empty PDF document.
+                            using (ImGearPDFDocument igTargetDocument = new ImGearPDFDocument())
+                            {
+                                // Insert page into new PDF document.
+                                igTargetDocument.InsertPages((int)ImGearPDFPageNumber.BEFORE_FIRST_PAGE, 
+                                    igSourceDocument, i, 1, ImGearPDFInsertFlags.DEFAULT);
+
+                                // Save new PDF document to file.
+                                igTargetDocument.Save(outputPath, ImGearSavingFormats.PDF, 0, 0, 1,ImGearSavingModes.OVERWRITE);
+                            }
+                        }
+                    }
+                }
+
+                progressBar1.Value++;
+            }
+
+            label3.Text = "Done!";
+        }
         private void AllFilesToSiglePDF()
         {
-            string[] files = checkBox1.Checked ? Directory.GetFiles(textBox1.Text, "*", SearchOption.AllDirectories) : Directory.GetFiles(textBox1.Text);
+            aboba();
 
             ImGearPDFDocument igResultDocument = new ImGearPDFDocument();
 
             ImGearPage page = null;
             foreach (var file in files)
             {
+                label3.Text = $"Adding {Path.GetFileName(file)}";
                 try
                 {
                     using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.Read))
@@ -130,10 +173,10 @@ namespace SIPView_PDF
                 {
 
                 }
-               
+                progressBar1.Value++;
             }
 
-            string filename = textBox2.Text + "\\"+Path.GetFileName(textBox1.Text) + ".pdf";
+            string filename = textBox2.Text + "\\" + Path.GetFileName(textBox1.Text) + ".pdf";
             using (FileStream outputStream = new FileStream(filename, FileMode.Create, FileAccess.ReadWrite))
             {
                 try
@@ -155,17 +198,23 @@ namespace SIPView_PDF
                     return;
                 }
             }
+
+            label3.Text = "Done!";
+        }
+
+        private void aboba()
+        {
+            files = checkBox1.Checked ? Directory.GetFiles(textBox1.Text, "*", SearchOption.AllDirectories) : Directory.GetFiles(textBox1.Text);
+            progressBar1.Visible = true;
+            label3.Visible = true;
+            progressBar1.Value = 0;
+            progressBar1.Maximum = files.Length;
         }
 
 
         private void AllFilesToPDFs()
         {
-            string[] files =checkBox1.Checked? Directory.GetFiles(textBox1.Text,"*",SearchOption.AllDirectories) : Directory.GetFiles(textBox1.Text);
-
-            progressBar1.Visible = true;
-            label3.Visible = true;
-            progressBar1.Value = 0;
-            progressBar1.Maximum = files.Length;
+            aboba();
 
             #region Parallel
             //Parallel.ForEach(files, (file) =>
@@ -191,7 +240,7 @@ namespace SIPView_PDF
                     label3.Text = $"Converting \"{Path.GetFileName(file)}\"...";
 
                     // Load required page from a file.
-                    
+
                     using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.Read))
                         page = ImGearFileFormats.LoadPage(stream);
 
@@ -200,7 +249,7 @@ namespace SIPView_PDF
                         ImGearFileFormats.SavePage(page, stream, ImGearSavingFormats.PDF);
                 }
                 catch (Exception)
-                { 
+                {
 
                 }
                 progressBar1.Value++;
