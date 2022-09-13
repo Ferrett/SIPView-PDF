@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -95,7 +96,7 @@ namespace SIPView_PDF
                     }
                 case BatchProcess.ALL_FILES_TO_SINGLE_PDF:
                     {
-
+                        AllFilesToSiglePDF();
                         break;
                     }
                 case BatchProcess.SPLIT_MULTIPAGE_PDFS:
@@ -108,18 +109,65 @@ namespace SIPView_PDF
             }
         }
 
+        private void AllFilesToSiglePDF()
+        {
+            string[] files = checkBox1.Checked ? Directory.GetFiles(textBox1.Text, "*", SearchOption.AllDirectories) : Directory.GetFiles(textBox1.Text);
+
+            ImGearPDFDocument igResultDocument = new ImGearPDFDocument();
+
+            ImGearPage page = null;
+            foreach (var file in files)
+            {
+                try
+                {
+                    using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.Read))
+                        page = ImGearFileFormats.LoadPage(stream);
+
+
+                    igResultDocument.Pages.Add(page);
+                }
+                catch (Exception)
+                {
+
+                }
+               
+            }
+
+            string filename = textBox2.Text + "\\"+Path.GetFileName(textBox1.Text) + ".pdf";
+            using (FileStream outputStream = new FileStream(filename, FileMode.Create, FileAccess.ReadWrite))
+            {
+                try
+                {
+                    // Save the page in the requested format.
+                    ImGearFileFormats.SaveDocument(
+                        igResultDocument,
+                        outputStream,
+                        0,
+                        ImGearSavingModes.OVERWRITE,
+                        ImGearSavingFormats.PDF,
+                        null);
+                    MessageBox.Show("Saved");
+                }
+                // Perform error handling.
+                catch (Exception ex)
+                {
+                    MessageBox.Show(string.Format("Could not save file"));
+                    return;
+                }
+            }
+        }
+
 
         private void AllFilesToPDFs()
         {
-            string[] files =checkBox1.Checked? Directory.GetFiles(textBox1.Text,".",SearchOption.AllDirectories) : Directory.GetFiles(textBox1.Text);
+            string[] files =checkBox1.Checked? Directory.GetFiles(textBox1.Text,"*",SearchOption.AllDirectories) : Directory.GetFiles(textBox1.Text);
 
             progressBar1.Visible = true;
             label3.Visible = true;
             progressBar1.Value = 0;
             progressBar1.Maximum = files.Length;
 
-
-
+            #region Parallel
             //Parallel.ForEach(files, (file) =>
             //{
             //    // Load required page from a file.
@@ -133,7 +181,9 @@ namespace SIPView_PDF
             //            ImGearFileFormats.SavePage(page, stream, ImGearSavingFormats.PDF);
 
             //});
+            #endregion
 
+            ImGearPage page = null;
             foreach (var file in files)
             {
                 try
@@ -141,8 +191,7 @@ namespace SIPView_PDF
                     label3.Text = $"Converting \"{Path.GetFileName(file)}\"...";
 
                     // Load required page from a file.
-                    Thread.Sleep(1000);
-                    ImGearPage page = null;
+                    
                     using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.Read))
                         page = ImGearFileFormats.LoadPage(stream);
 
@@ -151,8 +200,7 @@ namespace SIPView_PDF
                         ImGearFileFormats.SavePage(page, stream, ImGearSavingFormats.PDF);
                 }
                 catch (Exception)
-                {
-
+                { 
 
                 }
                 progressBar1.Value++;

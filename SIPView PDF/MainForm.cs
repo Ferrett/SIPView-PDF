@@ -64,7 +64,7 @@ namespace SIPView_PDF
             if (igDocument == null)
                 return;
 
-            string filename = "";
+            string filename = String.Empty;
             // Open File dialog. For this sample, just allow PDF or PS.
             ImGearSavingFormats savingFormat = ImGearSavingFormats.PDF;
 
