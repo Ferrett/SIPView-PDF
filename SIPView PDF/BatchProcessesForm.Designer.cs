@@ -28,136 +28,197 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label3 = new System.Windows.Forms.Label();
+            this.targetFolderLabel = new System.Windows.Forms.Label();
+            this.sourseFolderLabel = new System.Windows.Forms.Label();
+            this.sourseFolderTextBox = new System.Windows.Forms.TextBox();
+            this.targetFolderTextBox = new System.Windows.Forms.TextBox();
+            this.sourseFolderBtn = new System.Windows.Forms.Button();
+            this.targetFolderBtn = new System.Windows.Forms.Button();
+            this.includeSubfoldersCheckBox = new System.Windows.Forms.CheckBox();
+            this.startBtn = new System.Windows.Forms.Button();
+            this.exitBtn = new System.Windows.Forms.Button();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.progressLabel = new System.Windows.Forms.Label();
+            this.sourseFolderPanel = new System.Windows.Forms.Panel();
+            this.targetFolderPanel = new System.Windows.Forms.Panel();
+            this.progressPanel = new System.Windows.Forms.Panel();
+            this.sourseFolderPanel.SuspendLayout();
+            this.targetFolderPanel.SuspendLayout();
+            this.progressPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // targetFolderLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 127);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Target folder";
+            this.targetFolderLabel.AutoSize = true;
+            this.targetFolderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.targetFolderLabel.Location = new System.Drawing.Point(29, 118);
+            this.targetFolderLabel.Name = "targetFolderLabel";
+            this.targetFolderLabel.Size = new System.Drawing.Size(90, 17);
+            this.targetFolderLabel.TabIndex = 0;
+            this.targetFolderLabel.Text = "Target folder";
             // 
-            // label2
+            // sourseFolderLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(35, 31);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Source folder";
+            this.sourseFolderLabel.AutoSize = true;
+            this.sourseFolderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.sourseFolderLabel.Location = new System.Drawing.Point(29, 13);
+            this.sourseFolderLabel.Name = "sourseFolderLabel";
+            this.sourseFolderLabel.Size = new System.Drawing.Size(93, 17);
+            this.sourseFolderLabel.TabIndex = 1;
+            this.sourseFolderLabel.Text = "Source folder";
             // 
-            // textBox1
+            // sourseFolderTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(38, 47);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(357, 20);
-            this.textBox1.TabIndex = 2;
+            this.sourseFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sourseFolderTextBox.CausesValidation = false;
+            this.sourseFolderTextBox.Location = new System.Drawing.Point(32, 42);
+            this.sourseFolderTextBox.Name = "sourseFolderTextBox";
+            this.sourseFolderTextBox.Size = new System.Drawing.Size(357, 20);
+            this.sourseFolderTextBox.TabIndex = 2;
             // 
-            // textBox2
+            // targetFolderTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(38, 143);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(357, 20);
-            this.textBox2.TabIndex = 3;
+            this.targetFolderTextBox.Location = new System.Drawing.Point(32, 151);
+            this.targetFolderTextBox.Name = "targetFolderTextBox";
+            this.targetFolderTextBox.Size = new System.Drawing.Size(357, 20);
+            this.targetFolderTextBox.TabIndex = 3;
             // 
-            // button1
+            // sourseFolderBtn
             // 
-            this.button1.Location = new System.Drawing.Point(401, 46);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.sourseFolderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.sourseFolderBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.sourseFolderBtn.FlatAppearance.BorderSize = 4;
+            this.sourseFolderBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.sourseFolderBtn.Location = new System.Drawing.Point(418, 41);
+            this.sourseFolderBtn.Name = "sourseFolderBtn";
+            this.sourseFolderBtn.Size = new System.Drawing.Size(55, 23);
+            this.sourseFolderBtn.TabIndex = 4;
+            this.sourseFolderBtn.Text = "...";
+            this.sourseFolderBtn.UseVisualStyleBackColor = true;
+            this.sourseFolderBtn.Click += new System.EventHandler(this.sourseFolderBtn_Click);
             // 
-            // button2
+            // targetFolderBtn
             // 
-            this.button2.Location = new System.Drawing.Point(401, 142);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "...";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.targetFolderBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.targetFolderBtn.Location = new System.Drawing.Point(399, 19);
+            this.targetFolderBtn.Name = "targetFolderBtn";
+            this.targetFolderBtn.Size = new System.Drawing.Size(55, 23);
+            this.targetFolderBtn.TabIndex = 5;
+            this.targetFolderBtn.Text = "...";
+            this.targetFolderBtn.UseVisualStyleBackColor = true;
+            this.targetFolderBtn.Click += new System.EventHandler(this.targetFolderBtn_Click);
             // 
-            // checkBox1
+            // includeSubfoldersCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(38, 81);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(125, 17);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "Include all subfolders";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.includeSubfoldersCheckBox.AutoSize = true;
+            this.includeSubfoldersCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.includeSubfoldersCheckBox.Location = new System.Drawing.Point(14, 47);
+            this.includeSubfoldersCheckBox.Name = "includeSubfoldersCheckBox";
+            this.includeSubfoldersCheckBox.Size = new System.Drawing.Size(152, 20);
+            this.includeSubfoldersCheckBox.TabIndex = 6;
+            this.includeSubfoldersCheckBox.Text = "Include all subfolders";
+            this.includeSubfoldersCheckBox.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // startBtn
             // 
-            this.button3.Location = new System.Drawing.Point(310, 272);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "OK";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.startBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.startBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.startBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.startBtn.Location = new System.Drawing.Point(319, 217);
+            this.startBtn.Margin = new System.Windows.Forms.Padding(0);
+            this.startBtn.Name = "startBtn";
+            this.startBtn.Size = new System.Drawing.Size(94, 27);
+            this.startBtn.TabIndex = 7;
+            this.startBtn.Text = "Start";
+            this.startBtn.UseVisualStyleBackColor = true;
+            this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
             // 
-            // button4
+            // exitBtn
             // 
-            this.button4.Location = new System.Drawing.Point(121, 272);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 8;
-            this.button4.Text = "Exit";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.exitBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.exitBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.exitBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.exitBtn.Location = new System.Drawing.Point(98, 216);
+            this.exitBtn.Name = "exitBtn";
+            this.exitBtn.Size = new System.Drawing.Size(94, 28);
+            this.exitBtn.TabIndex = 8;
+            this.exitBtn.Text = "Exit";
+            this.exitBtn.UseVisualStyleBackColor = true;
+            this.exitBtn.Click += new System.EventHandler(this.exitBtn_Click);
             // 
-            // progressBar1
+            // progressBar
             // 
-            this.progressBar1.Location = new System.Drawing.Point(38, 204);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(438, 23);
-            this.progressBar1.TabIndex = 9;
-            this.progressBar1.Visible = false;
+            this.progressBar.Location = new System.Drawing.Point(13, 18);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(441, 23);
+            this.progressBar.TabIndex = 9;
+            this.progressBar.Visible = false;
             // 
-            // label3
+            // progressLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 183);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 13);
-            this.label3.TabIndex = 10;
-            this.label3.Visible = false;
+            this.progressLabel.AutoSize = true;
+            this.progressLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.progressLabel.Location = new System.Drawing.Point(30, 204);
+            this.progressLabel.Name = "progressLabel";
+            this.progressLabel.Size = new System.Drawing.Size(77, 17);
+            this.progressLabel.TabIndex = 10;
+            this.progressLabel.Text = "Progress...";
+            this.progressLabel.Visible = false;
+            // 
+            // sourseFolderPanel
+            // 
+            this.sourseFolderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sourseFolderPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sourseFolderPanel.Controls.Add(this.includeSubfoldersCheckBox);
+            this.sourseFolderPanel.Location = new System.Drawing.Point(18, 25);
+            this.sourseFolderPanel.Name = "sourseFolderPanel";
+            this.sourseFolderPanel.Size = new System.Drawing.Size(471, 79);
+            this.sourseFolderPanel.TabIndex = 11;
+            // 
+            // targetFolderPanel
+            // 
+            this.targetFolderPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.targetFolderPanel.Controls.Add(this.targetFolderBtn);
+            this.targetFolderPanel.Location = new System.Drawing.Point(18, 130);
+            this.targetFolderPanel.Name = "targetFolderPanel";
+            this.targetFolderPanel.Size = new System.Drawing.Size(471, 61);
+            this.targetFolderPanel.TabIndex = 12;
+            // 
+            // progressPanel
+            // 
+            this.progressPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.progressPanel.Controls.Add(this.progressBar);
+            this.progressPanel.Location = new System.Drawing.Point(18, 217);
+            this.progressPanel.Name = "progressPanel";
+            this.progressPanel.Size = new System.Drawing.Size(471, 61);
+            this.progressPanel.TabIndex = 13;
+            this.progressPanel.Visible = false;
             // 
             // BatchProcessesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(507, 322);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(507, 258);
+            this.Controls.Add(this.progressLabel);
+            this.Controls.Add(this.exitBtn);
+            this.Controls.Add(this.startBtn);
+            this.Controls.Add(this.sourseFolderBtn);
+            this.Controls.Add(this.targetFolderTextBox);
+            this.Controls.Add(this.sourseFolderTextBox);
+            this.Controls.Add(this.sourseFolderLabel);
+            this.Controls.Add(this.targetFolderLabel);
+            this.Controls.Add(this.sourseFolderPanel);
+            this.Controls.Add(this.targetFolderPanel);
+            this.Controls.Add(this.progressPanel);
+            this.MaximizeBox = false;
             this.Name = "BatchProcessesForm";
             this.Text = "Batch_Processes_Form";
+            this.sourseFolderPanel.ResumeLayout(false);
+            this.sourseFolderPanel.PerformLayout();
+            this.targetFolderPanel.ResumeLayout(false);
+            this.progressPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -165,16 +226,19 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label targetFolderLabel;
+        private System.Windows.Forms.Label sourseFolderLabel;
+        private System.Windows.Forms.TextBox sourseFolderTextBox;
+        private System.Windows.Forms.TextBox targetFolderTextBox;
+        private System.Windows.Forms.Button sourseFolderBtn;
+        private System.Windows.Forms.Button targetFolderBtn;
+        private System.Windows.Forms.CheckBox includeSubfoldersCheckBox;
+        private System.Windows.Forms.Button startBtn;
+        private System.Windows.Forms.Button exitBtn;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Label progressLabel;
+        private System.Windows.Forms.Panel sourseFolderPanel;
+        private System.Windows.Forms.Panel targetFolderPanel;
+        private System.Windows.Forms.Panel progressPanel;
     }
 }
