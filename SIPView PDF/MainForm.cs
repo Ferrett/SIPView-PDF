@@ -10,6 +10,7 @@ using ImageGear.Evaluation;
 using System.Drawing;
 using System.Drawing.Printing;
 using ImageGear.ART.Forms;
+using ImageGear.ART;
 
 namespace SIPView_PDF
 {

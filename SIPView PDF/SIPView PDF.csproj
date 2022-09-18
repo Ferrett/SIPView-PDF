@@ -83,7 +83,7 @@
       <HintPath>..\packages\Accusoft.ImageGear.Vector.24.14.0\lib\net20\ImageGear24.Formats.Vector.dll</HintPath>
     </Reference>
     <Reference Include="ImageGear24.Presentation, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Accusoft.ImageGear.Vector.24.14.0\lib\net20\ImageGear24.Presentation.dll</HintPath>
+      <HintPath>..\packages\Accusoft.ImageGear.WinForms.24.14.0\lib\net20\ImageGear24.Presentation.dll</HintPath>
     </Reference>
     <Reference Include="ImageGear24.Windows.Forms, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
       <HintPath>..\packages\Accusoft.ImageGear.WinForms.24.14.0\lib\net20\ImageGear24.Windows.Forms.dll</HintPath>
