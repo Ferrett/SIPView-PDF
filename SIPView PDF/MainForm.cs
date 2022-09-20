@@ -12,13 +12,14 @@ using System.Drawing.Printing;
 using ImageGear.ART.Forms;
 using ImageGear.ART;
 
+
 namespace SIPView_PDF
 {
     public partial class MainForm : Form
     {
         private ImGearDocument igDocument = null;
         private int currentPageIndex = 0;
-
+        ImGearARTForms imGearARTForms;
         public MainForm()
         {
             // Add support for PDF and PS files.
@@ -27,8 +28,46 @@ namespace SIPView_PDF
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePSFormat());
             ImGearPDF.Initialize();
 
+
             InitializeComponent();
+            
+
+            imGearARTForms = new ImGearARTForms(imGearPageView1,ImGearARTToolBarModes.ART20);
+            imGearARTForms.Mode = ImGearARTModes.EDIT;
+
+
+           
+
+            //imGearARTForms.ToolBar.Owner = this;
+            imGearARTForms.ToolBar.TopLevel = false;
+            imGearARTForms.ToolBar.Size = new Size(80, 1000);
+            imGearARTForms.ToolBar.Location =new Point(0, 49);
+
+
+
+            imGearARTForms.ToolBar.Show();
+            imGearARTForms.ToolBar.FormBorderStyle = FormBorderStyle.None;
+            this.Controls.Add(imGearARTForms.ToolBar);
+            
         }
+
+
+
+        private void imGearPageView1_MouseDown(object sender, MouseEventArgs e)
+        {
+            imGearARTForms.MouseDown(sender, e);
+        }
+
+        private void imGearPageView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            imGearARTForms.MouseMove(sender, e);
+        }
+
+        private void imGearPageView1_MouseUp(object sender, MouseEventArgs e)
+        {
+            imGearARTForms.MouseUp(sender, e);
+        }
+
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -132,74 +171,6 @@ namespace SIPView_PDF
             }
         }
 
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (igDocument == null)
-                return;
-
-            if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
-
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
-
-            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.LEFT_BOTTOM)
-
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
-
-            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.BOTTOM_RIGHT)
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
-            else
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
-
-            imGearPageView1.Refresh();
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (igDocument == null)
-                return;
-
-            if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
-            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.RIGHT_TOP)
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
-            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.BOTTOM_RIGHT)
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
-            else
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
-
-            imGearPageView1.Refresh();
-
-        }
-
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (igDocument == null)
-                return;
-
-            if (currentPageIndex > 0)
-                renderPage(currentPageIndex - 1);
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            if (igDocument == null)
-                return;
-
-            if (currentPageIndex < igDocument.Pages.Count - 1)
-                renderPage(currentPageIndex + 1);
-        }
-
-
-        protected override void OnFormClosed(FormClosedEventArgs e)
-        {
-            ImGearPDF.Terminate();
-            imGearPageView1.Display = null;
-        }
-
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (igDocument == null)
@@ -222,10 +193,8 @@ namespace SIPView_PDF
 
         private void allFilesToPDFsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             BatchProcessesForm batchProcessesForm = new BatchProcessesForm(BatchProcess.ALL_FILES_TO_PDFS);
-            batchProcessesForm.ShowDialog();
-            
+            batchProcessesForm.ShowDialog();    
         }
 
         private void allFilesToSinglePDFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -239,5 +208,65 @@ namespace SIPView_PDF
             BatchProcessesForm batchProcessesForm = new BatchProcessesForm(BatchProcess.SPLIT_MULTIPAGE_PDFS);
             batchProcessesForm.ShowDialog();
         }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            ImGearPDF.Terminate();
+            imGearPageView1.Display = null;
+
+           
+            
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+          
+            if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
+
+                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
+
+            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.LEFT_BOTTOM)
+
+                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
+
+            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.BOTTOM_RIGHT)
+                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
+            else
+                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
+
+            imGearPageView1.Refresh();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            
+            if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
+                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
+            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.RIGHT_TOP)
+                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
+            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.BOTTOM_RIGHT)
+                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
+            else
+                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
+
+            imGearPageView1.Refresh();
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            if (currentPageIndex > 0)
+                renderPage(currentPageIndex - 1);
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            if (currentPageIndex < igDocument.Pages.Count - 1)
+                renderPage(currentPageIndex + 1);
+
+
+           
+        }
+
+       
     }
 }
