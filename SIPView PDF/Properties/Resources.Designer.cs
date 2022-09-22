@@ -63,9 +63,9 @@ namespace SIPView_PDF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bg {
+        internal static System.Drawing.Bitmap next_page {
             get {
-                object obj = ResourceManager.GetObject("bg", resourceCulture);
+                object obj = ResourceManager.GetObject("next_page", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace SIPView_PDF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap l {
+        internal static System.Drawing.Bitmap prev_page {
             get {
-                object obj = ResourceManager.GetObject("l", resourceCulture);
+                object obj = ResourceManager.GetObject("prev_page", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace SIPView_PDF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap next {
+        internal static System.Drawing.Bitmap rotate_left {
             get {
-                object obj = ResourceManager.GetObject("next", resourceCulture);
+                object obj = ResourceManager.GetObject("rotate_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,29 +93,9 @@ namespace SIPView_PDF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap prev {
+        internal static System.Drawing.Bitmap rotate_right {
             get {
-                object obj = ResourceManager.GetObject("prev", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap r {
-            get {
-                object obj = ResourceManager.GetObject("r", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Безымянный_png123123 {
-            get {
-                object obj = ResourceManager.GetObject("Безымянный.png123123", resourceCulture);
+                object obj = ResourceManager.GetObject("rotate_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

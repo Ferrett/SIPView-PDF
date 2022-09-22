@@ -11,7 +11,10 @@ using System.Drawing;
 using System.Drawing.Printing;
 using ImageGear.ART.Forms;
 using ImageGear.ART;
-
+using ImageGear.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace SIPView_PDF
 {
@@ -20,6 +23,15 @@ namespace SIPView_PDF
         private ImGearDocument igDocument = null;
         private int currentPageIndex = 0;
         ImGearARTForms imGearARTForms;
+        ImGearARTPage imGearARTPage;
+        ImGearPage imGearPage;
+
+        #region Legend
+        //  ImGearDocument - opened pdf file
+        //  ImGearPage - one page of pdf file
+        //  ImGearARTForms - provides properties and methods for using ART forms functionality.
+        //  ImGearARTPage - represents a collection of annotation groups.
+        #endregion
         public MainForm()
         {
             // Add support for PDF and PS files.
@@ -28,30 +40,63 @@ namespace SIPView_PDF
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePSFormat());
             ImGearPDF.Initialize();
 
-
             InitializeComponent();
-            
 
-            imGearARTForms = new ImGearARTForms(imGearPageView1,ImGearARTToolBarModes.ART20);
+
+            imGearARTForms = new ImGearARTForms(imGearPageView1, ImGearARTToolBarModes.ART20);
+            imGearARTPage = new ImGearARTPage();
+
+            imGearARTPage.MarkAdded += ImGearARTPage_MarkAdded;
+
+
             imGearARTForms.Mode = ImGearARTModes.EDIT;
 
-
            
-
-            //imGearARTForms.ToolBar.Owner = this;
             imGearARTForms.ToolBar.TopLevel = false;
-            imGearARTForms.ToolBar.Size = new Size(80, 1000);
-            imGearARTForms.ToolBar.Location =new Point(0, 49);
+            imGearARTForms.ToolBar.Size = new Size(1085, 1000);
+            imGearARTForms.ToolBar.Location = new Point(0, 49);
 
 
 
             imGearARTForms.ToolBar.Show();
             imGearARTForms.ToolBar.FormBorderStyle = FormBorderStyle.None;
+            imGearARTForms.MarkCreated += ImGearARTForms_MarkCreated;
+
+
+
+
+            Button test = new Button();
+            test.Click += loadToolStripMenuItem_Click;
+
             this.Controls.Add(imGearARTForms.ToolBar);
-            
+
         }
 
 
+        private void ImGearARTPage_MarkAdded(object sender, ImGearARTMarkEventArgs e)
+        {
+            int t = 10;
+        }
+
+        private void AAA()
+        {
+            ArrayList igARTMarks = new ArrayList();
+            ImGearARTLine line = new ImGearARTLine(new ImGearPoint(100, 100), new ImGearPoint(200, 200), new ImGearRGBQuad(40, 40, 200));
+
+
+
+            imGearARTPage.AddMark(line, ImGearARTCoordinatesType.IMAGE_COORD);
+            int a = imGearARTPage.MarkCount;
+        }
+
+        private void ImGearARTForms_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
+        {
+
+
+
+
+            imGearPageView1.Update();
+        }
 
         private void imGearPageView1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -95,6 +140,12 @@ namespace SIPView_PDF
                 }
                 // Render first page.
                 renderPage(0);
+                UpdateBtns();
+                imGearPage = imGearPageView1.Page;
+                imGearPageView1.Display = new ImGearPageDisplay(imGearPageView1.Page, imGearARTPage);
+                imGearARTForms.Page = imGearARTPage;
+
+                AAA();
             }
         }
 
@@ -163,6 +214,7 @@ namespace SIPView_PDF
                     currentPageIndex = pageNumber;
                     toolStripStatusLabel1.Text = string.Format("{0} of {1}", pageNumber + 1, igDocument.Pages.Count);
                 }
+                imGearARTForms.ToolBar.Visible = true;
             }
             catch (ImGearException ex)
             {
@@ -194,7 +246,7 @@ namespace SIPView_PDF
         private void allFilesToPDFsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BatchProcessesForm batchProcessesForm = new BatchProcessesForm(BatchProcess.ALL_FILES_TO_PDFS);
-            batchProcessesForm.ShowDialog();    
+            batchProcessesForm.ShowDialog();
         }
 
         private void allFilesToSinglePDFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -209,53 +261,27 @@ namespace SIPView_PDF
             batchProcessesForm.ShowDialog();
         }
 
-        protected override void OnFormClosed(FormClosedEventArgs e)
-        {
-            ImGearPDF.Terminate();
-            imGearPageView1.Display = null;
-
-           
-            
-        }
-
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-          
-            if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
-
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
-
-            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.LEFT_BOTTOM)
-
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
-
-            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.BOTTOM_RIGHT)
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
-            else
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
-
-            imGearPageView1.Refresh();
+            imGearPageView1.Page.Orientation.Rotate(ImGearRotationValues.VALUE_270);
+            imGearPageView1.Update();
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            
-            if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.TOP_LEFT)
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.RIGHT_TOP;
-            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.RIGHT_TOP)
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.BOTTOM_RIGHT;
-            else if (imGearPageView1.Display.Orientation.Value == ImGearOrientationModes.BOTTOM_RIGHT)
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.LEFT_BOTTOM;
-            else
-                imGearPageView1.Display.Orientation.Value = ImGearOrientationModes.TOP_LEFT;
-
-            imGearPageView1.Refresh();
+            imGearPageView1.Page.Orientation.Rotate(ImGearRotationValues.VALUE_90);
+            imGearPageView1.Update();
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             if (currentPageIndex > 0)
                 renderPage(currentPageIndex - 1);
+
+            if (currentPageIndex == 0)
+                toolStripButton3.Enabled = false;
+
+            toolStripButton4.Enabled = true;
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
@@ -263,10 +289,24 @@ namespace SIPView_PDF
             if (currentPageIndex < igDocument.Pages.Count - 1)
                 renderPage(currentPageIndex + 1);
 
+            if (currentPageIndex == igDocument.Pages.Count - 1)
+                toolStripButton4.Enabled = false;
 
-           
+            toolStripButton3.Enabled = true;
         }
 
-       
+        private void UpdateBtns()
+        {
+            toolStripButton1.Enabled = true;
+            toolStripButton2.Enabled = true;
+
+            if (igDocument.Pages.Count > 1)
+                toolStripButton4.Enabled = true;
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            ImGearPDF.Terminate();
+            imGearPageView1.Display = null;
+        }
     }
 }
