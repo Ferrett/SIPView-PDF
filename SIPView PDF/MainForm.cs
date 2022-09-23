@@ -16,6 +16,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Collections.Generic;
 using System.Collections;
 using System.Xml.Linq;
+using System.Linq;
 
 namespace SIPView_PDF
 {
@@ -72,12 +73,6 @@ namespace SIPView_PDF
             this.Controls.Add(ARTForms.ToolBar);
         }
 
-        private void SaveAnnotations()  
-        {
-            ImGearPage igPageNew = ImGearART.BurnIn(PageView.Page, ARTPages[currentPageIndex], ImGearARTBurnInOptions.SELECTED, null);
-            PageView.Page = igPageNew;
-        }
-
         private void ImGearARTForms_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
         {
             //imGearARTPage.SelectMarks(true);
@@ -131,6 +126,7 @@ namespace SIPView_PDF
                 for (int i = 0; i < PDFDocument.Pages.Count; i++)
                 {
                     ARTPages.Add(new ImGearARTPage());
+                    ARTPages.Last().History.IsEnabled = true;
                 }
                 UpdateBtns();
                 ARTPages.ForEach(x => x.RemoveMarks());//.RemoveMarks();
@@ -149,12 +145,13 @@ namespace SIPView_PDF
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveAnnotations();
 
             // Check if document exists.
             if (PDFDocument == null)
                 return;
 
+            PDFDocument.Pages.Insert(1, PageView.Page);
+            
             string filename = String.Empty;
             // Open File dialog. For this sample, just allow PDF or PS.
             ImGearSavingFormats savingFormat = ImGearSavingFormats.PDF;
@@ -245,19 +242,19 @@ namespace SIPView_PDF
         private void allFilesToPDFsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BatchProcessesForm batchProcessesForm = new BatchProcessesForm(BatchProcess.ALL_FILES_TO_PDFS);
-            batchProcessesForm.ShowDialog();
+            batchProcessesForm.Show();
         }
 
         private void allFilesToSinglePDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BatchProcessesForm batchProcessesForm = new BatchProcessesForm(BatchProcess.ALL_FILES_TO_SINGLE_PDF);
-            batchProcessesForm.ShowDialog();
+            batchProcessesForm.Show();
         }
 
         private void splitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BatchProcessesForm batchProcessesForm = new BatchProcessesForm(BatchProcess.SPLIT_MULTIPAGE_PDFS);
-            batchProcessesForm.ShowDialog();
+            batchProcessesForm.Show();
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -312,19 +309,48 @@ namespace SIPView_PDF
 
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-            ARTPages[0].History.Undo();
+            ARTPages[currentPageIndex].History.Undo();
             PageView.Update();
         }
         private void toolStripButton6_Click_1(object sender, EventArgs e)
         {
-            ARTPages[0].History.Redo();
+            ARTPages[currentPageIndex].History.Redo();
             PageView.Update();
         }
 
         private void toolStripButton7_Click(object sender, EventArgs e)
         {
-
+            ARTPages[currentPageIndex].SelectMarks(true);
+            PageView.Update();
         }
 
+        private void toolStripButton8_Click(object sender, EventArgs e)
+        {
+            PageView.Page = ImGearART.BurnIn(PageView.Page, ARTPages[currentPageIndex], ImGearARTBurnInOptions.SELECTED, null);
+
+            List<int> bakedMarkID = new List<int>();
+            
+            foreach (ImGearARTMark ARTMark in ARTPages[currentPageIndex])
+            {
+                if (ARTPages[currentPageIndex].MarkIsSelected(ARTMark))
+                    bakedMarkID.Add(ARTMark.Id);
+            }
+
+            foreach (var ID in bakedMarkID)
+            {
+                ARTPages[currentPageIndex].MarkRemove(ID);
+            }
+
+            PageView.Update();
+        }
+
+        private void toolStripButton9_Click(object sender, EventArgs e)
+        {
+            saveToolStripMenuItem_Click(sender, e);
+            ImGearDocument a = new ImGearDocument();
+            
+            
+            
+        }
     }
 }

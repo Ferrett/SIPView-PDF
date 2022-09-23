@@ -63,6 +63,16 @@ namespace SIPView_PDF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bake {
+            get {
+                object obj = ResourceManager.GetObject("bake", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap next_page {
             get {
                 object obj = ResourceManager.GetObject("next_page", resourceCulture);
@@ -106,6 +116,16 @@ namespace SIPView_PDF.Properties {
         internal static System.Drawing.Bitmap rotate_right {
             get {
                 object obj = ResourceManager.GetObject("rotate_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap save {
+            get {
+                object obj = ResourceManager.GetObject("save", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
