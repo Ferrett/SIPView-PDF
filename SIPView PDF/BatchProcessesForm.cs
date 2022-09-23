@@ -153,7 +153,7 @@ namespace SIPView_PDF
                 thread.Join();
             }
 
-            MessageBox.Show("Done");
+            MessageBox.Show("All files are converted to PDFs", "Success", MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         private void SplitMultipagePDFsThreadManager()
@@ -170,7 +170,7 @@ namespace SIPView_PDF
                 thread.Join();
             }
 
-            MessageBox.Show("Done");
+            MessageBox.Show("PDF file was splitted", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
@@ -263,7 +263,7 @@ namespace SIPView_PDF
                 }
             }
 
-            MessageBox.Show("Done");
+            MessageBox.Show("All files merged into PDF", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 

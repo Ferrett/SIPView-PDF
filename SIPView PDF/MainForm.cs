@@ -15,16 +15,17 @@ using ImageGear.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Collections.Generic;
 using System.Collections;
+using System.Xml.Linq;
 
 namespace SIPView_PDF
 {
     public partial class MainForm : Form
     {
-        private ImGearDocument igDocument = null;
+        private ImGearDocument PDFDocument = null;
         private int currentPageIndex = 0;
-        ImGearARTForms imGearARTForms;
-        ImGearARTPage imGearARTPage;
-        ImGearPage imGearPage;
+        ImGearARTForms ARTForms;
+        List<ImGearARTPage> ARTPages = new List<ImGearARTPage>();
+
 
         #region Legend
         //  ImGearDocument - opened pdf file
@@ -39,78 +40,65 @@ namespace SIPView_PDF
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePDFFormat());
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePSFormat());
             ImGearPDF.Initialize();
+            
+            InitializeComponent(); 
 
-            InitializeComponent();
+            ARTForms = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART20);
+
+            
+            //ARTPage = new ImGearARTPage();
 
 
-            imGearARTForms = new ImGearARTForms(imGearPageView1, ImGearARTToolBarModes.ART20);
-            imGearARTPage = new ImGearARTPage();
-
-            imGearARTPage.MarkAdded += ImGearARTPage_MarkAdded;
+            ARTForms.Mode = ImGearARTModes.EDIT;
 
 
-            imGearARTForms.Mode = ImGearARTModes.EDIT;
+            ARTForms.ToolBar.TopLevel = false;
+            ARTForms.ToolBar.Size = new Size(1085, 1000);
+            ARTForms.ToolBar.Location = new Point(0, 49);
 
            
-            imGearARTForms.ToolBar.TopLevel = false;
-            imGearARTForms.ToolBar.Size = new Size(1085, 1000);
-            imGearARTForms.ToolBar.Location = new Point(0, 49);
 
+            ARTForms.ToolBar.Show();
+            ARTForms.ToolBar.Visible = false;
+            ARTForms.ToolBar.FormBorderStyle = FormBorderStyle.None;
+            ARTForms.MarkCreated += ImGearARTForms_MarkCreated;
 
-
-            imGearARTForms.ToolBar.Show();
-            imGearARTForms.ToolBar.FormBorderStyle = FormBorderStyle.None;
-            imGearARTForms.MarkCreated += ImGearARTForms_MarkCreated;
-
-
-
+            //ImGearART.SavePage(imGearARTPage, imGearPageView1.Page);
+            
 
             Button test = new Button();
             test.Click += loadToolStripMenuItem_Click;
 
-            this.Controls.Add(imGearARTForms.ToolBar);
-
+            this.Controls.Add(ARTForms.ToolBar);
         }
 
-
-        private void ImGearARTPage_MarkAdded(object sender, ImGearARTMarkEventArgs e)
+        private void SaveAnnotations()  
         {
-            int t = 10;
-        }
-
-        private void AAA()
-        {
-            ArrayList igARTMarks = new ArrayList();
-            ImGearARTLine line = new ImGearARTLine(new ImGearPoint(100, 100), new ImGearPoint(200, 200), new ImGearRGBQuad(40, 40, 200));
-
-
-
-            imGearARTPage.AddMark(line, ImGearARTCoordinatesType.IMAGE_COORD);
-            int a = imGearARTPage.MarkCount;
+            ImGearPage igPageNew = ImGearART.BurnIn(PageView.Page, ARTPages[currentPageIndex], ImGearARTBurnInOptions.SELECTED, null);
+            PageView.Page = igPageNew;
         }
 
         private void ImGearARTForms_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
         {
-
-
-
-
-            imGearPageView1.Update();
+            //imGearARTPage.SelectMarks(true);
+            
+            
+            PageView.Update();
         }
 
         private void imGearPageView1_MouseDown(object sender, MouseEventArgs e)
         {
-            imGearARTForms.MouseDown(sender, e);
+            ARTForms.MouseDown(sender, e);
         }
 
         private void imGearPageView1_MouseMove(object sender, MouseEventArgs e)
         {
-            imGearARTForms.MouseMove(sender, e);
+            ARTForms.MouseMove(sender, e);
         }
 
         private void imGearPageView1_MouseUp(object sender, MouseEventArgs e)
         {
-            imGearARTForms.MouseUp(sender, e);
+            ARTForms.MouseUp(sender, e);
         }
 
 
@@ -130,7 +118,7 @@ namespace SIPView_PDF
                     try
                     {
                         // Load the entire the document.
-                        igDocument = ImGearFileFormats.LoadDocument(inputStream);
+                        PDFDocument = ImGearFileFormats.LoadDocument(inputStream);
                     }
                     catch (ImGearException ex)
                     {
@@ -140,19 +128,31 @@ namespace SIPView_PDF
                 }
                 // Render first page.
                 renderPage(0);
+                for (int i = 0; i < PDFDocument.Pages.Count; i++)
+                {
+                    ARTPages.Add(new ImGearARTPage());
+                }
                 UpdateBtns();
-                imGearPage = imGearPageView1.Page;
-                imGearPageView1.Display = new ImGearPageDisplay(imGearPageView1.Page, imGearARTPage);
-                imGearARTForms.Page = imGearARTPage;
+                ARTPages.ForEach(x => x.RemoveMarks());//.RemoveMarks();
+                DisplayCurrentPageMarks();
 
-                AAA();
+
             }
+        }
+
+        private void DisplayCurrentPageMarks()
+        {
+            PageView.Display = new ImGearPageDisplay(PageView.Page, ARTPages[currentPageIndex]);
+            ARTForms.Page = ARTPages[currentPageIndex];
+           
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveAnnotations();
+
             // Check if document exists.
-            if (igDocument == null)
+            if (PDFDocument == null)
                 return;
 
             string filename = String.Empty;
@@ -178,13 +178,12 @@ namespace SIPView_PDF
                 {
                     // Save the page in the requested format.
                     ImGearFileFormats.SaveDocument(
-                        igDocument,
+                        PDFDocument,
                         outputStream,
                         0,
                         ImGearSavingModes.OVERWRITE,
                         savingFormat,
                         null);
-                    MessageBox.Show("Saved {0}", filename);
                 }
                 // Perform error handling.
                 catch (Exception ex)
@@ -198,23 +197,23 @@ namespace SIPView_PDF
         private void renderPage(int pageNumber)
         {
             // Create page to hold the content.
-            ImGearPage igPage = null;
+            ImGearPage page = null;
             // Load a single page from the loaded document.
             try
             {
-                igPage = igDocument.Pages[pageNumber];
-                if (igPage != null)
+                page = PDFDocument.Pages[pageNumber];
+                if (page != null)
                 {
                     // Create a new page display to prepare the page for being displayed.
-                    ImGearPageDisplay igPageDisplay = new ImGearPageDisplay(igPage);
+                    ImGearPageDisplay igPageDisplay = new ImGearPageDisplay(page);
                     // Associate the page display with the page view.
-                    imGearPageView1.Display = igPageDisplay;
+                    PageView.Display = igPageDisplay;
                     // Cause the page view to repaint.
-                    imGearPageView1.Invalidate();
+                    PageView.Invalidate();
                     currentPageIndex = pageNumber;
-                    toolStripStatusLabel1.Text = string.Format("{0} of {1}", pageNumber + 1, igDocument.Pages.Count);
+                    toolStripStatusLabel1.Text = string.Format("{0} of {1}", pageNumber + 1, PDFDocument.Pages.Count);
                 }
-                imGearARTForms.ToolBar.Visible = true;
+                ARTForms.ToolBar.Visible = true;
             }
             catch (ImGearException ex)
             {
@@ -225,10 +224,10 @@ namespace SIPView_PDF
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (igDocument == null)
+            if (PDFDocument == null)
                 return;
 
-            using (ImGearPDFDocument igPDFDocument = (ImGearPDFDocument)igDocument)
+            using (ImGearPDFDocument igPDFDocument = (ImGearPDFDocument)PDFDocument)
             {
                 ImGearPDFPrintOptions printOptions = new ImGearPDFPrintOptions();
                 PrintDocument printDocument = new PrintDocument();
@@ -238,7 +237,7 @@ namespace SIPView_PDF
 
                 // Print all pages.
                 printOptions.StartPage = 0;
-                printOptions.EndPage = igDocument.Pages.Count;
+                printOptions.EndPage = PDFDocument.Pages.Count;
                 igPDFDocument.Print(printOptions);
             }
         }
@@ -263,14 +262,14 @@ namespace SIPView_PDF
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            imGearPageView1.Page.Orientation.Rotate(ImGearRotationValues.VALUE_270);
-            imGearPageView1.Update();
+            PageView.Page.Orientation.Rotate(ImGearRotationValues.VALUE_270);
+            PageView.Update();
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            imGearPageView1.Page.Orientation.Rotate(ImGearRotationValues.VALUE_90);
-            imGearPageView1.Update();
+            PageView.Page.Orientation.Rotate(ImGearRotationValues.VALUE_90);
+            PageView.Update();
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
@@ -282,17 +281,19 @@ namespace SIPView_PDF
                 toolStripButton3.Enabled = false;
 
             toolStripButton4.Enabled = true;
+            DisplayCurrentPageMarks();
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            if (currentPageIndex < igDocument.Pages.Count - 1)
+            if (currentPageIndex < PDFDocument.Pages.Count - 1)
                 renderPage(currentPageIndex + 1);
 
-            if (currentPageIndex == igDocument.Pages.Count - 1)
+            if (currentPageIndex == PDFDocument.Pages.Count - 1)
                 toolStripButton4.Enabled = false;
 
             toolStripButton3.Enabled = true;
+            DisplayCurrentPageMarks();
         }
 
         private void UpdateBtns()
@@ -300,13 +301,30 @@ namespace SIPView_PDF
             toolStripButton1.Enabled = true;
             toolStripButton2.Enabled = true;
 
-            if (igDocument.Pages.Count > 1)
+            if (PDFDocument.Pages.Count > 1)
                 toolStripButton4.Enabled = true;
         }
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             ImGearPDF.Terminate();
-            imGearPageView1.Display = null;
+            PageView.Display = null;
         }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            ARTPages[0].History.Undo();
+            PageView.Update();
+        }
+        private void toolStripButton6_Click_1(object sender, EventArgs e)
+        {
+            ARTPages[0].History.Redo();
+            PageView.Update();
+        }
+
+        private void toolStripButton7_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

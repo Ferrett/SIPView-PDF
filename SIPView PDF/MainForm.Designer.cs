@@ -45,11 +45,16 @@ namespace SIPView_PDF
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.imGearPageView1 = new ImageGear.Windows.Forms.ImGearPageView();
+            this.PageView = new ImageGear.Windows.Forms.ImGearPageView();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -147,12 +152,18 @@ namespace SIPView_PDF
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStrip1.Enabled = false;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
             this.toolStripSeparator1,
             this.toolStripButton3,
-            this.toolStripButton4});
+            this.toolStripButton4,
+            this.toolStripSeparator2,
+            this.toolStripButton5,
+            this.toolStripButton6,
+            this.toolStripSeparator3,
+            this.toolStripButton7});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(916, 25);
@@ -164,28 +175,33 @@ namespace SIPView_PDF
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // imGearPageView1
+            // PageView
             // 
-            this.imGearPageView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.PageView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.imGearPageView1.BackColor = System.Drawing.Color.Transparent;
-            this.imGearPageView1.BindArrowKeyScrolling = false;
-            this.imGearPageView1.Display = null;
-            this.imGearPageView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.imGearPageView1.HorizontalArrowIncerment = 1;
-            this.imGearPageView1.Location = new System.Drawing.Point(75, 52);
-            this.imGearPageView1.Name = "imGearPageView1";
-            this.imGearPageView1.NotifyPageDown = null;
-            this.imGearPageView1.NotifyPageUp = null;
-            this.imGearPageView1.Page = null;
-            this.imGearPageView1.Size = new System.Drawing.Size(841, 494);
-            this.imGearPageView1.TabIndex = 1;
-            this.imGearPageView1.UseConfiguredScrollbarIncrements = false;
-            this.imGearPageView1.VerticalArrowIncerment = 1;
-            this.imGearPageView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imGearPageView1_MouseDown);
-            this.imGearPageView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imGearPageView1_MouseMove);
-            this.imGearPageView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.imGearPageView1_MouseUp);
+            this.PageView.BackColor = System.Drawing.Color.Transparent;
+            this.PageView.BindArrowKeyScrolling = false;
+            this.PageView.Display = null;
+            this.PageView.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PageView.HorizontalArrowIncerment = 1;
+            this.PageView.Location = new System.Drawing.Point(75, 52);
+            this.PageView.Name = "PageView";
+            this.PageView.NotifyPageDown = null;
+            this.PageView.NotifyPageUp = null;
+            this.PageView.Page = null;
+            this.PageView.Size = new System.Drawing.Size(841, 494);
+            this.PageView.TabIndex = 1;
+            this.PageView.UseConfiguredScrollbarIncrements = false;
+            this.PageView.VerticalArrowIncerment = 1;
+            this.PageView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imGearPageView1_MouseDown);
+            this.PageView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imGearPageView1_MouseMove);
+            this.PageView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.imGearPageView1_MouseUp);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton1
             // 
@@ -197,6 +213,7 @@ namespace SIPView_PDF
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.ToolTipText = "Rotate left";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripButton2
@@ -209,6 +226,7 @@ namespace SIPView_PDF
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.ToolTipText = "Rotate right";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // toolStripButton3
@@ -221,6 +239,7 @@ namespace SIPView_PDF
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.ToolTipText = "Previous page";
             this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // toolStripButton4
@@ -233,7 +252,47 @@ namespace SIPView_PDF
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton4.Text = "toolStripButton4";
+            this.toolStripButton4.ToolTipText = "Next page";
             this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton5.Enabled = false;
+            this.toolStripButton5.Image = global::SIPView_PDF.Properties.Resources.undo;
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton5.Text = "toolStripButton5";
+            this.toolStripButton5.ToolTipText = "Undo";
+            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
+            // 
+            // toolStripButton6
+            // 
+            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton6.Enabled = false;
+            this.toolStripButton6.Image = global::SIPView_PDF.Properties.Resources.redo;
+            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton6.Name = "toolStripButton6";
+            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton6.Text = "toolStripButton6";
+            this.toolStripButton6.ToolTipText = "Redo";
+            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click_1);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton7.Image = global::SIPView_PDF.Properties.Resources.select_all;
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton7.Text = "toolStripButton7";
+            this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click);
             // 
             // MainForm
             // 
@@ -243,7 +302,7 @@ namespace SIPView_PDF
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.imGearPageView1);
+            this.Controls.Add(this.PageView);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "SIPView PDF";
@@ -264,7 +323,7 @@ namespace SIPView_PDF
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private ImageGear.Windows.Forms.ImGearPageView imGearPageView1;
+        private ImageGear.Windows.Forms.ImGearPageView PageView;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
@@ -278,6 +337,11 @@ namespace SIPView_PDF
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton toolStripButton7;
     }
 }
 
