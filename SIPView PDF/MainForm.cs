@@ -23,17 +23,10 @@ namespace SIPView_PDF
     public partial class MainForm : Form
     {
         private ImGearDocument PDFDocument = null;
-        private int currentPageIndex = 0;
+        private int currentPageID = 0;
         ImGearARTForms ARTForms;
         List<ImGearARTPage> ARTPages = new List<ImGearARTPage>();
 
-
-        #region Legend
-        //  ImGearDocument - opened pdf file
-        //  ImGearPage - one page of pdf file
-        //  ImGearARTForms - provides properties and methods for using ART forms functionality.
-        //  ImGearARTPage - represents a collection of annotation groups.
-        #endregion
         public MainForm()
         {
             // Add support for PDF and PS files.
@@ -41,13 +34,13 @@ namespace SIPView_PDF
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePDFFormat());
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePSFormat());
             ImGearPDF.Initialize();
-            
-            InitializeComponent(); 
+
+            InitializeComponent();
 
             ARTForms = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART20);
 
-            
-            //ARTPage = new ImGearARTPage();
+
+
 
 
             ARTForms.Mode = ImGearARTModes.EDIT;
@@ -57,27 +50,45 @@ namespace SIPView_PDF
             ARTForms.ToolBar.Size = new Size(1085, 1000);
             ARTForms.ToolBar.Location = new Point(0, 49);
 
-           
+
 
             ARTForms.ToolBar.Show();
             ARTForms.ToolBar.Visible = false;
             ARTForms.ToolBar.FormBorderStyle = FormBorderStyle.None;
             ARTForms.MarkCreated += ImGearARTForms_MarkCreated;
 
-            //ImGearART.SavePage(imGearARTPage, imGearPageView1.Page);
-            
-
             Button test = new Button();
             test.Click += loadToolStripMenuItem_Click;
 
             this.Controls.Add(ARTForms.ToolBar);
+            vScrollBar1.ValueChanged += VScrollBar1_ValueChanged;
+
+        }
+
+        private void VScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            renderPage(vScrollBar1.Value);
+
+            if (currentPageID == 0)
+            {
+                toolStripButton3.Enabled = false;
+                toolStripButton4.Enabled = true;
+            }
+            else if (currentPageID == PDFDocument.Pages.Count - 1)
+            {
+                toolStripButton3.Enabled = true;
+                toolStripButton4.Enabled = false;
+            }
+            else
+            {
+                toolStripButton3.Enabled = true;
+                toolStripButton4.Enabled = true;
+            }
+            DisplayCurrentPageMarks();
         }
 
         private void ImGearARTForms_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
         {
-            //imGearARTPage.SelectMarks(true);
-            
-            
             PageView.Update();
         }
 
@@ -99,6 +110,7 @@ namespace SIPView_PDF
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             OpenFileDialog openFileDialogLoad = new OpenFileDialog();
             // Allow only PDF and PS files.
             openFileDialogLoad.Filter =
@@ -108,12 +120,14 @@ namespace SIPView_PDF
             if (DialogResult.OK == openFileDialogLoad.ShowDialog())
             {
                 using (FileStream inputStream =
-                    new FileStream(openFileDialogLoad.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    new FileStream(openFileDialogLoad.FileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                 {
                     try
                     {
                         // Load the entire the document.
                         PDFDocument = ImGearFileFormats.LoadDocument(inputStream);
+                        ARTPages.Clear();
+
                     }
                     catch (ImGearException ex)
                     {
@@ -122,36 +136,68 @@ namespace SIPView_PDF
                     }
                 }
                 // Render first page.
+                
+                
+                
+                InitScrollBar(); 
+                InitArtPages();
+                UpdateToolBarBtns();
+
                 renderPage(0);
-                for (int i = 0; i < PDFDocument.Pages.Count; i++)
-                {
-                    ARTPages.Add(new ImGearARTPage());
-                    ARTPages.Last().History.IsEnabled = true;
-                }
-                UpdateBtns();
-                ARTPages.ForEach(x => x.RemoveMarks());//.RemoveMarks();
-                DisplayCurrentPageMarks();
-
-
+                PageView.Refresh();
             }
+        }
+        private void InitArtPages()
+        {
+            for (int i = 0; i < PDFDocument.Pages.Count; i++)
+            {
+                ARTPages.Add(new ImGearARTPage());
+                ARTPages.Last().History.IsEnabled = true;
+                ARTPages.Last().MarkAdded += MainForm_MarkAdded;
+                ARTPages.Last().MarkRemoved += MainForm_MarkRemoved;
+                ARTPages.Last().MarkSelectionChanged += MainForm_MarkSelectionChanged;
+            }
+            ARTPages.ForEach(x => x.RemoveMarks());//.RemoveMarks();
+        }
+        private void InitScrollBar()
+        {
+            if (PDFDocument.Pages.Count > 1)
+            {
+                vScrollBar1.Visible = true;
+                vScrollBar1.Maximum = PDFDocument.Pages.Count - 1;
+            }
+            else
+                vScrollBar1.Visible = false;
+        }
+
+        private void MainForm_MarkSelectionChanged(object sender, ImGearARTMarkEventArgs e)
+        {
+            if (CountSelectedMarks() == 0)
+                toolStripButton8.Enabled = false;
+            else
+                toolStripButton8.Enabled = true;
+        }
+
+        private void MainForm_MarkRemoved(object sender, ImGearARTMarkEventArgs e)
+        {
+            if (ARTPages[currentPageID].MarkCount == 0)
+                toolStripButton7.Enabled = false;
+        }
+
+        private void MainForm_MarkAdded(object sender, ImGearARTMarkEventArgs e)
+        {
+            toolStripButton7.Enabled = true;
         }
 
         private void DisplayCurrentPageMarks()
         {
-            PageView.Display = new ImGearPageDisplay(PageView.Page, ARTPages[currentPageIndex]);
-            ARTForms.Page = ARTPages[currentPageIndex];
-           
+            PageView.Display = new ImGearPageDisplay(PDFDocument.Pages[currentPageID], ARTPages[currentPageID]);
+            ARTForms.Page = ARTPages[currentPageID];
+
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            // Check if document exists.
-            if (PDFDocument == null)
-                return;
-
-            PDFDocument.Pages.Insert(1, PageView.Page);
-            
             string filename = String.Empty;
             // Open File dialog. For this sample, just allow PDF or PS.
             ImGearSavingFormats savingFormat = ImGearSavingFormats.PDF;
@@ -207,7 +253,7 @@ namespace SIPView_PDF
                     PageView.Display = igPageDisplay;
                     // Cause the page view to repaint.
                     PageView.Invalidate();
-                    currentPageIndex = pageNumber;
+                    currentPageID = pageNumber;
                     toolStripStatusLabel1.Text = string.Format("{0} of {1}", pageNumber + 1, PDFDocument.Pages.Count);
                 }
                 ARTForms.ToolBar.Visible = true;
@@ -217,6 +263,9 @@ namespace SIPView_PDF
                 // Perform error handling.
                 MessageBox.Show(ex.Message);
             }
+            DisplayCurrentPageMarks();
+            vScrollBar1.Value = currentPageID;
+            PageView.Update();
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -226,6 +275,7 @@ namespace SIPView_PDF
 
             using (ImGearPDFDocument igPDFDocument = (ImGearPDFDocument)PDFDocument)
             {
+
                 ImGearPDFPrintOptions printOptions = new ImGearPDFPrintOptions();
                 PrintDocument printDocument = new PrintDocument();
 
@@ -269,35 +319,47 @@ namespace SIPView_PDF
             PageView.Update();
         }
 
+        private int CountSelectedMarks()
+        {
+            int selectedMarksCounter = 0;
+
+            foreach (ImGearARTMark ARTMark in ARTPages[currentPageID])
+            {
+                if (ARTPages[currentPageID].MarkIsSelected(ARTMark))
+                    selectedMarksCounter++;
+            }
+
+            return selectedMarksCounter;
+        }
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            if (currentPageIndex > 0)
-                renderPage(currentPageIndex - 1);
+            if (currentPageID > 0)
+                renderPage(currentPageID - 1);
 
-            if (currentPageIndex == 0)
+            if (currentPageID == 0)
                 toolStripButton3.Enabled = false;
 
             toolStripButton4.Enabled = true;
-            DisplayCurrentPageMarks();
+            
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            if (currentPageIndex < PDFDocument.Pages.Count - 1)
-                renderPage(currentPageIndex + 1);
+            if (currentPageID < PDFDocument.Pages.Count - 1)
+                renderPage(currentPageID + 1);
 
-            if (currentPageIndex == PDFDocument.Pages.Count - 1)
+            if (currentPageID == PDFDocument.Pages.Count - 1)
                 toolStripButton4.Enabled = false;
 
             toolStripButton3.Enabled = true;
-            DisplayCurrentPageMarks();
+            
         }
 
-        private void UpdateBtns()
+        private void UpdateToolBarBtns()
         {
             toolStripButton1.Enabled = true;
             toolStripButton2.Enabled = true;
-
+            toolStripButton9.Enabled = true;
             if (PDFDocument.Pages.Count > 1)
                 toolStripButton4.Enabled = true;
         }
@@ -309,36 +371,42 @@ namespace SIPView_PDF
 
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-            ARTPages[currentPageIndex].History.Undo();
+            ARTPages[currentPageID].History.Undo();
             PageView.Update();
         }
         private void toolStripButton6_Click_1(object sender, EventArgs e)
         {
-            ARTPages[currentPageIndex].History.Redo();
+            ARTPages[currentPageID].History.Redo();
             PageView.Update();
         }
 
+
+
         private void toolStripButton7_Click(object sender, EventArgs e)
         {
-            ARTPages[currentPageIndex].SelectMarks(true);
+            if (CountSelectedMarks() == ARTPages[currentPageID].MarkCount)
+                ARTPages[currentPageID].SelectMarks(false);
+            else
+                ARTPages[currentPageID].SelectMarks(true);
             PageView.Update();
         }
 
         private void toolStripButton8_Click(object sender, EventArgs e)
         {
-            PageView.Page = ImGearART.BurnIn(PageView.Page, ARTPages[currentPageIndex], ImGearARTBurnInOptions.SELECTED, null);
+            PDFDocument.Pages[currentPageID] = ImGearART.BurnIn(PDFDocument.Pages[currentPageID], ARTPages[currentPageID], ImGearARTBurnInOptions.SELECTED, null);
+            PageView.Page = PDFDocument.Pages[currentPageID];
+
 
             List<int> bakedMarkID = new List<int>();
-            
-            foreach (ImGearARTMark ARTMark in ARTPages[currentPageIndex])
+            foreach (ImGearARTMark ARTMark in ARTPages[currentPageID])
             {
-                if (ARTPages[currentPageIndex].MarkIsSelected(ARTMark))
+                if (ARTPages[currentPageID].MarkIsSelected(ARTMark))
                     bakedMarkID.Add(ARTMark.Id);
             }
 
-            foreach (var ID in bakedMarkID)
+            foreach (int ID in bakedMarkID)
             {
-                ARTPages[currentPageIndex].MarkRemove(ID);
+                ARTPages[currentPageID].MarkRemove(ID);
             }
 
             PageView.Update();
@@ -347,10 +415,10 @@ namespace SIPView_PDF
         private void toolStripButton9_Click(object sender, EventArgs e)
         {
             saveToolStripMenuItem_Click(sender, e);
-            ImGearDocument a = new ImGearDocument();
-            
-            
-            
+        }
+        private void toolStripButton10_Click(object sender, EventArgs e)
+        {
+            loadToolStripMenuItem_Click(sender, e);
         }
     }
 }

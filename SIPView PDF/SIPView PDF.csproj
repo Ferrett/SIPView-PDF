@@ -183,6 +183,9 @@
   <ItemGroup>
     <None Include="Resources\save.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
