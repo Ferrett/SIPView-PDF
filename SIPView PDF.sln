@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIPView PDF", "SIPView PDF\SIPView PDF.csproj", "{F323AE11-C4A6-4DE3-8721-17990D5E6E88}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIPView PDF lib", "SIPView PDF lib\SIPView PDF lib.csproj", "{B32D40D0-1DEA-4FB2-8999-9D164B1237A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,14 @@ Global
 		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Release|x64.ActiveCfg = Release|x64
 		{F323AE11-C4A6-4DE3-8721-17990D5E6E88}.Release|x64.Build.0 = Release|x64
+		{B32D40D0-1DEA-4FB2-8999-9D164B1237A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B32D40D0-1DEA-4FB2-8999-9D164B1237A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B32D40D0-1DEA-4FB2-8999-9D164B1237A6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B32D40D0-1DEA-4FB2-8999-9D164B1237A6}.Debug|x64.Build.0 = Debug|Any CPU
+		{B32D40D0-1DEA-4FB2-8999-9D164B1237A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B32D40D0-1DEA-4FB2-8999-9D164B1237A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B32D40D0-1DEA-4FB2-8999-9D164B1237A6}.Release|x64.ActiveCfg = Release|Any CPU
+		{B32D40D0-1DEA-4FB2-8999-9D164B1237A6}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

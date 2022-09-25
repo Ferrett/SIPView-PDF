@@ -32,111 +32,206 @@ namespace SIPView_PDF
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.batchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.allFilesToPDFsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.allFilesToSinglePDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStrip = new System.Windows.Forms.MenuStrip();
+            this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileOpenMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileSaveMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.FilePrintMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.PrevPageMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.NextPageMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.RotateRightMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.RotateLeftMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowToolBarMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.BakeInMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.SelectAllMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.RedoMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.BatchProcessesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.AllFilesToPDFsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.AllFilesToSinglePDFMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.SplitMultipagePDFsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.ToolStrip = new System.Windows.Forms.ToolStrip();
+            this.RotateLeftBtn = new System.Windows.Forms.ToolStripButton();
+            this.RotateRightBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.PrevPageBtn = new System.Windows.Forms.ToolStripButton();
+            this.NextPageBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.UndoBtn = new System.Windows.Forms.ToolStripButton();
+            this.RedoBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
+            this.SelectAllBtn = new System.Windows.Forms.ToolStripButton();
+            this.BakeInBtn = new System.Windows.Forms.ToolStripButton();
+            this.FileSaveBtn = new System.Windows.Forms.ToolStripButton();
+            this.FileOpenBtn = new System.Windows.Forms.ToolStripButton();
+            this.EditBtn = new System.Windows.Forms.ToolStripButton();
             this.PageView = new ImageGear.Windows.Forms.ImGearPageView();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.menuStrip1.SuspendLayout();
+            this.ScrollBar = new System.Windows.Forms.VScrollBar();
+            this.MenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.ToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // MenuStrip
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.batchToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(916, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.MenuStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileMenu,
+            this.ToolsMenu,
+            this.EditMenu,
+            this.BatchProcessesMenu});
+            this.MenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.Size = new System.Drawing.Size(916, 24);
+            this.MenuStrip.TabIndex = 0;
+            this.MenuStrip.Text = "menuStrip1";
             // 
-            // fileToolStripMenuItem
+            // FileMenu
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.printToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileOpenMenu,
+            this.FileSaveMenu,
+            this.FilePrintMenu});
+            this.FileMenu.Name = "FileMenu";
+            this.FileMenu.Size = new System.Drawing.Size(37, 20);
+            this.FileMenu.Text = "File";
             // 
-            // loadToolStripMenuItem
+            // FileOpenMenu
             // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.loadToolStripMenuItem.Text = "Open";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            this.FileOpenMenu.Name = "FileOpenMenu";
+            this.FileOpenMenu.Size = new System.Drawing.Size(103, 22);
+            this.FileOpenMenu.Text = "Open";
+            this.FileOpenMenu.Click += new System.EventHandler(this.FileOpenMenu_Click);
             // 
-            // saveToolStripMenuItem
+            // FileSaveMenu
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.FileSaveMenu.Enabled = false;
+            this.FileSaveMenu.Name = "FileSaveMenu";
+            this.FileSaveMenu.Size = new System.Drawing.Size(103, 22);
+            this.FileSaveMenu.Text = "Save";
+            this.FileSaveMenu.Click += new System.EventHandler(this.FileSaveMenu_Click);
             // 
-            // printToolStripMenuItem
+            // FilePrintMenu
             // 
-            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.printToolStripMenuItem.Text = "Print";
-            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            this.FilePrintMenu.Enabled = false;
+            this.FilePrintMenu.Name = "FilePrintMenu";
+            this.FilePrintMenu.Size = new System.Drawing.Size(103, 22);
+            this.FilePrintMenu.Text = "Print";
+            this.FilePrintMenu.Click += new System.EventHandler(this.FilePrintMenu_Click);
             // 
-            // batchToolStripMenuItem
+            // ToolsMenu
             // 
-            this.batchToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.allFilesToPDFsToolStripMenuItem,
-            this.allFilesToSinglePDFToolStripMenuItem,
-            this.splitToolStripMenuItem});
-            this.batchToolStripMenuItem.Name = "batchToolStripMenuItem";
-            this.batchToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
-            this.batchToolStripMenuItem.Text = "Batch";
+            this.ToolsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PrevPageMenu,
+            this.NextPageMenu,
+            this.RotateRightMenu,
+            this.RotateLeftMenu});
+            this.ToolsMenu.Enabled = false;
+            this.ToolsMenu.Name = "ToolsMenu";
+            this.ToolsMenu.Size = new System.Drawing.Size(46, 20);
+            this.ToolsMenu.Text = "Tools";
             // 
-            // allFilesToPDFsToolStripMenuItem
+            // PrevPageMenu
             // 
-            this.allFilesToPDFsToolStripMenuItem.Name = "allFilesToPDFsToolStripMenuItem";
-            this.allFilesToPDFsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.allFilesToPDFsToolStripMenuItem.Text = "All files to PDFs";
-            this.allFilesToPDFsToolStripMenuItem.Click += new System.EventHandler(this.allFilesToPDFsToolStripMenuItem_Click);
+            this.PrevPageMenu.Name = "PrevPageMenu";
+            this.PrevPageMenu.Size = new System.Drawing.Size(148, 22);
+            this.PrevPageMenu.Text = "Previous page";
             // 
-            // allFilesToSinglePDFToolStripMenuItem
+            // NextPageMenu
             // 
-            this.allFilesToSinglePDFToolStripMenuItem.Name = "allFilesToSinglePDFToolStripMenuItem";
-            this.allFilesToSinglePDFToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.allFilesToSinglePDFToolStripMenuItem.Text = "All files to single PDF";
-            this.allFilesToSinglePDFToolStripMenuItem.Click += new System.EventHandler(this.allFilesToSinglePDFToolStripMenuItem_Click);
+            this.NextPageMenu.Name = "NextPageMenu";
+            this.NextPageMenu.Size = new System.Drawing.Size(148, 22);
+            this.NextPageMenu.Text = "Next page";
             // 
-            // splitToolStripMenuItem
+            // RotateRightMenu
             // 
-            this.splitToolStripMenuItem.Name = "splitToolStripMenuItem";
-            this.splitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.splitToolStripMenuItem.Text = "Split multipage PDFs";
-            this.splitToolStripMenuItem.Click += new System.EventHandler(this.splitToolStripMenuItem_Click);
+            this.RotateRightMenu.Name = "RotateRightMenu";
+            this.RotateRightMenu.Size = new System.Drawing.Size(148, 22);
+            this.RotateRightMenu.Text = "Rotate right";
+            // 
+            // RotateLeftMenu
+            // 
+            this.RotateLeftMenu.Name = "RotateLeftMenu";
+            this.RotateLeftMenu.Size = new System.Drawing.Size(148, 22);
+            this.RotateLeftMenu.Text = "Rotate left";
+            // 
+            // EditMenu
+            // 
+            this.EditMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ShowToolBarMenu,
+            this.BakeInMenu,
+            this.SelectAllMenu,
+            this.UndoMenu,
+            this.RedoMenu});
+            this.EditMenu.Enabled = false;
+            this.EditMenu.Name = "EditMenu";
+            this.EditMenu.Size = new System.Drawing.Size(39, 20);
+            this.EditMenu.Text = "Edit";
+            // 
+            // ShowToolBarMenu
+            // 
+            this.ShowToolBarMenu.Name = "ShowToolBarMenu";
+            this.ShowToolBarMenu.Size = new System.Drawing.Size(144, 22);
+            this.ShowToolBarMenu.Text = "Show toolbar";
+            // 
+            // BakeInMenu
+            // 
+            this.BakeInMenu.Name = "BakeInMenu";
+            this.BakeInMenu.Size = new System.Drawing.Size(144, 22);
+            this.BakeInMenu.Text = "Bake in";
+            // 
+            // SelectAllMenu
+            // 
+            this.SelectAllMenu.Name = "SelectAllMenu";
+            this.SelectAllMenu.Size = new System.Drawing.Size(144, 22);
+            this.SelectAllMenu.Text = "Select all";
+            // 
+            // UndoMenu
+            // 
+            this.UndoMenu.Name = "UndoMenu";
+            this.UndoMenu.Size = new System.Drawing.Size(144, 22);
+            this.UndoMenu.Text = "Undo";
+            // 
+            // RedoMenu
+            // 
+            this.RedoMenu.Name = "RedoMenu";
+            this.RedoMenu.Size = new System.Drawing.Size(144, 22);
+            this.RedoMenu.Text = "Redo";
+            // 
+            // BatchProcessesMenu
+            // 
+            this.BatchProcessesMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AllFilesToPDFsMenu,
+            this.AllFilesToSinglePDFMenu,
+            this.SplitMultipagePDFsMenu});
+            this.BatchProcessesMenu.Name = "BatchProcessesMenu";
+            this.BatchProcessesMenu.Size = new System.Drawing.Size(103, 20);
+            this.BatchProcessesMenu.Text = "Batch Processes";
+            // 
+            // AllFilesToPDFsMenu
+            // 
+            this.AllFilesToPDFsMenu.Name = "AllFilesToPDFsMenu";
+            this.AllFilesToPDFsMenu.Size = new System.Drawing.Size(184, 22);
+            this.AllFilesToPDFsMenu.Text = "All files to PDFs";
+            this.AllFilesToPDFsMenu.Click += new System.EventHandler(this.AllFilesToPDFsMenu_Click);
+            // 
+            // AllFilesToSinglePDFMenu
+            // 
+            this.AllFilesToSinglePDFMenu.Name = "AllFilesToSinglePDFMenu";
+            this.AllFilesToSinglePDFMenu.Size = new System.Drawing.Size(184, 22);
+            this.AllFilesToSinglePDFMenu.Text = "All files to single PDF";
+            this.AllFilesToSinglePDFMenu.Click += new System.EventHandler(this.AllFilesToSinglePDFMenu_Click);
+            // 
+            // SplitMultipagePDFsMenu
+            // 
+            this.SplitMultipagePDFsMenu.Name = "SplitMultipagePDFsMenu";
+            this.SplitMultipagePDFsMenu.Size = new System.Drawing.Size(184, 22);
+            this.SplitMultipagePDFsMenu.Text = "Split multipage PDFs";
+            this.SplitMultipagePDFsMenu.Click += new System.EventHandler(this.SplitMultipagePDFsMenu_Click);
             // 
             // statusStrip1
             // 
@@ -153,170 +248,185 @@ namespace SIPView_PDF
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
             // 
-            // toolStrip1
+            // ToolStrip
             // 
-            this.toolStrip1.AllowMerge = false;
-            this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
+            this.ToolStrip.AllowMerge = false;
+            this.ToolStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.ToolStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RotateLeftBtn,
+            this.RotateRightBtn,
             this.toolStripSeparator1,
-            this.toolStripButton3,
-            this.toolStripButton4,
+            this.PrevPageBtn,
+            this.NextPageBtn,
             this.toolStripSeparator2,
-            this.toolStripButton5,
-            this.toolStripButton6,
+            this.UndoBtn,
+            this.RedoBtn,
             this.toolStripSeparator3,
-            this.toolStripButton7,
-            this.toolStripButton8,
-            this.toolStripButton9,
-            this.toolStripButton10});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Margin = new System.Windows.Forms.Padding(20);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 0);
-            this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStrip1.Size = new System.Drawing.Size(916, 25);
-            this.toolStrip1.TabIndex = 8;
-            this.toolStrip1.Text = "toolStrip1";
+            this.SelectAllBtn,
+            this.BakeInBtn,
+            this.FileSaveBtn,
+            this.FileOpenBtn,
+            this.EditBtn});
+            this.ToolStrip.Location = new System.Drawing.Point(0, 24);
+            this.ToolStrip.Margin = new System.Windows.Forms.Padding(20);
+            this.ToolStrip.Name = "ToolStrip";
+            this.ToolStrip.Padding = new System.Windows.Forms.Padding(0);
+            this.ToolStrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ToolStrip.Size = new System.Drawing.Size(916, 25);
+            this.ToolStrip.TabIndex = 8;
+            this.ToolStrip.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // RotateLeftBtn
             // 
-            this.toolStripButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Enabled = false;
-            this.toolStripButton1.Image = global::SIPView_PDF.Properties.Resources.rotate_left;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.ToolTipText = "Rotate left";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.RotateLeftBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.RotateLeftBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RotateLeftBtn.Enabled = false;
+            this.RotateLeftBtn.Image = global::SIPView_PDF.Properties.Resources.rotate_left;
+            this.RotateLeftBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RotateLeftBtn.Name = "RotateLeftBtn";
+            this.RotateLeftBtn.Size = new System.Drawing.Size(23, 22);
+            this.RotateLeftBtn.Text = "toolStripButton1";
+            this.RotateLeftBtn.ToolTipText = "Rotate left";
+            this.RotateLeftBtn.Click += new System.EventHandler(this.RotateLeftBtn_Click);
             // 
-            // toolStripButton2
+            // RotateRightBtn
             // 
-            this.toolStripButton2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Enabled = false;
-            this.toolStripButton2.Image = global::SIPView_PDF.Properties.Resources.rotate_right;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
-            this.toolStripButton2.ToolTipText = "Rotate right";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.RotateRightBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.RotateRightBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RotateRightBtn.Enabled = false;
+            this.RotateRightBtn.Image = global::SIPView_PDF.Properties.Resources.rotate_right;
+            this.RotateRightBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RotateRightBtn.Name = "RotateRightBtn";
+            this.RotateRightBtn.Size = new System.Drawing.Size(23, 22);
+            this.RotateRightBtn.Text = "toolStripButton2";
+            this.RotateRightBtn.ToolTipText = "Rotate right";
+            this.RotateRightBtn.Click += new System.EventHandler(this.RotateRightBtn_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton3
+            // PrevPageBtn
             // 
-            this.toolStripButton3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Enabled = false;
-            this.toolStripButton3.Image = global::SIPView_PDF.Properties.Resources.prev_page;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "toolStripButton3";
-            this.toolStripButton3.ToolTipText = "Previous page";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.PrevPageBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.PrevPageBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.PrevPageBtn.Enabled = false;
+            this.PrevPageBtn.Image = global::SIPView_PDF.Properties.Resources.prev_page;
+            this.PrevPageBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PrevPageBtn.Name = "PrevPageBtn";
+            this.PrevPageBtn.Size = new System.Drawing.Size(23, 22);
+            this.PrevPageBtn.Text = "toolStripButton3";
+            this.PrevPageBtn.ToolTipText = "Previous page";
+            this.PrevPageBtn.Click += new System.EventHandler(this.PrevPageBtn_Click);
             // 
-            // toolStripButton4
+            // NextPageBtn
             // 
-            this.toolStripButton4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Enabled = false;
-            this.toolStripButton4.Image = global::SIPView_PDF.Properties.Resources.next_page;
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton4.Text = "toolStripButton4";
-            this.toolStripButton4.ToolTipText = "Next page";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
+            this.NextPageBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.NextPageBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.NextPageBtn.Enabled = false;
+            this.NextPageBtn.Image = global::SIPView_PDF.Properties.Resources.next_page;
+            this.NextPageBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NextPageBtn.Name = "NextPageBtn";
+            this.NextPageBtn.Size = new System.Drawing.Size(23, 22);
+            this.NextPageBtn.Text = "toolStripButton4";
+            this.NextPageBtn.ToolTipText = "Next page";
+            this.NextPageBtn.Click += new System.EventHandler(this.NextPageBtn_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton5
+            // UndoBtn
             // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = global::SIPView_PDF.Properties.Resources.undo;
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton5.Text = "toolStripButton5";
-            this.toolStripButton5.ToolTipText = "Undo";
-            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
+            this.UndoBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.UndoBtn.Enabled = false;
+            this.UndoBtn.Image = global::SIPView_PDF.Properties.Resources.undo;
+            this.UndoBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.UndoBtn.Name = "UndoBtn";
+            this.UndoBtn.Size = new System.Drawing.Size(23, 22);
+            this.UndoBtn.Text = "toolStripButton5";
+            this.UndoBtn.ToolTipText = "Undo";
+            this.UndoBtn.Click += new System.EventHandler(this.UndoBtn_Click);
             // 
-            // toolStripButton6
+            // RedoBtn
             // 
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton6.Image = global::SIPView_PDF.Properties.Resources.redo;
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton6.Text = "toolStripButton6";
-            this.toolStripButton6.ToolTipText = "Redo";
-            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click_1);
+            this.RedoBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RedoBtn.Enabled = false;
+            this.RedoBtn.Image = global::SIPView_PDF.Properties.Resources.redo;
+            this.RedoBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RedoBtn.Name = "RedoBtn";
+            this.RedoBtn.Size = new System.Drawing.Size(23, 22);
+            this.RedoBtn.Text = "toolStripButton6";
+            this.RedoBtn.ToolTipText = "Redo";
+            this.RedoBtn.Click += new System.EventHandler(this.RedoBtn_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton7
+            // SelectAllBtn
             // 
-            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton7.Enabled = false;
-            this.toolStripButton7.Image = global::SIPView_PDF.Properties.Resources.select_all;
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton7.Text = "toolStripButton7";
-            this.toolStripButton7.ToolTipText = "Select all";
-            this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click);
+            this.SelectAllBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SelectAllBtn.Enabled = false;
+            this.SelectAllBtn.Image = global::SIPView_PDF.Properties.Resources.select_all;
+            this.SelectAllBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SelectAllBtn.Name = "SelectAllBtn";
+            this.SelectAllBtn.Size = new System.Drawing.Size(23, 22);
+            this.SelectAllBtn.Text = "toolStripButton7";
+            this.SelectAllBtn.ToolTipText = "Select all";
+            this.SelectAllBtn.Click += new System.EventHandler(this.SelectAllBtn_Click);
             // 
-            // toolStripButton8
+            // BakeInBtn
             // 
-            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton8.Enabled = false;
-            this.toolStripButton8.Image = global::SIPView_PDF.Properties.Resources.bake;
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton8.Text = "toolStripButton8";
-            this.toolStripButton8.ToolTipText = "Bake in";
-            this.toolStripButton8.Click += new System.EventHandler(this.toolStripButton8_Click);
+            this.BakeInBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BakeInBtn.Enabled = false;
+            this.BakeInBtn.Image = global::SIPView_PDF.Properties.Resources.bake;
+            this.BakeInBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BakeInBtn.Name = "BakeInBtn";
+            this.BakeInBtn.Size = new System.Drawing.Size(23, 22);
+            this.BakeInBtn.Text = "toolStripButton8";
+            this.BakeInBtn.ToolTipText = "Bake in";
+            this.BakeInBtn.Click += new System.EventHandler(this.BakeInBtn_Click);
             // 
-            // toolStripButton9
+            // FileSaveBtn
             // 
-            this.toolStripButton9.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton9.Enabled = false;
-            this.toolStripButton9.Image = global::SIPView_PDF.Properties.Resources.save;
-            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton9.Name = "toolStripButton9";
-            this.toolStripButton9.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton9.Text = "toolStripButton9";
-            this.toolStripButton9.ToolTipText = "Save";
-            this.toolStripButton9.Click += new System.EventHandler(this.toolStripButton9_Click);
+            this.FileSaveBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.FileSaveBtn.Enabled = false;
+            this.FileSaveBtn.Image = global::SIPView_PDF.Properties.Resources.save;
+            this.FileSaveBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FileSaveBtn.Name = "FileSaveBtn";
+            this.FileSaveBtn.Size = new System.Drawing.Size(23, 22);
+            this.FileSaveBtn.Text = "toolStripButton9";
+            this.FileSaveBtn.ToolTipText = "Save";
+            this.FileSaveBtn.Click += new System.EventHandler(this.FileSaveBtn_Click);
             // 
-            // toolStripButton10
+            // FileOpenBtn
             // 
-            this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton10.Image = global::SIPView_PDF.Properties.Resources.open;
-            this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton10.Name = "toolStripButton10";
-            this.toolStripButton10.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton10.Text = "toolStripButton10";
-            this.toolStripButton10.ToolTipText = "Open";
-            this.toolStripButton10.Click += new System.EventHandler(this.toolStripButton10_Click);
+            this.FileOpenBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.FileOpenBtn.Image = global::SIPView_PDF.Properties.Resources.open;
+            this.FileOpenBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FileOpenBtn.Name = "FileOpenBtn";
+            this.FileOpenBtn.Size = new System.Drawing.Size(23, 22);
+            this.FileOpenBtn.Text = "toolStripButton10";
+            this.FileOpenBtn.ToolTipText = "Open";
+            this.FileOpenBtn.Click += new System.EventHandler(this.FileOpenBtn_Click);
+            // 
+            // EditBtn
+            // 
+            this.EditBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.EditBtn.Enabled = false;
+            this.EditBtn.Image = global::SIPView_PDF.Properties.Resources.edit_mode;
+            this.EditBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.EditBtn.Name = "EditBtn";
+            this.EditBtn.Size = new System.Drawing.Size(23, 22);
+            this.EditBtn.Text = "toolStripButton11";
+            this.EditBtn.ToolTipText = "Edit";
+            this.EditBtn.Click += new System.EventHandler(this.EditBtn_Click);
             // 
             // PageView
             // 
@@ -328,49 +438,51 @@ namespace SIPView_PDF
             this.PageView.Display = null;
             this.PageView.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.PageView.HorizontalArrowIncerment = 1;
-            this.PageView.Location = new System.Drawing.Point(75, 49);
+            this.PageView.Location = new System.Drawing.Point(0, 49);
+            this.PageView.Margin = new System.Windows.Forms.Padding(0);
             this.PageView.Name = "PageView";
             this.PageView.NotifyPageDown = null;
             this.PageView.NotifyPageUp = null;
             this.PageView.Page = null;
-            this.PageView.Size = new System.Drawing.Size(821, 638);
+            this.PageView.Size = new System.Drawing.Size(916, 638);
             this.PageView.TabIndex = 1;
             this.PageView.UseConfiguredScrollbarIncrements = false;
             this.PageView.VerticalArrowIncerment = 1;
-            this.PageView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imGearPageView1_MouseDown);
-            this.PageView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imGearPageView1_MouseMove);
-            this.PageView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.imGearPageView1_MouseUp);
+            this.PageView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PageView_MouseDown);
+            this.PageView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PageView_MouseMove);
+            this.PageView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PageView_MouseUp);
             // 
-            // vScrollBar1
+            // ScrollBar
             // 
-            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar1.LargeChange = 1;
-            this.vScrollBar1.Location = new System.Drawing.Point(899, 49);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.ScaleScrollBarForDpiChange = false;
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 638);
-            this.vScrollBar1.TabIndex = 9;
-            this.vScrollBar1.Visible = false;
+            this.ScrollBar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ScrollBar.LargeChange = 1;
+            this.ScrollBar.Location = new System.Drawing.Point(899, 49);
+            this.ScrollBar.Name = "ScrollBar";
+            this.ScrollBar.ScaleScrollBarForDpiChange = false;
+            this.ScrollBar.Size = new System.Drawing.Size(17, 638);
+            this.ScrollBar.TabIndex = 9;
+            this.ScrollBar.Visible = false;
+            this.ScrollBar.ValueChanged += new System.EventHandler(this.ScrollBar_ValueChanged);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(916, 709);
-            this.Controls.Add(this.vScrollBar1);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.ScrollBar);
+            this.Controls.Add(this.ToolStrip);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.MenuStrip);
             this.Controls.Add(this.PageView);
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.MenuStrip;
             this.Name = "MainForm";
             this.Text = "SIPView PDF";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MenuStrip.ResumeLayout(false);
+            this.MenuStrip.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.ToolStrip.ResumeLayout(false);
+            this.ToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -378,33 +490,45 @@ namespace SIPView_PDF
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip MenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem FileMenu;
+        private System.Windows.Forms.ToolStripMenuItem FileOpenMenu;
+        private System.Windows.Forms.ToolStripMenuItem FileSaveMenu;
         private ImageGear.Windows.Forms.ImGearPageView PageView;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem batchToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem allFilesToPDFsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem allFilesToSinglePDFToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem splitToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripMenuItem FilePrintMenu;
+        private System.Windows.Forms.ToolStripMenuItem BatchProcessesMenu;
+        private System.Windows.Forms.ToolStripMenuItem AllFilesToPDFsMenu;
+        private System.Windows.Forms.ToolStripMenuItem AllFilesToSinglePDFMenu;
+        private System.Windows.Forms.ToolStripMenuItem SplitMultipagePDFsMenu;
+        private System.Windows.Forms.ToolStrip ToolStrip;
+        private System.Windows.Forms.ToolStripButton RotateLeftBtn;
+        private System.Windows.Forms.ToolStripButton RotateRightBtn;
+        private System.Windows.Forms.ToolStripButton PrevPageBtn;
+        private System.Windows.Forms.ToolStripButton NextPageBtn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripButton UndoBtn;
+        private System.Windows.Forms.ToolStripButton RedoBtn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
-        private System.Windows.Forms.ToolStripButton toolStripButton8;
-        private System.Windows.Forms.ToolStripButton toolStripButton9;
-        private System.Windows.Forms.ToolStripButton toolStripButton10;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.ToolStripButton SelectAllBtn;
+        private System.Windows.Forms.ToolStripButton BakeInBtn;
+        private System.Windows.Forms.ToolStripButton FileSaveBtn;
+        private System.Windows.Forms.ToolStripButton FileOpenBtn;
+        private System.Windows.Forms.VScrollBar ScrollBar;
+        private System.Windows.Forms.ToolStripMenuItem ToolsMenu;
+        private System.Windows.Forms.ToolStripButton EditBtn;
+        private System.Windows.Forms.ToolStripMenuItem PrevPageMenu;
+        private System.Windows.Forms.ToolStripMenuItem NextPageMenu;
+        private System.Windows.Forms.ToolStripMenuItem RotateRightMenu;
+        private System.Windows.Forms.ToolStripMenuItem RotateLeftMenu;
+        private System.Windows.Forms.ToolStripMenuItem EditMenu;
+        private System.Windows.Forms.ToolStripMenuItem ShowToolBarMenu;
+        private System.Windows.Forms.ToolStripMenuItem BakeInMenu;
+        private System.Windows.Forms.ToolStripMenuItem SelectAllMenu;
+        private System.Windows.Forms.ToolStripMenuItem UndoMenu;
+        private System.Windows.Forms.ToolStripMenuItem RedoMenu;
     }
 }
 
