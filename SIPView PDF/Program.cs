@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ImageGear.Formats.PDF;
+using ImageGear.Formats;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +16,8 @@ namespace SIPView_PDF
         [STAThread]
         static void Main()
         {
+            
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
