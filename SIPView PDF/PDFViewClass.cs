@@ -34,7 +34,8 @@ namespace SIPView_PDF
 
         private static bool m_bZoomToRectSelect = false;
         // Set of points defining the selected area.
-        private static ImGearPoint[] igPointsZoomToRect = new ImGearPoint[2];
+        private static ImGearPoint[] startPos = new ImGearPoint[2];
+        private static ImGearScrollInfo startScroll = new ImGearScrollInfo();
         private static Color m_SelectorColor = Color.White;
 
         private static bool movePage;
@@ -54,9 +55,9 @@ namespace SIPView_PDF
         {
             if (a)
             {
-               // PageView.UseWaitCursor = false;
+                // PageView.UseWaitCursor = false;
                 a = false;
-                MessageBox.Show("Test");
+
             }
         }
 
@@ -65,10 +66,14 @@ namespace SIPView_PDF
             movePage = false;
         }
 
+
         private static void ARTForm_MouseLeftButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            igPointsZoomToRect[0].X = e.EventData.X;
-            igPointsZoomToRect[0].Y = e.EventData.Y;
+            startPos[0].X = e.EventData.X;
+            startPos[0].Y = e.EventData.Y;
+
+            startScroll.Horizontal.Pos = PageView.Display.GetScrollInfo(PageView).Horizontal.Pos;
+            startScroll.Vertical.Pos = PageView.Display.GetScrollInfo(PageView).Vertical.Pos;
             movePage = true;
         }
 
@@ -76,14 +81,14 @@ namespace SIPView_PDF
         {
             if (PageView.Display.GetScrollInfo(PageView).Vertical.Max != 0 || PageView.Display.GetScrollInfo(PageView).Vertical.Max != 0)
             {
-                var a = ARTForm.Templates.Arrow;
-                
+
+
             }
         }
 
         private static void Display_PageZoomed(object sender, EventArgs e)
         {
-            
+
         }
 
         public static void KeyPressed(object sender, KeyEventArgs e)
@@ -96,35 +101,32 @@ namespace SIPView_PDF
                 // запомнить координаты зажатия мыши, и двигать картинку на противоположное значение от разницы запомнитого и текущего
                 ImGearScrollInfo igScrollInfo = PageView.Display.GetScrollInfo(PageView);
                 //PageView.Display.ScrollTo(PageView, PageView.Display.GetScrollInfo(PageView).Horizontal.Pos,
-                 //                                   PageView.Display.GetScrollInfo(PageView).Vertical.Pos+1);
+                //                                   PageView.Display.GetScrollInfo(PageView).Vertical.Pos+1);
 
                 //PageView.Display.UpdateScrollFrom(PageView, new ImGearScrollInfo());
                 PageView.Display.UpdateZoomFrom(new ImGearZoomInfo(1, 1, false, false));
-                
+
                 UpdatePageView();
             }
         }
 
         private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            if (m_bZoomToRectSelect)
+            if (movePage)
             {
-                igPointsZoomToRect[1].X = e.EventData.X;
-                igPointsZoomToRect[1].Y = e.EventData.Y;
+
+                //PageView.Display.GetScrollInfo(PageView).Horizontal.Pos   - текущая позиция скролла
+                //igPointsZoomToRect[0].X   - позиция мышки при нажатии
+                //e.EventData.X     - текущая позиция мышки
+
+                PageView.Display.ScrollTo(PageView, startScroll.Horizontal.Pos + (startPos[0].X - (e.EventData.X)),
+                                                    startScroll.Vertical.Pos + (startPos[0].Y - (e.EventData.Y)));
+
+
             }
-            else if(movePage)
-            {
-                var a = PageView.VerticalSmallChange;
-                var b = PageView.VerticalLargeChange;
 
-                var c = PageView.Display.GetScrollInfo(PageView).Horizontal.Pos;
-
-                int dX = ((igPointsZoomToRect[0].X - e.EventData.X) * -1)/50;
-                int dY = ((igPointsZoomToRect[0].Y - e.EventData.Y) * -1)/50;
-
-                PageView.Display.ScrollTo(PageView, PageView.Display.GetScrollInfo(PageView).Horizontal.Pos - dX,
-                                                    PageView.Display.GetScrollInfo(PageView).Vertical.Pos - dY);
-            }
+            startPos[1].X = e.EventData.X;
+            startPos[1].Y = e.EventData.Y;
 
             PageView.Invalidate();
         }
@@ -134,19 +136,19 @@ namespace SIPView_PDF
             if (m_bZoomToRectSelect)
             {
                 a = true;
-                PageView.UseWaitCursor = true;
+                //PageView.UseWaitCursor = true;
 
                 // Leave Zoom to Rectangle selection mode.
                 PageView.RegisterAfterDraw(null);
                 m_bZoomToRectSelect = false;
                 // Record the second point of the zoom rectangle,
                 // normalizing it to the view's aspect ratio.
-                igPointsZoomToRect[1].X = e.EventData.X;
-                igPointsZoomToRect[1].Y = e.EventData.Y;
+                startPos[1].X = e.EventData.X;
+                startPos[1].Y = e.EventData.Y;
                 //igPointsZoomToRect[1].Y = igPointsZoomToRect[0].Y +
                 //    GetHeight(PageView, Math.Abs(igPointsZoomToRect[1].X - igPointsZoomToRect[0].X) + 1) - 1;
                 // Create a rectangle based upon the 2 points.
-                ImGearRectangle igRectangle = new ImGearRectangle(igPointsZoomToRect[0], igPointsZoomToRect[1]);
+                ImGearRectangle igRectangle = new ImGearRectangle(startPos[0], startPos[1]);
                 // Cancel the zoom if it would be for a 0x0 or 1x1 rectangle.
                 if (igRectangle.Width <= 1 || igRectangle.Height <= 1)
                     return;
@@ -162,9 +164,9 @@ namespace SIPView_PDF
             m_bZoomToRectSelect = true;
             // Create a new pair of points to define the rectangle, 
             // setting the first point to the current position.
-      
-            igPointsZoomToRect[0].X = e.EventData.X;
-            igPointsZoomToRect[0].Y = e.EventData.Y;
+
+            startPos[0].X = e.EventData.X;
+            startPos[0].Y = e.EventData.Y;
             // Register method to draw the selection rectangle.
             PageView.RegisterAfterDraw(
                 new ImGearPageView.AfterDraw(DrawSelector));
@@ -180,10 +182,10 @@ namespace SIPView_PDF
                 // Define the currently selected zoom rectangle.
                 ImGearRectangle igRectangleZoom;
 
-                if (igPointsZoomToRect[0].Y>= igPointsZoomToRect[1].Y)
-                 igRectangleZoom = new ImGearRectangle(igPointsZoomToRect[0], igPointsZoomToRect[1]);
+                if (startPos[0].Y >= startPos[1].Y)
+                    igRectangleZoom = new ImGearRectangle(startPos[0], startPos[1]);
                 else
-                    igRectangleZoom = new ImGearRectangle (igPointsZoomToRect[1], igPointsZoomToRect[0]);
+                    igRectangleZoom = new ImGearRectangle(startPos[1], startPos[0]);
                 // Draw the selection box.
                 gr.DrawRectangle(pen, igRectangleZoom.Left, igRectangleZoom.Top,
                     igRectangleZoom.Width, igRectangleZoom.Height);
@@ -455,7 +457,7 @@ namespace SIPView_PDF
             }
         }
 
-        
+
 
         public static void FileSave(string fileName)
         {
