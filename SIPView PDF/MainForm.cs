@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using ImageGear.ART;
-
+using ImageGear.Core;
 
 namespace SIPView_PDF
 {
@@ -16,6 +16,7 @@ namespace SIPView_PDF
             PDFViewClass.PageChanged += PageViewUpdated;
         }
 
+       
         private void DocumentUpdated(object sender, EventArgs e)
         {
             UpdateMenuBtns();
@@ -61,5 +62,7 @@ namespace SIPView_PDF
         {
             MenuBarClass.UpdateSelectionBtn();
         }
+
+      
     }
 }

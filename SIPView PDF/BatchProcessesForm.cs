@@ -89,6 +89,7 @@ namespace SIPView_PDF
        
         private async void startBtn_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
             if (!Directory.Exists(sourseFolderTextBox.Text))
             {
                 MessageBox.Show("Incorrect Sourse Folder", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -128,6 +129,7 @@ namespace SIPView_PDF
                 default:
                     break;
             }
+            this.Cursor = Cursors.Default;
         }
 
         private void GetFilesFromSoureDir()
@@ -142,7 +144,7 @@ namespace SIPView_PDF
         private void AllFilesToPDFsThreadManager()
         {
             // Allocate thread pool.
-
+            
             List<Thread> threadList = new List<Thread>();
             for (int i = 0; i < filesInSelectedDir.Length; i++)
             {
@@ -152,7 +154,7 @@ namespace SIPView_PDF
                 thread.Start();
                 thread.Join();
             }
-
+            
             MessageBox.Show("All files are converted to PDFs", "Success", MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 

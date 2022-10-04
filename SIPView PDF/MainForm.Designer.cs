@@ -1,6 +1,8 @@
 ﻿using ImageGear.ART;
 using ImageGear.ART.Forms;
+using System;
 using System.Reflection.Emit;
+using System.Windows.Forms;
 
 namespace SIPView_PDF
 {
@@ -32,39 +34,40 @@ namespace SIPView_PDF
         /// </summary>
         private void InitializeComponent()
         {
-            this.PDFView = new SIPView_PDF.PDFView();
             this.MenuBar = new SIPView_PDF.MenuBar();
+            this.PDFView = new SIPView_PDF.PDFView();
             this.SuspendLayout();
-            // 
-            // PDFView
-            // 
-            this.PDFView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PDFView.Location = new System.Drawing.Point(0, 0);
-            this.PDFView.Name = "PDFView";
-            this.PDFView.Size = new System.Drawing.Size(916, 526);
-            this.PDFView.TabIndex = 0;
             // 
             // MenuBar
             // 
             this.MenuBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.MenuBar.Location = new System.Drawing.Point(0, 0);
             this.MenuBar.Name = "MenuBar";
-            this.MenuBar.Size = new System.Drawing.Size(916, 53);
+            this.MenuBar.Size = new System.Drawing.Size(1203, 53);
             this.MenuBar.TabIndex = 1;
+            // 
+            // PDFView
+            // 
+            this.PDFView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PDFView.Location = new System.Drawing.Point(0, 0);
+            this.PDFView.Name = "PDFView";
+            this.PDFView.Size = new System.Drawing.Size(1203, 775);
+            this.PDFView.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(916, 526);
+            this.ClientSize = new System.Drawing.Size(1203, 775);
             this.Controls.Add(this.MenuBar);
             this.Controls.Add(this.PDFView);
             this.Name = "MainForm";
             this.Text = "SIPView PDF";
-            //this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }
+
+       
         #endregion
 
         private PDFView PDFView;

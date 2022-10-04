@@ -4,14 +4,17 @@ using ImageGear.Core;
 using ImageGear.Display;
 using ImageGear.Formats;
 using ImageGear.Formats.PDF;
+using ImageGear.Processing;
 using ImageGear.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 
 namespace SIPView_PDF
@@ -20,14 +23,172 @@ namespace SIPView_PDF
     {
         public static List<ImGearARTPage> ARTPages = new List<ImGearARTPage>();
         public static ImGearDocument PDFDocument = null;
-        public static int currentPageID = 0;
         public static ImGearARTForms ARTForm;
         public static ImGearPageView PageView;
         public static ScrollBar ScrollBar;
         public static StatusStrip StatusStrip;
+        public static int currentPageID = 0;
 
         public static event EventHandler PageChanged;
         public static event EventHandler DocumentChanged;
+
+        private static bool m_bZoomToRectSelect = false;
+        // Set of points defining the selected area.
+        private static ImGearPoint[] igPointsZoomToRect = new ImGearPoint[2];
+        private static Color m_SelectorColor = Color.White;
+
+        private static bool movePage;
+        private static bool a;
+        public static void TEST()
+        {
+            ARTForm.MouseRightButtonDown += ARTForm_MouseRightButtonDown;
+            ARTForm.MouseRightButtonUp += ARTForm_MouseRightButtonUp;
+            ARTForm.MouseMoved += ARTForm_MouseMoved;
+
+            ARTForm.MouseLeftButtonDown += ARTForm_MouseLeftButtonDown;
+            ARTForm.MouseLeftButtonUp += ARTForm_MouseLeftButtonUp;
+            PageView.AfterDrawEvent += PageView_AfterDrawEvent;
+        }
+
+        private static void PageView_AfterDrawEvent(object sender, ImGearAfterDrawEventArgs e)
+        {
+            if (a)
+            {
+               // PageView.UseWaitCursor = false;
+                a = false;
+                MessageBox.Show("Test");
+            }
+        }
+
+        private static void ARTForm_MouseLeftButtonUp(object sender, ImGearARTFormsMouseEventArgs e)
+        {
+            movePage = false;
+        }
+
+        private static void ARTForm_MouseLeftButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
+        {
+            igPointsZoomToRect[0].X = e.EventData.X;
+            igPointsZoomToRect[0].Y = e.EventData.Y;
+            movePage = true;
+        }
+
+        private static void Display_PageScrolled(object sender, EventArgs e)
+        {
+            if (PageView.Display.GetScrollInfo(PageView).Vertical.Max != 0 || PageView.Display.GetScrollInfo(PageView).Vertical.Max != 0)
+            {
+                var a = ARTForm.Templates.Arrow;
+                
+            }
+        }
+
+        private static void Display_PageZoomed(object sender, EventArgs e)
+        {
+            
+        }
+
+        public static void KeyPressed(object sender, KeyEventArgs e)
+        {
+            if (PDFDocument == null)
+                return;
+
+            if (e.KeyCode == Keys.Back)
+            {
+                // запомнить координаты зажатия мыши, и двигать картинку на противоположное значение от разницы запомнитого и текущего
+                ImGearScrollInfo igScrollInfo = PageView.Display.GetScrollInfo(PageView);
+                //PageView.Display.ScrollTo(PageView, PageView.Display.GetScrollInfo(PageView).Horizontal.Pos,
+                 //                                   PageView.Display.GetScrollInfo(PageView).Vertical.Pos+1);
+
+                //PageView.Display.UpdateScrollFrom(PageView, new ImGearScrollInfo());
+                PageView.Display.UpdateZoomFrom(new ImGearZoomInfo(1, 1, false, false));
+                
+                UpdatePageView();
+            }
+        }
+
+        private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
+        {
+            if (m_bZoomToRectSelect)
+            {
+                igPointsZoomToRect[1].X = e.EventData.X;
+                igPointsZoomToRect[1].Y = e.EventData.Y;
+            }
+            else if(movePage)
+            {
+                var a = PageView.VerticalSmallChange;
+                var b = PageView.VerticalLargeChange;
+
+                var c = PageView.Display.GetScrollInfo(PageView).Horizontal.Pos;
+
+                int dX = ((igPointsZoomToRect[0].X - e.EventData.X) * -1)/50;
+                int dY = ((igPointsZoomToRect[0].Y - e.EventData.Y) * -1)/50;
+
+                PageView.Display.ScrollTo(PageView, PageView.Display.GetScrollInfo(PageView).Horizontal.Pos - dX,
+                                                    PageView.Display.GetScrollInfo(PageView).Vertical.Pos - dY);
+            }
+
+            PageView.Invalidate();
+        }
+
+        private static void ARTForm_MouseRightButtonUp(object sender, ImGearARTFormsMouseEventArgs e)
+        {
+            if (m_bZoomToRectSelect)
+            {
+                a = true;
+                PageView.UseWaitCursor = true;
+
+                // Leave Zoom to Rectangle selection mode.
+                PageView.RegisterAfterDraw(null);
+                m_bZoomToRectSelect = false;
+                // Record the second point of the zoom rectangle,
+                // normalizing it to the view's aspect ratio.
+                igPointsZoomToRect[1].X = e.EventData.X;
+                igPointsZoomToRect[1].Y = e.EventData.Y;
+                //igPointsZoomToRect[1].Y = igPointsZoomToRect[0].Y +
+                //    GetHeight(PageView, Math.Abs(igPointsZoomToRect[1].X - igPointsZoomToRect[0].X) + 1) - 1;
+                // Create a rectangle based upon the 2 points.
+                ImGearRectangle igRectangle = new ImGearRectangle(igPointsZoomToRect[0], igPointsZoomToRect[1]);
+                // Cancel the zoom if it would be for a 0x0 or 1x1 rectangle.
+                if (igRectangle.Width <= 1 || igRectangle.Height <= 1)
+                    return;
+                // Zoom to the selected rectangle
+                PageView.Display.ZoomToRectangle(PageView, igRectangle);
+                PageView.Invalidate();
+            }
+        }
+
+        private static void ARTForm_MouseRightButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
+        {
+            // Enter Zoom to Rectangle selection mode.
+            m_bZoomToRectSelect = true;
+            // Create a new pair of points to define the rectangle, 
+            // setting the first point to the current position.
+      
+            igPointsZoomToRect[0].X = e.EventData.X;
+            igPointsZoomToRect[0].Y = e.EventData.Y;
+            // Register method to draw the selection rectangle.
+            PageView.RegisterAfterDraw(
+                new ImGearPageView.AfterDraw(DrawSelector));
+        }
+
+        private static void DrawSelector(System.Drawing.Graphics gr)
+        {
+            if (m_bZoomToRectSelect)
+            {
+                // Create a new pen to draw dotted lines.
+                Pen pen = new Pen(m_SelectorColor);
+                pen.DashStyle = DashStyle.Dot;
+                // Define the currently selected zoom rectangle.
+                ImGearRectangle igRectangleZoom;
+
+                if (igPointsZoomToRect[0].Y>= igPointsZoomToRect[1].Y)
+                 igRectangleZoom = new ImGearRectangle(igPointsZoomToRect[0], igPointsZoomToRect[1]);
+                else
+                    igRectangleZoom = new ImGearRectangle (igPointsZoomToRect[1], igPointsZoomToRect[0]);
+                // Draw the selection box.
+                gr.DrawRectangle(pen, igRectangleZoom.Left, igRectangleZoom.Top,
+                    igRectangleZoom.Width, igRectangleZoom.Height);
+            }
+        }
 
         public static void OnPageChanged(EventArgs e)
         {
@@ -47,21 +208,19 @@ namespace SIPView_PDF
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePDFFormat());
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePSFormat());
             ImGearPDF.Initialize();
+
+            TEST();
         }
 
         public static void InitializeToolBar()
         {
             ARTForm.Mode = ImGearARTModes.EDIT;
 
-            ARTForm.ToolBar.TopLevel = false;
-            ARTForm.ToolBar.Size = new Size(85, 1000);
+            ARTForm.ToolBar.Size = new Size(80, 295);
+            ARTForm.ToolBar.Text = string.Empty;
+
             ARTForm.ToolBar.Location = new Point(0, 50);
-
-            ARTForm.ToolBar.Visible = true;
-            ARTForm.ToolBar.FormBorderStyle = FormBorderStyle.None;
-            ARTForm.ToolBar.Show();
-
-            ToolBarChangeVisibility();
+            ARTForm.ToolBar.ShowInTaskbar = true;
         }
 
         private static void InitializeScrollBar()
@@ -123,16 +282,25 @@ namespace SIPView_PDF
         public static void ToolBarChangeVisibility()
         {
             if (ARTForm.ToolBar.Visible)
-            {
-                ARTForm.ToolBar.Visible = false;
-                PageView.Location = new Point(PageView.Location.X - ARTForm.ToolBar.Width, PageView.Location.Y);
-                PageView.Width = PageView.Width + ARTForm.ToolBar.Width;
-            }
+                ARTForm.ToolBar.Close();
             else
+                ARTForm.ToolBar.Show();
+        }
+
+        public static void zoomOutToolStripMenuItem_Click()
+        {
+            if (null != PageView.Display && !PageView.Display.Page.DIB.IsEmpty())
             {
-                ARTForm.ToolBar.Visible = true;
-                PageView.Location = new Point(PageView.Location.X + ARTForm.ToolBar.Width, PageView.Location.Y);
-                PageView.Width = PageView.Width - ARTForm.ToolBar.Width;
+                // Get the current zoom info.
+                ImGearZoomInfo igZoomInfo = PageView.Display.GetZoomInfo(PageView);
+
+                igZoomInfo.Horizontal.Value = igZoomInfo.Horizontal.Value * (1 / 1.25);
+                igZoomInfo.Vertical.Value = igZoomInfo.Vertical.Value * (1 / 1.25);
+                igZoomInfo.Horizontal.Fixed = true;
+                igZoomInfo.Vertical.Fixed = true;
+                // Set the new zoom values and repaint the view.
+                PageView.Display.UpdateZoomFrom(igZoomInfo);
+                PageView.Update();
             }
         }
 
@@ -142,13 +310,13 @@ namespace SIPView_PDF
         }
         public static void RotateLeft()
         {
-            PageView.Page.Orientation.Rotate(ImGearRotationValues.VALUE_270);
+            ImGearProcessing.Rotate(PageView.Page, ImGearRotationValues.VALUE_270);
             UpdatePageView();
         }
 
         public static void RotateRight()
         {
-            PageView.Page.Orientation.Rotate(ImGearRotationValues.VALUE_90);
+            ImGearProcessing.Rotate(PageView.Page, ImGearRotationValues.VALUE_90);
             UpdatePageView();
         }
 
@@ -275,6 +443,8 @@ namespace SIPView_PDF
                     RenderPage(0);
                     UpdatePageView();
                     OnDocumentChanged(null);
+                    PageView.Display.PageZoomed += Display_PageZoomed;
+                    PageView.Display.PageScrolled += Display_PageScrolled;
 
                 }
                 catch (ImGearException ex)
@@ -284,6 +454,8 @@ namespace SIPView_PDF
                 }
             }
         }
+
+        
 
         public static void FileSave(string fileName)
         {

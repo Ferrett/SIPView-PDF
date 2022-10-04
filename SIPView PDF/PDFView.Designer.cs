@@ -1,4 +1,6 @@
-﻿namespace SIPView_PDF
+﻿using System.Windows.Forms;
+
+namespace SIPView_PDF
 {
     partial class PDFView
     {
@@ -43,15 +45,16 @@
             this.PageView.BindArrowKeyScrolling = false;
             this.PageView.Display = null;
             this.PageView.HorizontalArrowIncerment = 1;
-            this.PageView.Location = new System.Drawing.Point(73, 54);
+            this.PageView.Location = new System.Drawing.Point(3, 51);
             this.PageView.Name = "PageView";
             this.PageView.NotifyPageDown = null;
             this.PageView.NotifyPageUp = null;
             this.PageView.Page = null;
-            this.PageView.Size = new System.Drawing.Size(722, 444);
+            this.PageView.Size = new System.Drawing.Size(792, 444);
             this.PageView.TabIndex = 0;
             this.PageView.UseConfiguredScrollbarIncrements = false;
             this.PageView.VerticalArrowIncerment = 1;
+            this.PageView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PageView_KeyDown);
             this.PageView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PageView_MouseDown);
             this.PageView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PageView_MouseMove);
             this.PageView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PageView_MouseUp);
@@ -73,11 +76,12 @@
             // 
             // ScrollBar
             // 
-            this.ScrollBar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ScrollBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ScrollBar.LargeChange = 1;
-            this.ScrollBar.Location = new System.Drawing.Point(796, 0);
+            this.ScrollBar.Location = new System.Drawing.Point(796, 51);
             this.ScrollBar.Name = "ScrollBar";
-            this.ScrollBar.Size = new System.Drawing.Size(17, 495);
+            this.ScrollBar.Size = new System.Drawing.Size(17, 444);
             this.ScrollBar.TabIndex = 2;
             this.ScrollBar.Visible = false;
             this.ScrollBar.ValueChanged += new System.EventHandler(this.ScrollBar_ValueChanged);
@@ -97,7 +101,7 @@
             this.PerformLayout();
 
         }
-
+       
         #endregion
 
         private ImageGear.Windows.Forms.ImGearPageView PageView;

@@ -9,16 +9,17 @@ namespace SIPView_PDF
         public PDFView()
         {
             InitializeComponent();
-
             InitializeClassControls();
 
             PDFViewClass.InitializeImGear();
-            //PDFViewClass.FileLoad(@"C:\Users\User\Desktop\2222.pdf");
             PDFViewClass.InitializeToolBar();
-            
             PDFViewClass.ARTForm.MarkCreated += ARTForm_MarkCreated;
+        }
 
-            this.Controls.Add(PDFViewClass.ARTForm.ToolBar);
+        private void PageView_KeyDown(object sender, KeyEventArgs e)
+        {
+            PDFViewClass.KeyPressed(sender,e);
+           
         }
 
         private void InitializeClassControls()
