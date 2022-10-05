@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using ImageGear.ART.Forms;
+using ImageGear.Windows.Forms;
 
 namespace SIPView_PDF
 {
@@ -13,10 +14,9 @@ namespace SIPView_PDF
 
             PDFViewClass.InitializeImGear();
             PDFViewClass.InitializeToolBar();
+
+
         }
-
-
-
 
         private void InitializeClassControls()
         {
@@ -26,7 +26,6 @@ namespace SIPView_PDF
             PDFViewClass.StatusStrip = StatusStrip;
         }
 
-       
         private void PDFView_MouseWheel(object sender, MouseEventArgs e)
         {
             PDFViewClass.WheelScrolled(sender,e);

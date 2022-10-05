@@ -43,7 +43,7 @@ namespace SIPView_PDF
             this.MenuBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.MenuBar.Location = new System.Drawing.Point(0, 0);
             this.MenuBar.Name = "MenuBar";
-            this.MenuBar.Size = new System.Drawing.Size(984, 53);
+            this.MenuBar.Size = new System.Drawing.Size(1184, 53);
             this.MenuBar.TabIndex = 1;
             // 
             // PDFView
@@ -51,14 +51,14 @@ namespace SIPView_PDF
             this.PDFView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PDFView.Location = new System.Drawing.Point(0, 0);
             this.PDFView.Name = "PDFView";
-            this.PDFView.Size = new System.Drawing.Size(984, 461);
+            this.PDFView.Size = new System.Drawing.Size(1184, 713);
             this.PDFView.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 461);
+            this.ClientSize = new System.Drawing.Size(1184, 713);
             this.Controls.Add(this.MenuBar);
             this.Controls.Add(this.PDFView);
             this.Name = "MainForm";

@@ -30,10 +30,12 @@ namespace SIPView_PDF
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.PageView = new ImageGear.Windows.Forms.ImGearPageView();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusStripLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ScrollBar = new System.Windows.Forms.VScrollBar();
+            this.Pan = new ImageGear.Windows.Forms.ImGearPan(this.components);
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,6 +89,17 @@ namespace SIPView_PDF
             this.ScrollBar.Visible = false;
             this.ScrollBar.ValueChanged += new System.EventHandler(this.ScrollBar_ValueChanged);
             // 
+            // Pan
+            // 
+            this.Pan.AdjustNavigationRectangleByImage = false;
+            this.Pan.DestinationView = null;
+            this.Pan.DestinationViewCursor = System.Windows.Forms.Cursors.Hand;
+            this.Pan.LineColor = System.Drawing.Color.LightGreen;
+            this.Pan.LineThickness = 1F;
+            this.Pan.PanButton = System.Windows.Forms.MouseButtons.Middle;
+            this.Pan.SourceView = this.PageView;
+            this.Pan.SourceViewCursor = System.Windows.Forms.Cursors.SizeAll;
+            // 
             // PDFView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -110,5 +123,6 @@ namespace SIPView_PDF
         private System.Windows.Forms.StatusStrip StatusStrip;
         private System.Windows.Forms.VScrollBar ScrollBar;
         private System.Windows.Forms.ToolStripStatusLabel StatusStripLabel;
+        private ImageGear.Windows.Forms.ImGearPan Pan;
     }
 }

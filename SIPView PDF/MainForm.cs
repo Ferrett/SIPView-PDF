@@ -14,6 +14,8 @@ namespace SIPView_PDF
            
             PDFViewClass.DocumentChanged += DocumentUpdated;
             PDFViewClass.PageChanged += PageViewUpdated;
+
+           Cursor.Current = Cursors.WaitCursor; 
         }
 
        
