@@ -96,19 +96,19 @@ namespace SIPView_PDF
 
         public static void UpdateSelectionBtn()
         {
-            SelectAllBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.currentPageID].MarkCount == 0 ? false : true;
+            SelectAllBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].MarkCount == 0 ? false : true;
         }
 
         public static void UpdatePageBtns()
         {
-            PrevPageBtn.Enabled = PDFViewClass.currentPageID == 0 ? false : true;
-            NextPageBtn.Enabled = PDFViewClass.currentPageID == PDFViewClass.PagesInDocumentCount() ? false : true;
+            PrevPageBtn.Enabled = PDFViewClass.CurrentPageID == 0 ? false : true;
+            NextPageBtn.Enabled = PDFViewClass.CurrentPageID == PDFViewClass.PagesInDocumentCount() ? false : true;
         }
 
         public static void UpdateHistoryBtns()
         {
-            UndoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.currentPageID].History.UndoCount == 0 ? false : true;
-            RedoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.currentPageID].History.RedoCount == 0 ? false : true;
+            UndoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].History.UndoCount == 0 ? false : true;
+            RedoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].History.RedoCount == 0 ? false : true;
         }
     }
 }

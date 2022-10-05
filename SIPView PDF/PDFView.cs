@@ -13,14 +13,10 @@ namespace SIPView_PDF
 
             PDFViewClass.InitializeImGear();
             PDFViewClass.InitializeToolBar();
-            PDFViewClass.ARTForm.MarkCreated += ARTForm_MarkCreated;
         }
 
-        private void PageView_KeyDown(object sender, KeyEventArgs e)
-        {
-            PDFViewClass.KeyPressed(sender,e);
-           
-        }
+
+
 
         private void InitializeClassControls()
         {
@@ -30,9 +26,15 @@ namespace SIPView_PDF
             PDFViewClass.StatusStrip = StatusStrip;
         }
 
-        private void ARTForm_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
+       
+        private void PDFView_MouseWheel(object sender, MouseEventArgs e)
         {
-            PDFViewClass.UpdatePageView();
+            PDFViewClass.WheelScrolled(sender,e);
+        }
+
+        private void PageView_KeyDown(object sender, KeyEventArgs e)
+        {
+            PDFViewClass.KeyDown(sender,e);
         }
 
         private void ScrollBar_ValueChanged(object sender, EventArgs e)
@@ -53,6 +55,11 @@ namespace SIPView_PDF
         private void PageView_MouseMove(object sender, MouseEventArgs e)
         {
             PDFViewClass.ARTForm.MouseMove(sender, e);
+        }
+
+        private void PageView_KeyUp(object sender, KeyEventArgs e)
+        {
+            PDFViewClass.PageView_KeyUp(sender, e);
         }
     }
 }
