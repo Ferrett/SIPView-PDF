@@ -25,7 +25,7 @@ namespace SIPView_PDF
         public static event EventHandler DocumentChanged;
 
         public static List<ImGearARTPage> ARTPages = new List<ImGearARTPage>();
-        public static ImGearDocument PDFDocument = null;
+        public static ImGearPDFDocument PDFDocument = null;
         public static ImGearARTForms ARTForm;
         public static ImGearPageView PageView;
         public static ScrollBar ScrollBar;
@@ -48,6 +48,7 @@ namespace SIPView_PDF
             ARTForm.MarkCreated += ARTForm_MarkCreated;
             PageView.AfterDrawEvent += PageView_AfterDrawEvent;
 
+           
         }
 
         public static void PageView_KeyUp(object sender, KeyEventArgs e)
@@ -90,6 +91,7 @@ namespace SIPView_PDF
             {
                 ZoomLoading = false;
             }
+            var a = PageView;
         }
 
         public static void KeyDown(object sender, KeyEventArgs e)
@@ -142,6 +144,9 @@ namespace SIPView_PDF
 
         private static void ARTForm_MouseRightButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
         {
+            if (SelectedMarksCount() != 0)
+                return;
+
             PageIsZoming = true;
 
             MousePosition[0].X = e.EventData.X;
@@ -157,7 +162,7 @@ namespace SIPView_PDF
             {
                 // Create a new pen to draw dotted lines.
                 ImGearRectangle igRectangleZoom;
-                Pen pen = new Pen(Color.Black);
+                Pen pen = new Pen(Color.White);
                 pen.DashStyle = DashStyle.Dot;
                 // Define the currently selected zoom rectangle.
 
@@ -355,6 +360,8 @@ namespace SIPView_PDF
                 ARTPages[CurrentPageID].MarkRemove(ID);
             }
 
+
+
             UpdatePageView();
         }
 
@@ -398,7 +405,7 @@ namespace SIPView_PDF
                 try
                 {
                     // Load the entire the document.
-                    PDFDocument = ImGearFileFormats.LoadDocument(inputStream);
+                    PDFDocument = (ImGearPDFDocument)ImGearFileFormats.LoadDocument(inputStream);
                     ARTPages.Clear();
 
                     InitializeScrollBar();
@@ -458,19 +465,19 @@ namespace SIPView_PDF
 
         public static void FilePrint()
         {
-            using (ImGearPDFDocument igPDFDocument = (ImGearPDFDocument)PDFDocument)
-            {
+            
                 ImGearPDFPrintOptions printOptions = new ImGearPDFPrintOptions();
                 PrintDocument printDocument = new PrintDocument();
 
                 //Use default Windows printer.
+                
                 printOptions.DeviceName = printDocument.PrinterSettings.PrinterName;
 
                 //Print all pages.
                 printOptions.StartPage = 0;
                 printOptions.EndPage = PDFDocument.Pages.Count;
-                igPDFDocument.Print(printOptions);
-            }
+                PDFDocument.Print(printOptions);
+            
         }
 
         public static void DisposeImGear()
