@@ -21,12 +21,13 @@ namespace SIPView_PDF
        
         private void DocumentUpdated(object sender, EventArgs e)
         {
-            UpdateMenuBtns();
+            InitArtPageEvents();
+            MenuBarClass.DocumentOpened();
         }
 
         private void PageViewUpdated(object sender, EventArgs e)
         {
-            InitArtPages();
+            MenuBarClass.PageChanged();
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
@@ -34,12 +35,7 @@ namespace SIPView_PDF
             PDFViewClass.DisposeImGear();
         }
 
-        public void UpdateMenuBtns()
-        {
-            MenuBarClass.DocumentOpened();
-        }
-
-        public void InitArtPages()
+        public void InitArtPageEvents()
         {
             for (int i = 0; i < PDFViewClass.ARTPages.Count; i++)
             {

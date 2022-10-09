@@ -34,7 +34,6 @@ namespace SIPView_PDF
 
         private static ImGearPoint[] MousePosition = new ImGearPoint[2];
 
-        private static bool ZoomLoading;
         private static bool CtrlKeyPressed;
         private static bool PageIsZoming = false;
 
@@ -46,9 +45,6 @@ namespace SIPView_PDF
             ARTForm.MouseMoved += ARTForm_MouseMoved;
 
             ARTForm.MarkCreated += ARTForm_MarkCreated;
-            PageView.AfterDrawEvent += PageView_AfterDrawEvent;
-
-           
         }
 
         public static void PageView_KeyUp(object sender, KeyEventArgs e)
@@ -85,21 +81,12 @@ namespace SIPView_PDF
             UpdatePageView();
         }
 
-        private static void PageView_AfterDrawEvent(object sender, ImGearAfterDrawEventArgs e)
-        {
-            if (ZoomLoading)
-            {
-                ZoomLoading = false;
-            }
-            var a = PageView;
-        }
-
         public static void KeyDown(object sender, KeyEventArgs e)
         {
             if (PDFDocument == null)
                 return;
 
-            if (e.KeyCode == Keys.Back)
+            if (e.KeyCode == Keys.Space)
             {
                 PageView.Display.UpdateZoomFrom(new ImGearZoomInfo(1, 1, false, false));
                 UpdatePageView();
@@ -108,7 +95,6 @@ namespace SIPView_PDF
             {
                 CtrlKeyPressed = true;
             }
-
         }
 
         private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
@@ -123,8 +109,6 @@ namespace SIPView_PDF
         {
             if (PageIsZoming)
             {
-                ZoomLoading = true;
-
                 PageView.RegisterAfterDraw(null);
                 PageIsZoming = false;
 
@@ -142,9 +126,23 @@ namespace SIPView_PDF
             }
         }
 
+        private static bool CursorOnAnyMark(ImGearPoint mousePos, ImGearARTPage page)
+        {
+            mousePos.X = mousePos.X - (PageView.Width- PageView.Page.DIB.Width)/2;
+            mousePos.Y = mousePos.Y - (PageView.Height- PageView.Page.DIB.Height)/2;
+            
+            foreach (ImGearARTMark mark in page)
+            {
+                if (mark.Bounds.Contains(mousePos))
+                    return true;
+            }
+
+            return false;
+        }
+
         private static void ARTForm_MouseRightButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            if (SelectedMarksCount() != 0)
+            if (CursorOnAnyMark(new ImGearPoint(e.EventData.X, e.EventData.Y), ARTPages[CurrentPageID]))
                 return;
 
             PageIsZoming = true;
@@ -162,7 +160,7 @@ namespace SIPView_PDF
             {
                 // Create a new pen to draw dotted lines.
                 ImGearRectangle igRectangleZoom;
-                Pen pen = new Pen(Color.White);
+                Pen pen = new Pen(Color.MediumVioletRed);
                 pen.DashStyle = DashStyle.Dot;
                 // Define the currently selected zoom rectangle.
 
@@ -241,11 +239,11 @@ namespace SIPView_PDF
                 if (page != null)
                 {
                     //Create a new page display to prepare the page for being displayed.
-                    
+
                     ImGearPageDisplay igPageDisplay = new ImGearPageDisplay(page);
                     //Associate the page display with the page view.
                     PageView.Display = igPageDisplay;
-           
+
                     //Cause the page view to repaint.
                     PageView.Invalidate();
                 }
@@ -360,8 +358,6 @@ namespace SIPView_PDF
                 ARTPages[CurrentPageID].MarkRemove(ID);
             }
 
-
-
             UpdatePageView();
         }
 
@@ -465,19 +461,17 @@ namespace SIPView_PDF
 
         public static void FilePrint()
         {
-            
-                ImGearPDFPrintOptions printOptions = new ImGearPDFPrintOptions();
-                PrintDocument printDocument = new PrintDocument();
+            ImGearPDFPrintOptions printOptions = new ImGearPDFPrintOptions();
+            PrintDocument printDocument = new PrintDocument();
 
-                //Use default Windows printer.
-                
-                printOptions.DeviceName = printDocument.PrinterSettings.PrinterName;
+            //Use default Windows printer.
 
-                //Print all pages.
-                printOptions.StartPage = 0;
-                printOptions.EndPage = PDFDocument.Pages.Count;
-                PDFDocument.Print(printOptions);
-            
+            printOptions.DeviceName = printDocument.PrinterSettings.PrinterName;
+
+            //Print all pages.
+            printOptions.StartPage = 0;
+            printOptions.EndPage = PDFDocument.Pages.Count;
+            PDFDocument.Print(printOptions);
         }
 
         public static void DisposeImGear()

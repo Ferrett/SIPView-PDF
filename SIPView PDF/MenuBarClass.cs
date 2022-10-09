@@ -63,6 +63,14 @@ namespace SIPView_PDF
             RedoMenu = (ToolStripMenuItem)(menuStrip["EditMenu"] as ToolStripMenuItem).DropDownItems["RedoMenu"];
         }
 
+        public static void PageChanged()
+        {
+            UpdateBakeInBtn();
+            UpdateHistoryBtns();
+            UpdateSelectionBtn();
+            UpdatePageBtns();
+        }
+
         public static void DocumentOpened()
         {
             RotateLeftBtn.Enabled = true;
