@@ -45,6 +45,7 @@ namespace SIPView_PDF
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PageView.BindArrowKeyScrolling = false;
+            this.PageView.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.PageView.Display = null;
             this.PageView.HorizontalArrowIncerment = 1;
             this.PageView.Location = new System.Drawing.Point(3, 51);

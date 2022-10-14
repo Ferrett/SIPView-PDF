@@ -49,7 +49,7 @@ namespace SIPView_PDF
 
         public static void PageView_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode != Keys.LControlKey)
+            if (e.KeyCode != Keys.ControlKey)
                 return;
 
             CtrlKeyPressed = false;

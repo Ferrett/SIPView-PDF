@@ -11,14 +11,14 @@ namespace SIPView_PDF
         public MainForm()
         {
             InitializeComponent();
-           
+
             PDFViewClass.DocumentChanged += DocumentUpdated;
             PDFViewClass.PageChanged += PageViewUpdated;
 
-           Cursor.Current = Cursors.WaitCursor; 
+            Cursor.Current = Cursors.WaitCursor;
         }
 
-       
+
         private void DocumentUpdated(object sender, EventArgs e)
         {
             InitArtPageEvents();
@@ -61,6 +61,6 @@ namespace SIPView_PDF
             MenuBarClass.UpdateSelectionBtn();
         }
 
-      
+
     }
 }

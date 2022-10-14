@@ -110,7 +110,7 @@ namespace SIPView_PDF
         public static void UpdatePageBtns()
         {
             PrevPageBtn.Enabled = PDFViewClass.CurrentPageID == 0 ? false : true;
-            NextPageBtn.Enabled = PDFViewClass.CurrentPageID == PDFViewClass.PagesInDocumentCount() ? false : true;
+            NextPageBtn.Enabled = PDFViewClass.CurrentPageID == PDFViewClass.PagesInDocumentCount()-1 ? false : true;
         }
 
         public static void UpdateHistoryBtns()
