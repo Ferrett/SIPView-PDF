@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace SIPView_PDF
 {
@@ -15,6 +16,7 @@ namespace SIPView_PDF
         private static ToolStripButton SelectAllBtn;
         private static ToolStripButton BakeInBtn;
         private static ToolStripButton ShowToolBarBtn;
+        private static ToolStripButton MagnifierBtn;
 
         private static ToolStripMenuItem EditMenu;
         private static ToolStripMenuItem FileMenu;
@@ -45,6 +47,7 @@ namespace SIPView_PDF
             SelectAllBtn = (ToolStripButton)toolStrip["SelectAllBtn"];
             BakeInBtn = (ToolStripButton)toolStrip["BakeInBtn"];
             ShowToolBarBtn = (ToolStripButton)toolStrip["ShowToolBarBtn"];
+            MagnifierBtn = (ToolStripButton)toolStrip["MagnifierBtn"];
 
             EditMenu = (ToolStripMenuItem)menuStrip["EditMenu"];
             FileMenu = (ToolStripMenuItem)menuStrip["FileMenu"];
@@ -78,6 +81,7 @@ namespace SIPView_PDF
             FileSaveBtn.Enabled = true;
             FilePrintBtn.Enabled = true;
             ShowToolBarBtn.Enabled = true;
+            MagnifierBtn.Enabled = true;
 
             RotateLeftMenu.Enabled = true;
             RotateRightMenu.Enabled = true;
@@ -117,6 +121,16 @@ namespace SIPView_PDF
         {
             UndoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].History.UndoCount == 0 ? false : true;
             RedoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].History.RedoCount == 0 ? false : true;
+        }
+
+        internal static void ToolBarChangeCheck()
+        {
+            ShowToolBarBtn.Checked = !ShowToolBarBtn.Checked;
+        }
+
+        internal static void MagnifierChangeCheck()
+        {
+            MagnifierBtn.Checked = !MagnifierBtn.Checked;
         }
     }
 }

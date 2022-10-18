@@ -36,6 +36,7 @@ namespace SIPView_PDF
             this.StatusStripLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ScrollBar = new System.Windows.Forms.VScrollBar();
             this.Pan = new ImageGear.Windows.Forms.ImGearPan(this.components);
+            this.Magnifier = new ImageGear.Windows.Forms.ImGearMagnifier(this.components);
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +46,7 @@ namespace SIPView_PDF
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PageView.BindArrowKeyScrolling = false;
-            this.PageView.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.PageView.Cursor = System.Windows.Forms.Cursors.Default;
             this.PageView.Display = null;
             this.PageView.HorizontalArrowIncerment = 1;
             this.PageView.Location = new System.Drawing.Point(3, 51);
@@ -101,6 +102,17 @@ namespace SIPView_PDF
             this.Pan.SourceView = this.PageView;
             this.Pan.SourceViewCursor = System.Windows.Forms.Cursors.SizeAll;
             // 
+            // Magnifier
+            // 
+            this.Magnifier.Cursor = System.Windows.Forms.Cursors.Default;
+            this.Magnifier.DestinationView = null;
+            this.Magnifier.IsPopUp = false;
+            this.Magnifier.PopupHeight = 150;
+            this.Magnifier.PopupWidth = 150;
+            this.Magnifier.ShapeType = ImageGear.Windows.Forms.ImGearMagnifierShapeType.Rectangle;
+            this.Magnifier.SourceView = this.PageView;
+            this.Magnifier.Zoom = 2F;
+            // 
             // PDFView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -125,5 +137,6 @@ namespace SIPView_PDF
         private System.Windows.Forms.VScrollBar ScrollBar;
         private System.Windows.Forms.ToolStripStatusLabel StatusStripLabel;
         private ImageGear.Windows.Forms.ImGearPan Pan;
+        private ImageGear.Windows.Forms.ImGearMagnifier Magnifier;
     }
 }

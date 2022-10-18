@@ -24,6 +24,7 @@ namespace SIPView_PDF
         private void EditBtn_Click(object sender, EventArgs e)
         {
             PDFViewClass.ToolBarChangeVisibility();
+            MenuBarClass.ToolBarChangeCheck();
         }
 
         private void BakeInBtn_Click(object sender, EventArgs e)
@@ -151,6 +152,12 @@ namespace SIPView_PDF
         private void RedoMenu_Click(object sender, EventArgs e)
         {
             PDFViewClass.Redo();
+        }
+
+        private void MagnifierBtn_Click(object sender, EventArgs e)
+        {
+            PDFViewClass.MagnifierChangeVisibility();
+            MenuBarClass.MagnifierChangeCheck();
         }
     }
 }

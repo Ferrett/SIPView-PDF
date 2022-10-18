@@ -15,7 +15,7 @@ namespace SIPView_PDF
             PDFViewClass.InitializeImGear();
             PDFViewClass.InitializeToolBar();
 
-
+            
         }
 
         private void InitializeClassControls()
@@ -24,6 +24,7 @@ namespace SIPView_PDF
             PDFViewClass.PageView = PageView;
             PDFViewClass.ScrollBar = ScrollBar;
             PDFViewClass.StatusStrip = StatusStrip;
+            PDFViewClass.Magnifier = Magnifier;
         }
 
         private void PDFView_MouseWheel(object sender, MouseEventArgs e)

@@ -86,7 +86,7 @@ namespace SIPView_PDF
             }
         }
 
-       
+
         private async void startBtn_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
@@ -107,7 +107,7 @@ namespace SIPView_PDF
             {
                 MessageBox.Show("Sourse Folder Is Empty", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }  
+            }
 
             switch (batchProcess)
             {
@@ -144,7 +144,7 @@ namespace SIPView_PDF
         private void AllFilesToPDFsThreadManager()
         {
             // Allocate thread pool.
-            
+
             List<Thread> threadList = new List<Thread>();
             for (int i = 0; i < filesInSelectedDir.Length; i++)
             {
@@ -154,8 +154,8 @@ namespace SIPView_PDF
                 thread.Start();
                 thread.Join();
             }
-            
-            MessageBox.Show("All files are converted to PDFs", "Success", MessageBoxButtons.OK,MessageBoxIcon.Information);
+
+            MessageBox.Show("All files are converted to PDFs", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void SplitMultipagePDFsThreadManager()
@@ -180,6 +180,7 @@ namespace SIPView_PDF
         {
             ImGearPDF.Initialize();
 
+
             // Open file for reading.
             using (FileStream pdfData = new FileStream(file, FileMode.Open, FileAccess.Read))
             {
@@ -187,6 +188,11 @@ namespace SIPView_PDF
                 using (ImGearPDFDocument igSourceDocument = ImGearFileFormats.LoadDocument(
                     pdfData, 0, (int)ImGearPDFPageRange.ALL_PAGES) as ImGearPDFDocument)
                 {
+                    if (igSourceDocument == null)
+                        return;
+
+                    if (igSourceDocument.Pages.Count <= 1)
+                        return;
 
                     // For each page in document.
                     for (int i = 0; i < igSourceDocument.Pages.Count; i++)
@@ -236,9 +242,6 @@ namespace SIPView_PDF
                             igResultDocument.Pages.Add(page.Clone());
                         }
                     }
-                    // Add page to new document
-
-
                 }
                 catch (Exception) { }
             }

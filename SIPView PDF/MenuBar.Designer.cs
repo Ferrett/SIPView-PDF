@@ -65,6 +65,7 @@
             this.SelectAllBtn = new System.Windows.Forms.ToolStripButton();
             this.BakeInBtn = new System.Windows.Forms.ToolStripButton();
             this.ShowToolBarBtn = new System.Windows.Forms.ToolStripButton();
+            this.MagnifierBtn = new System.Windows.Forms.ToolStripButton();
             this.MenuStrip.SuspendLayout();
             this.ToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -266,7 +267,8 @@
             this.toolStripSeparator4,
             this.SelectAllBtn,
             this.BakeInBtn,
-            this.ShowToolBarBtn});
+            this.ShowToolBarBtn,
+            this.MagnifierBtn});
             this.ToolStrip.Location = new System.Drawing.Point(0, 24);
             this.ToolStrip.Margin = new System.Windows.Forms.Padding(20);
             this.ToolStrip.Name = "ToolStrip";
@@ -442,6 +444,18 @@
             this.ShowToolBarBtn.ToolTipText = "Edit";
             this.ShowToolBarBtn.Click += new System.EventHandler(this.EditBtn_Click);
             // 
+            // MagnifierBtn
+            // 
+            this.MagnifierBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.MagnifierBtn.Enabled = false;
+            this.MagnifierBtn.Image = global::SIPView_PDF.Properties.Resources.glass;
+            this.MagnifierBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MagnifierBtn.Name = "MagnifierBtn";
+            this.MagnifierBtn.Size = new System.Drawing.Size(23, 22);
+            this.MagnifierBtn.Text = "toolStripButton1";
+            this.MagnifierBtn.ToolTipText = "Magnifying glass";
+            this.MagnifierBtn.Click += new System.EventHandler(this.MagnifierBtn_Click);
+            // 
             // MenuBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -498,5 +512,6 @@
         private System.Windows.Forms.ToolStripButton ShowToolBarBtn;
         private System.Windows.Forms.ToolStripButton FilePrintBtn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton MagnifierBtn;
     }
 }

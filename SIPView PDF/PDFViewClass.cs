@@ -14,7 +14,6 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 
 namespace SIPView_PDF
@@ -26,13 +25,15 @@ namespace SIPView_PDF
 
         public static List<ImGearARTPage> ARTPages = new List<ImGearARTPage>();
         public static ImGearPDFDocument PDFDocument = null;
+        public static ImGearMagnifier Magnifier;
         public static ImGearARTForms ARTForm;
         public static ImGearPageView PageView;
         public static ScrollBar ScrollBar;
         public static StatusStrip StatusStrip;
         public static int CurrentPageID = 0;
 
-        private static ImGearPoint[] MousePosition = new ImGearPoint[2];
+        private static ImGearPoint StartMousePos;
+        private static ImGearPoint CurrentMousePos;
 
         private static bool CtrlKeyPressed;
         private static bool PageIsZoming = false;
@@ -45,6 +46,7 @@ namespace SIPView_PDF
             ARTForm.MouseMoved += ARTForm_MouseMoved;
 
             ARTForm.MarkCreated += ARTForm_MarkCreated;
+
         }
 
         public static void PageView_KeyUp(object sender, KeyEventArgs e)
@@ -57,23 +59,46 @@ namespace SIPView_PDF
 
         public static void WheelScrolled(object sender, MouseEventArgs e)
         {
-            if (!CtrlKeyPressed)
+            if (CtrlKeyPressed)
+            {
+                if (e.Delta > 0)
+                {
+                    PageView.Display.ZoomToRectangle(PageView, new ImGearRectangle(
+                        new ImGearPoint((int)(CurrentMousePos.X - PageView.Width / 2.4), (int)(CurrentMousePos.Y - PageView.Height / 2.4)),
+                        new ImGearPoint((int)(CurrentMousePos.X + PageView.Width / 2.4), (int)(CurrentMousePos.Y + PageView.Height / 2.4))));
+                }
+                else
+                {
+                    PageView.Display.ZoomToRectangle(PageView, new ImGearRectangle(
+                        new ImGearPoint((int)(CurrentMousePos.X - PageView.Width * 0.6), (int)(CurrentMousePos.Y - PageView.Height * 0.6)),
+                        new ImGearPoint((int)(CurrentMousePos.X + PageView.Width * 0.6), (int)(CurrentMousePos.Y + PageView.Height * 0.6))));
+                }
+
+                PageView.Invalidate();
                 return;
-
-            if (e.Delta > 0)
-            {
-                PageView.Display.ZoomToRectangle(PageView, new ImGearRectangle(
-                    new ImGearPoint((int)(MousePosition[1].X - PageView.Width / 2.4), (int)(MousePosition[1].Y - PageView.Height / 2.4)),
-                    new ImGearPoint((int)(MousePosition[1].X + PageView.Width / 2.4), (int)(MousePosition[1].Y + PageView.Height / 2.4))));
-            }
-            else
-            {
-                PageView.Display.ZoomToRectangle(PageView, new ImGearRectangle(
-                    new ImGearPoint((int)(MousePosition[1].X - PageView.Width * 0.6), (int)(MousePosition[1].Y - PageView.Height * 0.6)),
-                    new ImGearPoint((int)(MousePosition[1].X + PageView.Width * 0.6), (int)(MousePosition[1].Y + PageView.Height * 0.6))));
             }
 
-            PageView.Invalidate();
+            if (PageView.Display.GetScrollInfo(PageView).Vertical.Max == 0 && PageView.Display.GetScrollInfo(PageView).Horizontal.Max == 0)
+            {
+                if (e.Delta > 0)
+                {
+                    PrevPage();
+                }
+                else
+                {
+                    NextPage();
+                }
+                return;
+            }
+
+            if (PageView.Display.GetScrollInfo(PageView).Vertical.Pos == PageView.Display.GetScrollInfo(PageView).Vertical.Min)
+            {
+                PrevPage();
+            }
+            else if (PageView.Display.GetScrollInfo(PageView).Vertical.Pos == PageView.Display.GetScrollInfo(PageView).Vertical.Max)
+            {
+                NextPage();
+            }
         }
 
         private static void ARTForm_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
@@ -99,8 +124,8 @@ namespace SIPView_PDF
 
         private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            MousePosition[1].X = e.EventData.X;
-            MousePosition[1].Y = e.EventData.Y;
+            CurrentMousePos.X = e.EventData.X;
+            CurrentMousePos.Y = e.EventData.Y;
 
             UpdatePageView();
         }
@@ -112,10 +137,10 @@ namespace SIPView_PDF
                 PageView.RegisterAfterDraw(null);
                 PageIsZoming = false;
 
-                MousePosition[1].X = e.EventData.X;
-                MousePosition[1].Y = e.EventData.Y;
+                CurrentMousePos.X = e.EventData.X;
+                CurrentMousePos.Y = e.EventData.Y;
 
-                ImGearRectangle igRectangle = new ImGearRectangle(MousePosition[0], MousePosition[1]);
+                ImGearRectangle igRectangle = new ImGearRectangle(StartMousePos, CurrentMousePos);
                 // Cancel the zoom if it would be for a 0x0 or 1x1 rectangle.
                 if (igRectangle.Width <= 1 || igRectangle.Height <= 1)
                     return;
@@ -128,9 +153,9 @@ namespace SIPView_PDF
 
         private static bool CursorOnAnyMark(ImGearPoint mousePos, ImGearARTPage page)
         {
-            mousePos.X = mousePos.X - (PageView.Width- PageView.Page.DIB.Width)/2;
-            mousePos.Y = mousePos.Y - (PageView.Height- PageView.Page.DIB.Height)/2;
-            
+            mousePos.X = mousePos.X - (PageView.Width - PageView.Page.DIB.Width) / 2;
+            mousePos.Y = mousePos.Y - (PageView.Height - PageView.Page.DIB.Height) / 2;
+
             foreach (ImGearARTMark mark in page)
             {
                 if (mark.Bounds.Contains(mousePos))
@@ -147,8 +172,8 @@ namespace SIPView_PDF
 
             PageIsZoming = true;
 
-            MousePosition[0].X = e.EventData.X;
-            MousePosition[0].Y = e.EventData.Y;
+            StartMousePos.X = e.EventData.X;
+            StartMousePos.Y = e.EventData.Y;
             // Register method to draw the selection rectangle.
             PageView.RegisterAfterDraw(
                 new ImGearPageView.AfterDraw(DrawSelector));
@@ -164,10 +189,10 @@ namespace SIPView_PDF
                 pen.DashStyle = DashStyle.Dot;
                 // Define the currently selected zoom rectangle.
 
-                if (MousePosition[0].Y >= MousePosition[1].Y)
-                    igRectangleZoom = new ImGearRectangle(MousePosition[0], MousePosition[1]);
+                if (StartMousePos.Y >= CurrentMousePos.Y)
+                    igRectangleZoom = new ImGearRectangle(StartMousePos, CurrentMousePos);
                 else
-                    igRectangleZoom = new ImGearRectangle(MousePosition[1], MousePosition[0]);
+                    igRectangleZoom = new ImGearRectangle(CurrentMousePos, StartMousePos);
                 // Draw the selection box.
                 gr.DrawRectangle(pen, igRectangleZoom.Left, igRectangleZoom.Top,
                     igRectangleZoom.Width, igRectangleZoom.Height);
@@ -478,6 +503,11 @@ namespace SIPView_PDF
         {
             ImGearPDF.Terminate();
             PageView.Display = null;
+        }
+
+        internal static void MagnifierChangeVisibility()
+        {
+            Magnifier.IsPopUp = !Magnifier.IsPopUp;
         }
     }
 }
