@@ -37,7 +37,6 @@ namespace SIPView_PDF
             this.components = new System.ComponentModel.Container();
             this.MenuBar = new SIPView_PDF.MenuBar();
             this.PDFView = new SIPView_PDF.PDFView();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SuspendLayout();
             // 
             // MenuBar
@@ -55,11 +54,6 @@ namespace SIPView_PDF
             this.PDFView.Name = "PDFView";
             this.PDFView.Size = new System.Drawing.Size(1184, 713);
             this.PDFView.TabIndex = 0;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // MainForm
             // 
@@ -80,7 +74,6 @@ namespace SIPView_PDF
 
         private PDFView PDFView;
         private MenuBar MenuBar;
-        private ContextMenuStrip contextMenuStrip1;
     }
 }
 

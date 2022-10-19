@@ -15,9 +15,6 @@ namespace SIPView_PDF
 
             PDFViewClass.DocumentChanged += DocumentUpdated;
             PDFViewClass.PageChanged += PageViewUpdated;
-
-
-            this.ContextMenuStrip = contextMenuStrip1;
         }
 
 

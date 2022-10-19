@@ -2,9 +2,11 @@
 using ImageGear.ART.Forms;
 using ImageGear.Core;
 using ImageGear.Display;
+using ImageGear.Evaluation;
 using ImageGear.Formats;
 using ImageGear.Formats.PDF;
 using ImageGear.Processing;
+using ImageGear.Recognition;
 using ImageGear.Windows.Forms;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 
 namespace SIPView_PDF
@@ -38,6 +41,16 @@ namespace SIPView_PDF
         private static bool CtrlKeyPressed;
         private static bool PageIsZoming = false;
 
+        /// <summary>
+        /// ////////////////////////////////////////////FIXXXXXXXXXXXXXX
+        /// </summary>
+        internal static void MagnifierChangeVisibility()
+        {
+            Magnifier.IsPopUp = !Magnifier.IsPopUp;
+            ARTForm.Page = ARTForm.Page == null ? ARTPages[CurrentPageID] : null;
+
+            ARTForm.Templates.Arrow.Visible = false;
+        }
 
         public static void InitializeEvents()
         {
@@ -46,7 +59,6 @@ namespace SIPView_PDF
             ARTForm.MouseMoved += ARTForm_MouseMoved;
 
             ARTForm.MarkCreated += ARTForm_MarkCreated;
-
         }
 
         public static void PageView_KeyUp(object sender, KeyEventArgs e)
@@ -74,7 +86,7 @@ namespace SIPView_PDF
                         new ImGearPoint((int)(CurrentMousePos.X + PageView.Width * 0.6), (int)(CurrentMousePos.Y + PageView.Height * 0.6))));
                 }
 
-                PageView.Invalidate();
+                UpdatePageView();
                 return;
             }
 
@@ -126,7 +138,6 @@ namespace SIPView_PDF
         {
             CurrentMousePos.X = e.EventData.X;
             CurrentMousePos.Y = e.EventData.Y;
-
             UpdatePageView();
         }
 
@@ -147,7 +158,7 @@ namespace SIPView_PDF
                 // Zoom to the selected rectangle
                 PageView.Display.ZoomToRectangle(PageView, igRectangle);
 
-                PageView.Invalidate();
+                UpdatePageView();
             }
         }
 
@@ -185,7 +196,7 @@ namespace SIPView_PDF
             {
                 // Create a new pen to draw dotted lines.
                 ImGearRectangle igRectangleZoom;
-                Pen pen = new Pen(Color.MediumVioletRed);
+                Pen pen = new Pen(Color.White);
                 pen.DashStyle = DashStyle.Dot;
                 // Define the currently selected zoom rectangle.
 
@@ -196,6 +207,8 @@ namespace SIPView_PDF
                 // Draw the selection box.
                 gr.DrawRectangle(pen, igRectangleZoom.Left, igRectangleZoom.Top,
                     igRectangleZoom.Width, igRectangleZoom.Height);
+
+                
             }
         }
 
@@ -245,41 +258,13 @@ namespace SIPView_PDF
 
         private static void InitializeArtPages()
         {
+            ARTPages.Clear();
             for (int i = 0; i < PDFDocument.Pages.Count; i++)
             {
                 ARTPages.Add(new ImGearARTPage());
                 ARTPages.Last().History.IsEnabled = true;
-                ARTPages.Last().History.Limit = 99;
+                ARTPages.Last().History.Limit = uint.MaxValue;
             }
-            ARTPages.ForEach(x => x.RemoveMarks());
-        }
-
-        public static void RenderPage(int pageID)
-        {
-            CurrentPageID = pageID;
-            //Load a single page from the loaded document.
-            try
-            {
-                ImGearPage page = PDFDocument.Pages[CurrentPageID];
-                if (page != null)
-                {
-                    //Create a new page display to prepare the page for being displayed.
-
-                    ImGearPageDisplay igPageDisplay = new ImGearPageDisplay(page);
-                    //Associate the page display with the page view.
-                    PageView.Display = igPageDisplay;
-
-                    //Cause the page view to repaint.
-                    PageView.Invalidate();
-                }
-            }
-            catch (ImGearException ex)
-            {
-                //Perform error handling.
-                MessageBox.Show(ex.Message);
-            }
-            OnPageChanged(null);
-            UpdateAfterRender();
         }
 
         private static void UpdateAfterRender()
@@ -310,6 +295,7 @@ namespace SIPView_PDF
         public static void RotateRight()
         {
             ImGearProcessing.Rotate(PageView.Page, ImGearRotationValues.VALUE_90);
+
             UpdatePageView();
         }
 
@@ -361,6 +347,7 @@ namespace SIPView_PDF
 
         public static void UpdatePageView()
         {
+            PageView.Invalidate();
             PageView.Update();
         }
 
@@ -386,64 +373,25 @@ namespace SIPView_PDF
             UpdatePageView();
         }
 
-        public static void UpdateStatusStrip(StatusStrip statusStrip)
-        {
-            statusStrip.Items[0].Text = string.Format("{0} of {1}", CurrentPageID + 1, PDFDocument.Pages.Count);
-        }
-
         public static void ScrollBarScrolled()
         {
             RenderPage(ScrollBar.Value);
             DisplayCurrentPageMarks();
-            UpdateStatusStrip(StatusStrip);
         }
 
         private static void DisplayCurrentPageMarks()
         {
             PageView.Display = new ImGearPageDisplay(PDFDocument.Pages[CurrentPageID], ARTPages[CurrentPageID]);
             ARTForm.Page = ARTPages[CurrentPageID];
+            ARTForm.IsPolylineAutoCloseEnabled = true;
+            ARTForm.IsPolyMarkAutoRollbackEnabled = true;
+            ARTForm.PageView = PageView;
+           
         }
 
-        public static void FileLoad()
-        {
-            OpenFileDialog openFileDialogLoad = new OpenFileDialog();
-            // Allow only PDF and PS files.
-            openFileDialogLoad.Filter =
-            ImGearFileFormats.GetSavingFilter(ImGearSavingFormats.PDF) + "|" +
-            ImGearFileFormats.GetSavingFilter(ImGearSavingFormats.PS);
 
-            if (DialogResult.OK == openFileDialogLoad.ShowDialog())
-            {
-                FileLoad(openFileDialogLoad.FileName);
-            }
-        }
 
-        public static void FileLoad(string fileName)
-        {
-            using (FileStream inputStream =
-                    new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
-            {
-                try
-                {
-                    // Load the entire the document.
-                    PDFDocument = (ImGearPDFDocument)ImGearFileFormats.LoadDocument(inputStream);
-                    ARTPages.Clear();
-
-                    InitializeScrollBar();
-                    InitializeArtPages();
-
-                    // Render first page.
-                    RenderPage(0);
-                    UpdatePageView();
-                    OnDocumentChanged(null);
-                }
-                catch (ImGearException ex)
-                {
-                    // Perform error handling.
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
+       
 
         public static void FileSave(string fileName)
         {
@@ -504,10 +452,69 @@ namespace SIPView_PDF
             ImGearPDF.Terminate();
             PageView.Display = null;
         }
+       
 
-        internal static void MagnifierChangeVisibility()
+        public static void FileLoad()
         {
-            Magnifier.IsPopUp = !Magnifier.IsPopUp;
+            OpenFileDialog openFileDialogLoad = new OpenFileDialog();
+            // Allow only PDF and PS files.
+            openFileDialogLoad.Filter =
+            ImGearFileFormats.GetSavingFilter(ImGearSavingFormats.PDF) + "|" +
+            ImGearFileFormats.GetSavingFilter(ImGearSavingFormats.PS);
+
+            if (DialogResult.OK == openFileDialogLoad.ShowDialog())
+            {
+                FileLoad(openFileDialogLoad.FileName);
+            }
         }
+
+        public static void FileLoad(string fileName)
+        {
+            using (FileStream inputStream =
+                    new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+            {
+                try
+                {
+                    // Load the entire the document.
+                    PDFDocument = (ImGearPDFDocument)ImGearFileFormats.LoadDocument(inputStream);
+                    ARTPages.Clear();
+
+                    InitializeScrollBar();
+                    InitializeArtPages();
+
+
+                    RenderPage(0);
+
+                    OnDocumentChanged(null);
+                }
+                catch (ImGearException ex)
+                {
+                    // Perform error handling.
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        public static void RenderPage(int pageID)
+        {
+            CurrentPageID = pageID;
+            //Load a single page from the loaded document.
+            try
+            {
+                PageView.Page = PDFDocument.Pages[CurrentPageID];
+                PageView.Display.Background.Color.Red
+                    = PageView.Display.Background.Color.Green
+                    = PageView.Display.Background.Color.Blue = 96;
+            }
+            catch (ImGearException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+;
+            OnPageChanged(null);
+            UpdateAfterRender();
+        }
+       
     }
 }

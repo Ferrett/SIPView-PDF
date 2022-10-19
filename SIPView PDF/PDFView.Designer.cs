@@ -45,16 +45,17 @@ namespace SIPView_PDF
             this.PageView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.PageView.BackColor = System.Drawing.SystemColors.Window;
             this.PageView.BindArrowKeyScrolling = false;
             this.PageView.Cursor = System.Windows.Forms.Cursors.Default;
             this.PageView.Display = null;
             this.PageView.HorizontalArrowIncerment = 1;
-            this.PageView.Location = new System.Drawing.Point(3, 51);
+            this.PageView.Location = new System.Drawing.Point(0, 51);
             this.PageView.Name = "PageView";
             this.PageView.NotifyPageDown = null;
             this.PageView.NotifyPageUp = null;
             this.PageView.Page = null;
-            this.PageView.Size = new System.Drawing.Size(792, 444);
+            this.PageView.Size = new System.Drawing.Size(796, 444);
             this.PageView.TabIndex = 0;
             this.PageView.UseConfiguredScrollbarIncrements = false;
             this.PageView.VerticalArrowIncerment = 1;

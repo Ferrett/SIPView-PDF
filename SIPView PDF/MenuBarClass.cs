@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Windows.Forms;
 
 namespace SIPView_PDF
@@ -99,6 +99,11 @@ namespace SIPView_PDF
                 NextPageBtn.Enabled = true;
                 NextPageMenu.Enabled = true;
             }
+            else
+            {
+                NextPageBtn.Enabled = false;
+                NextPageMenu.Enabled = false;
+            }
         }
 
         public static void UpdateBakeInBtn()
@@ -114,7 +119,7 @@ namespace SIPView_PDF
         public static void UpdatePageBtns()
         {
             PrevPageBtn.Enabled = PDFViewClass.CurrentPageID == 0 ? false : true;
-            NextPageBtn.Enabled = PDFViewClass.CurrentPageID == PDFViewClass.PagesInDocumentCount()-1 ? false : true;
+            //NextPageBtn.Enabled = PDFViewClass.CurrentPageID == PDFViewClass.PagesInDocumentCount()-1 ? false : true;
         }
 
         public static void UpdateHistoryBtns()

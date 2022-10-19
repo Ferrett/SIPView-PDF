@@ -113,6 +113,12 @@
     <Reference Include="ImageGear24.Presentation, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
       <HintPath>..\packages\Accusoft.ImageGear.WinForms.24.14.0\lib\net20\ImageGear24.Presentation.dll</HintPath>
     </Reference>
+    <Reference Include="ImageGear24.Recognition, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.Recognition.24.14.0\lib\net20\ImageGear24.Recognition.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageGear24.Recognition.Forms, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accusoft.ImageGear.Recognition.24.14.0\lib\net20\ImageGear24.Recognition.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="ImageGear24.Windows.Forms, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
       <HintPath>..\packages\Accusoft.ImageGear.WinForms.24.14.0\lib\net20\ImageGear24.Windows.Forms.dll</HintPath>
     </Reference>
@@ -268,7 +274,9 @@
     <Error Condition="!Exists('..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets'))" />
     <Error Condition="!Exists('..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets'))" />
     <Error Condition="!Exists('..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets'))" />
+    <Error Condition="!Exists('..\packages\Accusoft.ImageGear.Recognition.24.14.0\build\Accusoft.ImageGear.Recognition.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.Recognition.24.14.0\build\Accusoft.ImageGear.Recognition.targets'))" />
   </Target>
   <Import Project="..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets')" />
   <Import Project="..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets" Condition="Exists('..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets')" />
+  <Import Project="..\packages\Accusoft.ImageGear.Recognition.24.14.0\build\Accusoft.ImageGear.Recognition.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Recognition.24.14.0\build\Accusoft.ImageGear.Recognition.targets')" />
 </Project>
