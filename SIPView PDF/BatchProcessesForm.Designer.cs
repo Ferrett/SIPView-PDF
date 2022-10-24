@@ -39,6 +39,8 @@
             this.exitBtn = new System.Windows.Forms.Button();
             this.sourseFolderPanel = new System.Windows.Forms.Panel();
             this.targetFolderPanel = new System.Windows.Forms.Panel();
+            this.ProgressBar = new System.Windows.Forms.ProgressBar();
+            this.currentProcessLabel = new System.Windows.Forms.Label();
             this.sourseFolderPanel.SuspendLayout();
             this.targetFolderPanel.SuspendLayout();
             this.SuspendLayout();
@@ -124,7 +126,7 @@
             this.startBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.startBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.startBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.startBtn.Location = new System.Drawing.Point(319, 231);
+            this.startBtn.Location = new System.Drawing.Point(319, 284);
             this.startBtn.Margin = new System.Windows.Forms.Padding(0);
             this.startBtn.Name = "startBtn";
             this.startBtn.Size = new System.Drawing.Size(94, 27);
@@ -138,7 +140,7 @@
             this.exitBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.exitBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.exitBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.exitBtn.Location = new System.Drawing.Point(98, 230);
+            this.exitBtn.Location = new System.Drawing.Point(98, 283);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(94, 28);
             this.exitBtn.TabIndex = 8;
@@ -168,11 +170,32 @@
             this.targetFolderPanel.Size = new System.Drawing.Size(471, 61);
             this.targetFolderPanel.TabIndex = 12;
             // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Location = new System.Drawing.Point(32, 238);
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(441, 23);
+            this.ProgressBar.TabIndex = 13;
+            this.ProgressBar.Visible = false;
+            // 
+            // currentProcessLabel
+            // 
+            this.currentProcessLabel.AutoSize = true;
+            this.currentProcessLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.currentProcessLabel.Location = new System.Drawing.Point(32, 208);
+            this.currentProcessLabel.Name = "currentProcessLabel";
+            this.currentProcessLabel.Size = new System.Drawing.Size(67, 17);
+            this.currentProcessLabel.TabIndex = 15;
+            this.currentProcessLabel.Text = "FileName";
+            this.currentProcessLabel.Visible = false;
+            // 
             // BatchProcessesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(507, 272);
+            this.ClientSize = new System.Drawing.Size(507, 325);
+            this.Controls.Add(this.currentProcessLabel);
+            this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.exitBtn);
             this.Controls.Add(this.startBtn);
             this.Controls.Add(this.sourseFolderBtn);
@@ -206,5 +229,7 @@
         private System.Windows.Forms.Button exitBtn;
         private System.Windows.Forms.Panel sourseFolderPanel;
         private System.Windows.Forms.Panel targetFolderPanel;
+        private System.Windows.Forms.ProgressBar ProgressBar;
+        private System.Windows.Forms.Label currentProcessLabel;
     }
 }

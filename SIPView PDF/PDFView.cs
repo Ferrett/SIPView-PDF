@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using ImageGear.ART.Forms;
+using ImageGear.Evaluation;
 using ImageGear.Windows.Forms;
 
 namespace SIPView_PDF
@@ -20,11 +21,14 @@ namespace SIPView_PDF
 
         private void InitializeClassControls()
         {
+            ImGearEvaluationManager.Initialize();
+
             PDFViewClass.ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
             PDFViewClass.PageView = PageView;
             PDFViewClass.ScrollBar = ScrollBar;
             PDFViewClass.StatusStrip = StatusStrip;
             PDFViewClass.Magnifier = Magnifier;
+            PDFViewClass.ThumbnailController = ThumbnailController;
         }
 
         private void PDFView_MouseWheel(object sender, MouseEventArgs e)

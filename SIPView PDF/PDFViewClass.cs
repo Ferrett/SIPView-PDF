@@ -6,8 +6,10 @@ using ImageGear.Evaluation;
 using ImageGear.Formats;
 using ImageGear.Formats.PDF;
 using ImageGear.Processing;
+using ImageGear.Recognition.Forms;
 using ImageGear.Recognition;
 using ImageGear.Windows.Forms;
+using ImageGear.Windows.Forms.Thumbnails;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -31,6 +33,7 @@ namespace SIPView_PDF
         public static ImGearMagnifier Magnifier;
         public static ImGearARTForms ARTForm;
         public static ImGearPageView PageView;
+        public static ImGearThumbnailCtl ThumbnailController;
         public static ScrollBar ScrollBar;
         public static StatusStrip StatusStrip;
         public static int CurrentPageID = 0;
@@ -41,15 +44,18 @@ namespace SIPView_PDF
         private static bool CtrlKeyPressed;
         private static bool PageIsZoming = false;
 
-        /// <summary>
-        /// ////////////////////////////////////////////FIXXXXXXXXXXXXXX
-        /// </summary>
+
         internal static void MagnifierChangeVisibility()
         {
             Magnifier.IsPopUp = !Magnifier.IsPopUp;
             ARTForm.Page = ARTForm.Page == null ? ARTPages[CurrentPageID] : null;
+        }
 
-            ARTForm.Templates.Arrow.Visible = false;
+        private static void DisplayCurrentPageMarks()
+        {
+            PageView.Display = new ImGearPageDisplay(PDFDocument.Pages[CurrentPageID], ARTPages[CurrentPageID]);
+            ARTForm.Page = ARTPages[CurrentPageID];
+
         }
 
         public static void InitializeEvents()
@@ -132,6 +138,8 @@ namespace SIPView_PDF
             {
                 CtrlKeyPressed = true;
             }
+
+           
         }
 
         private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
@@ -376,18 +384,9 @@ namespace SIPView_PDF
         public static void ScrollBarScrolled()
         {
             RenderPage(ScrollBar.Value);
-            DisplayCurrentPageMarks();
         }
 
-        private static void DisplayCurrentPageMarks()
-        {
-            PageView.Display = new ImGearPageDisplay(PDFDocument.Pages[CurrentPageID], ARTPages[CurrentPageID]);
-            ARTForm.Page = ARTPages[CurrentPageID];
-            ARTForm.IsPolylineAutoCloseEnabled = true;
-            ARTForm.IsPolyMarkAutoRollbackEnabled = true;
-            ARTForm.PageView = PageView;
-           
-        }
+        
 
 
 
@@ -440,7 +439,8 @@ namespace SIPView_PDF
             //Use default Windows printer.
 
             printOptions.DeviceName = printDocument.PrinterSettings.PrinterName;
-
+            var a = printOptions.PaperHeight;
+            var b = printOptions.PaperHeight;
             //Print all pages.
             printOptions.StartPage = 0;
             printOptions.EndPage = PDFDocument.Pages.Count;

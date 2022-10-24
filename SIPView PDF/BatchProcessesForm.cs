@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection.Emit;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,8 +57,12 @@ namespace SIPView_PDF
                 default:
                     break;
             }
+
+           
+            ProgressBar.Style = ProgressBarStyle.Continuous;
         }
 
+       
 
         private void sourseFolderBtn_Click(object sender, EventArgs e)
         {
@@ -109,6 +114,11 @@ namespace SIPView_PDF
                 return;
             }
 
+            ProgressBar.Maximum = filesInSelectedDir.Length;
+            ProgressBar.Visible = true;
+            currentProcessLabel.Visible = true;
+            ProgressBar.Value = 0;
+
             switch (batchProcess)
             {
                 case BatchProcess.ALL_FILES_TO_PDFS:
@@ -155,8 +165,11 @@ namespace SIPView_PDF
                 thread.Join();
             }
 
-            MessageBox.Show("All files are converted to PDFs", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Invoke(new Action(() => this.FinishProgressBar()));
+            Invoke(new Action(()=> currentProcessLabel.Text = "Done!") );
+            //MessageBox.Show("All files are converted to PDFs", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        
 
         private void SplitMultipagePDFsThreadManager()
         {
@@ -172,7 +185,9 @@ namespace SIPView_PDF
                 thread.Join();
             }
 
-            MessageBox.Show("PDF file was splitted", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Invoke(new Action(() => this.FinishProgressBar()));
+            Invoke(new Action(() => currentProcessLabel.Text = "Done!"));
+            //MessageBox.Show("PDF file was splitted", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
@@ -180,7 +195,7 @@ namespace SIPView_PDF
         {
             ImGearPDF.Initialize();
 
-
+          
             // Open file for reading.
             using (FileStream pdfData = new FileStream(file, FileMode.Open, FileAccess.Read))
             {
@@ -193,6 +208,10 @@ namespace SIPView_PDF
 
                     if (igSourceDocument.Pages.Count <= 1)
                         return;
+
+                    Invoke(new Action(() => currentProcessLabel.Text = $"Splitting: {file}                                         "));
+                    Invoke(new Action(() => this.Update()));
+                    Invoke(new Action(() => UpdProgressBar()));
 
                     // For each page in document.
                     for (int i = 0; i < igSourceDocument.Pages.Count; i++)
@@ -213,6 +232,7 @@ namespace SIPView_PDF
                         igTargetDocument.Save(outputPath, ImGearSavingFormats.PDF, 0, 0, 1, ImGearSavingModes.OVERWRITE);
                     }
 
+                    Invoke(new Action(() => ProgressBar.Value++));
                 }
             }
 
@@ -222,9 +242,13 @@ namespace SIPView_PDF
         private void AllFilesToSiglePDF()
         {
             ImGearPDFDocument igResultDocument = new ImGearPDFDocument();
-
+            
             foreach (var file in filesInSelectedDir)
             {
+                currentProcessLabel.Text = $"Adding: {file}                                         ";
+                this.Update();
+                UpdProgressBar();
+
                 try
                 {
                     // Convert file to PDF page
@@ -244,6 +268,7 @@ namespace SIPView_PDF
                     }
                 }
                 catch (Exception) { }
+                ProgressBar.Value++;
             }
 
             string filename = targetFolderTextBox.Text + "\\" + Path.GetFileName(sourseFolderTextBox.Text) + ".pdf";
@@ -268,7 +293,10 @@ namespace SIPView_PDF
                 }
             }
 
-            MessageBox.Show("All files merged into PDF", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            FinishProgressBar();
+            currentProcessLabel.Text = "Done!";
+           
+            //MessageBox.Show("All files merged into PDF", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
@@ -276,6 +304,9 @@ namespace SIPView_PDF
         {
             ImGearPDF.Initialize();
 
+            Invoke(new Action(() => currentProcessLabel.Text = $"Converting: {file}                                         "));
+            Invoke(new Action(() => this.Update()));
+            Invoke(new Action(() => UpdProgressBar())); 
             try
             {
                 // Load required page from a file.
@@ -288,8 +319,23 @@ namespace SIPView_PDF
             }
             // If file can't be converted to PDF, it triggers exeption.
             catch (Exception) { }
+            Invoke(new Action(() => ProgressBar.Value++));
 
             ImGearPDF.Terminate();
+        }
+
+        private void FinishProgressBar()
+        {
+            ProgressBar.Maximum = 101;
+            ProgressBar.Value = 101;
+            ProgressBar.Maximum = 100;
+        }
+
+        private void UpdProgressBar()
+        {
+            var a = ProgressBar.Value;
+            ProgressBar.Value = ProgressBar.Maximum;
+            ProgressBar.Value =a;
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
