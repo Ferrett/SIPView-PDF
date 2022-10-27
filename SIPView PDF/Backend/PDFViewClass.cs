@@ -2,7 +2,7 @@
 using ImageGear.ART.Forms;
 using ImageGear.Core;
 using ImageGear.Display;
-using ImageGear.Evaluation;
+
 using ImageGear.Formats;
 using ImageGear.Formats.PDF;
 using ImageGear.Processing;
@@ -18,9 +18,6 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
-
 
 namespace SIPView_PDF
 {
@@ -45,13 +42,12 @@ namespace SIPView_PDF
         private static bool CtrlKeyPressed;
         private static bool PageIsZoming = false;
 
+        private static string DocumentPath;
 
         internal static void MagnifierChangeVisibility()
         {
             Magnifier.IsPopUp = !Magnifier.IsPopUp;
             ARTForm.Page = ARTForm.Page == null ? ARTPages[CurrentPageID] : null;
-
-           
         }
 
         private static void DisplayCurrentPageMarks()
@@ -162,12 +158,15 @@ namespace SIPView_PDF
             //    }
             //    throw ex;
             //}
+            ThumbnailController.AllPages = true;
+            int bd = ThumbnailController.Count;
             ImGearPage a =null;
             using (FileStream stream = new FileStream(@"C:\Users\User\Desktop\solution_result.png", FileMode.Open, FileAccess.Read))
             {
                 a = ImGearFileFormats.LoadPage(stream);
                 
             }
+            ThumbnailController.PageAppend(a, "1");
             ImGearThumbnailItem b = new ImGearThumbnailItem(ThumbnailController, a, "ses", 1, ImGearFormats.PDF);
 
             //ThumbnailController.DocumentAppend(PDFDocument, "dd");
@@ -245,9 +244,7 @@ namespace SIPView_PDF
                     igRectangleZoom = new ImGearRectangle(CurrentMousePos, StartMousePos);
                 // Draw the selection box.
                 gr.DrawRectangle(pen, igRectangleZoom.Left, igRectangleZoom.Top,
-                    igRectangleZoom.Width, igRectangleZoom.Height);
-
-                
+                    igRectangleZoom.Width, igRectangleZoom.Height);  
             }
         }
 
@@ -504,6 +501,7 @@ namespace SIPView_PDF
             InitializeScrollBar();
             RenderPage(ScrollBar.Value);
             UpdatePageView();
+            FileSave(DocumentPath);
         }
 
         public static void FileLoad(string fileName)
@@ -521,7 +519,7 @@ namespace SIPView_PDF
                     InitializeScrollBar();
                     InitializeArtPages();
 
-
+                    DocumentPath = fileName;
                     RenderPage(0);
 
                     OnDocumentChanged(null);

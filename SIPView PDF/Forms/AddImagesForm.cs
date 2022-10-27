@@ -4,7 +4,7 @@ using ImageGear.Formats.PDF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace SIPView_PDF
     {
         public int DocumentPagesCount;
         public ImGearPDFDocument PDFDocument = null;
-        public ImGearPage page = null;
+        public ImGearPage IGPage = null;
         public AddImagesForm(int documentPagesCount)
         {
             DocumentPagesCount = documentPagesCount;
@@ -39,27 +39,48 @@ namespace SIPView_PDF
 
         private void endPos_Click(object sender, EventArgs e)
         {
-            posInDocumentTextBox.Text = (DocumentPagesCount+1).ToString();
+            posInDocumentTextBox.Text = (DocumentPagesCount + 1).ToString();
         }
 
         private void applyBtn_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(posInDocumentTextBox.Text, out int i))
+            if (selectImagesListBox.Items.Count == 0)
             {
-                PDFDocument = new ImGearPDFDocument();
-                foreach (string file in selectImagesListBox.Items)
-                {
-                    using (FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read))
-                    {
-                        ImGearPage page = ImGearFileFormats.LoadPage(stream);
-                        PDFDocument.Pages.Add(page.Clone());
-                    }
-                }
-                PDFViewClass.AddPagesToDocument(int.Parse(posInDocumentTextBox.Text), PDFDocument);
-                this.Close();
+                MessageBox.Show("No images selected", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
-                MessageBox.Show("Test");
+
+            if (!int.TryParse(posInDocumentTextBox.Text, out int i))
+            {
+                MessageBox.Show("Incorrect page number", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (i < 0)
+            {
+                MessageBox.Show("Page number too low", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (i > DocumentPagesCount+1)
+            {
+                MessageBox.Show("Page number too high", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            PDFDocument = new ImGearPDFDocument();
+            foreach (string file in selectImagesListBox.Items)
+            {
+                using (FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read))
+                {
+                    IGPage = ImGearFileFormats.LoadPage(stream);
+                    PDFDocument.Pages.Add(IGPage.Clone());
+                }
+            }
+            PDFViewClass.AddPagesToDocument(int.Parse(posInDocumentTextBox.Text), PDFDocument);
+            this.Close();
+
+
         }
 
         private void selectImagesBtn_Click(object sender, EventArgs e)
@@ -73,9 +94,36 @@ namespace SIPView_PDF
                 if (result == DialogResult.OK && fbd.FileNames != null)
                 {
                     selectImagesListBox.Items.AddRange(fbd.FileNames);
+                    clearImagesBtn.Enabled = true;
                 }
 
             }
+        }
+
+        private void clearImagesBtn_Click(object sender, EventArgs e)
+        {
+            selectImagesListBox.Items.Clear();
+            clearImagesBtn.Enabled = false;
+            removeImagesBtn.Enabled = false;
+        }
+
+        private void selectImagesListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selectImagesListBox.Items.Count > 0)
+            {
+                removeImagesBtn.Enabled = true;
+                clearImagesBtn.Enabled = true;
+            }
+            else
+            {
+                removeImagesBtn.Enabled = false;
+                clearImagesBtn.Enabled = false;
+            }
+        }
+
+        private void removeImagesBtn_Click(object sender, EventArgs e)
+        {
+            selectImagesListBox.Items.RemoveAt(selectImagesListBox.SelectedIndex);
         }
     }
 }
