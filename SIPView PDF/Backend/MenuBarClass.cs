@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Windows.Forms;
 
 namespace SIPView_PDF
@@ -21,6 +22,7 @@ namespace SIPView_PDF
         private static ToolStripMenuItem EditMenu;
         private static ToolStripMenuItem FileMenu;
         private static ToolStripMenuItem ToolsMenu;
+        private static ToolStripMenuItem AddImageMenu;
 
         private static ToolStripMenuItem RotateLeftMenu;
         private static ToolStripMenuItem RotateRightMenu;
@@ -53,6 +55,7 @@ namespace SIPView_PDF
             FileMenu = (ToolStripMenuItem)menuStrip["FileMenu"];
             ToolsMenu = (ToolStripMenuItem)menuStrip["ToolsMenu"];
 
+            AddImageMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["AddImageMenu"];
             FileSaveMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["FileSaveMenu"];
             FilePrintMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["FilePrintMenu"];
             PrevPageMenu= (ToolStripMenuItem)(menuStrip["ToolsMenu"] as ToolStripMenuItem).DropDownItems["PrevPageMenu"];
@@ -87,6 +90,7 @@ namespace SIPView_PDF
             RotateRightMenu.Enabled = true;
             FileSaveMenu.Enabled = true;
             FilePrintMenu.Enabled = true;
+            AddImageMenu.Enabled = true;
             ShowToolBarMenu.Enabled = true;
 
             FileSaveMenu.Enabled = true;
@@ -128,14 +132,19 @@ namespace SIPView_PDF
             RedoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].History.RedoCount == 0 ? false : true;
         }
 
-        internal static void ToolBarChangeCheck()
+        public static void ToolBarChangeCheck()
         {
             ShowToolBarBtn.Checked = !ShowToolBarBtn.Checked;
         }
 
-        internal static void MagnifierChangeCheck()
+        public static void MagnifierChangeCheck()
         {
             MagnifierBtn.Checked = !MagnifierBtn.Checked;
+        }
+
+        public static void AddImageClick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

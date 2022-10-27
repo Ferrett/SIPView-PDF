@@ -16,12 +16,13 @@ namespace SIPView_PDF
             PDFViewClass.InitializeImGear();
             PDFViewClass.InitializeToolBar();
 
+
             
         }
 
         private void InitializeClassControls()
         {
-            ImGearEvaluationManager.Initialize();
+            //ImGearEvaluationManager.Initialize();
 
             PDFViewClass.ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
             PDFViewClass.PageView = PageView;

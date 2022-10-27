@@ -159,5 +159,11 @@ namespace SIPView_PDF
             PDFViewClass.MagnifierChangeVisibility();
             MenuBarClass.MagnifierChangeCheck();
         }
+
+        private void AddImageMenu_Click(object sender, EventArgs e)
+        {
+            AddImagesForm addImagesForm = new AddImagesForm(PDFViewClass.PDFDocument.Pages.Count);
+            addImagesForm.Show();
+        }
     }
 }

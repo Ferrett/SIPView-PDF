@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Net.WebRequestMethods;
 
 
 namespace SIPView_PDF
@@ -49,6 +50,8 @@ namespace SIPView_PDF
         {
             Magnifier.IsPopUp = !Magnifier.IsPopUp;
             ARTForm.Page = ARTForm.Page == null ? ARTPages[CurrentPageID] : null;
+
+           
         }
 
         private static void DisplayCurrentPageMarks()
@@ -126,6 +129,8 @@ namespace SIPView_PDF
 
         public static void KeyDown(object sender, KeyEventArgs e)
         {
+
+
             if (PDFDocument == null)
                 return;
 
@@ -139,7 +144,33 @@ namespace SIPView_PDF
                 CtrlKeyPressed = true;
             }
 
+            //ImGearEvaluationManager.Initialize();
+            //ImGearEvaluationManager.Mode = ImGearEvaluationMode.Watermark;
            
+            PageSetupDialog frmSetup = new PageSetupDialog();
+
+            //try
+            //{
+            //    ImGearRecognition recognitionEngine = new ImGearRecognition();
+            //}
+            //catch (ImGearException ex)
+            //{
+            //    if (ex.ErrorCode == ImGearErrorCodes.NOT_LICENSED)
+            //    {
+            //        MessageBox.Show("You are not licensed to use the OCR feature.", "Unlicensed", MessageBoxButtons.OK);
+            //        Application.Exit();
+            //    }
+            //    throw ex;
+            //}
+            ImGearPage a =null;
+            using (FileStream stream = new FileStream(@"C:\Users\User\Desktop\solution_result.png", FileMode.Open, FileAccess.Read))
+            {
+                a = ImGearFileFormats.LoadPage(stream);
+                
+            }
+            ImGearThumbnailItem b = new ImGearThumbnailItem(ThumbnailController, a, "ses", 1, ImGearFormats.PDF);
+
+            //ThumbnailController.DocumentAppend(PDFDocument, "dd");
         }
 
         private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
@@ -386,12 +417,6 @@ namespace SIPView_PDF
             RenderPage(ScrollBar.Value);
         }
 
-        
-
-
-
-       
-
         public static void FileSave(string fileName)
         {
             // Save to output file.
@@ -468,6 +493,19 @@ namespace SIPView_PDF
             }
         }
 
+        public static void AddPagesToDocument(int startIndex,ImGearPDFDocument pDFDocument)
+        {
+            PDFDocument.InsertPages(startIndex-2, pDFDocument, 0, pDFDocument.Pages.Count, ImGearPDFInsertFlags.ALL);
+            for (int i = 0; i < pDFDocument.Pages.Count; i++)
+            {
+                ARTPages.Insert((startIndex-1) + i, new ImGearARTPage());
+            }
+
+            InitializeScrollBar();
+            RenderPage(ScrollBar.Value);
+            UpdatePageView();
+        }
+
         public static void FileLoad(string fileName)
         {
             using (FileStream inputStream =
@@ -477,6 +515,7 @@ namespace SIPView_PDF
                 {
                     // Load the entire the document.
                     PDFDocument = (ImGearPDFDocument)ImGearFileFormats.LoadDocument(inputStream);
+                    
                     ARTPages.Clear();
 
                     InitializeScrollBar();

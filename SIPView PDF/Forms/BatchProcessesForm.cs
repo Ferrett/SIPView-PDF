@@ -295,8 +295,6 @@ namespace SIPView_PDF
 
             FinishProgressBar();
             currentProcessLabel.Text = "Done!";
-           
-            //MessageBox.Show("All files merged into PDF", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 

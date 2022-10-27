@@ -66,6 +66,7 @@
             this.BakeInBtn = new System.Windows.Forms.ToolStripButton();
             this.ShowToolBarBtn = new System.Windows.Forms.ToolStripButton();
             this.MagnifierBtn = new System.Windows.Forms.ToolStripButton();
+            this.AddImageMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.ToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -89,7 +90,8 @@
             this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileOpenMenu,
             this.FileSaveMenu,
-            this.FilePrintMenu});
+            this.FilePrintMenu,
+            this.AddImageMenu});
             this.FileMenu.Name = "FileMenu";
             this.FileMenu.Size = new System.Drawing.Size(37, 20);
             this.FileMenu.Text = "File";
@@ -97,7 +99,7 @@
             // FileOpenMenu
             // 
             this.FileOpenMenu.Name = "FileOpenMenu";
-            this.FileOpenMenu.Size = new System.Drawing.Size(103, 22);
+            this.FileOpenMenu.Size = new System.Drawing.Size(180, 22);
             this.FileOpenMenu.Text = "Open";
             this.FileOpenMenu.Click += new System.EventHandler(this.FileOpenMenu_Click);
             // 
@@ -105,7 +107,7 @@
             // 
             this.FileSaveMenu.Enabled = false;
             this.FileSaveMenu.Name = "FileSaveMenu";
-            this.FileSaveMenu.Size = new System.Drawing.Size(103, 22);
+            this.FileSaveMenu.Size = new System.Drawing.Size(180, 22);
             this.FileSaveMenu.Text = "Save";
             this.FileSaveMenu.Click += new System.EventHandler(this.FileSaveMenu_Click);
             // 
@@ -113,7 +115,7 @@
             // 
             this.FilePrintMenu.Enabled = false;
             this.FilePrintMenu.Name = "FilePrintMenu";
-            this.FilePrintMenu.Size = new System.Drawing.Size(103, 22);
+            this.FilePrintMenu.Size = new System.Drawing.Size(180, 22);
             this.FilePrintMenu.Text = "Print";
             this.FilePrintMenu.Click += new System.EventHandler(this.FilePrintMenu_Click);
             // 
@@ -133,7 +135,7 @@
             // 
             this.PrevPageMenu.Enabled = false;
             this.PrevPageMenu.Name = "PrevPageMenu";
-            this.PrevPageMenu.Size = new System.Drawing.Size(148, 22);
+            this.PrevPageMenu.Size = new System.Drawing.Size(180, 22);
             this.PrevPageMenu.Text = "Previous page";
             this.PrevPageMenu.Click += new System.EventHandler(this.PrevPageMenu_Click);
             // 
@@ -141,7 +143,7 @@
             // 
             this.NextPageMenu.Enabled = false;
             this.NextPageMenu.Name = "NextPageMenu";
-            this.NextPageMenu.Size = new System.Drawing.Size(148, 22);
+            this.NextPageMenu.Size = new System.Drawing.Size(180, 22);
             this.NextPageMenu.Text = "Next page";
             this.NextPageMenu.Click += new System.EventHandler(this.NextPageMenu_Click);
             // 
@@ -149,7 +151,7 @@
             // 
             this.RotateRightMenu.Enabled = false;
             this.RotateRightMenu.Name = "RotateRightMenu";
-            this.RotateRightMenu.Size = new System.Drawing.Size(148, 22);
+            this.RotateRightMenu.Size = new System.Drawing.Size(180, 22);
             this.RotateRightMenu.Text = "Rotate right";
             this.RotateRightMenu.Click += new System.EventHandler(this.RotateRightMenu_Click);
             // 
@@ -157,7 +159,7 @@
             // 
             this.RotateLeftMenu.Enabled = false;
             this.RotateLeftMenu.Name = "RotateLeftMenu";
-            this.RotateLeftMenu.Size = new System.Drawing.Size(148, 22);
+            this.RotateLeftMenu.Size = new System.Drawing.Size(180, 22);
             this.RotateLeftMenu.Text = "Rotate left";
             this.RotateLeftMenu.Click += new System.EventHandler(this.RotateLeftMenu_Click);
             // 
@@ -178,7 +180,7 @@
             // 
             this.UndoMenu.Enabled = false;
             this.UndoMenu.Name = "UndoMenu";
-            this.UndoMenu.Size = new System.Drawing.Size(144, 22);
+            this.UndoMenu.Size = new System.Drawing.Size(180, 22);
             this.UndoMenu.Text = "Undo";
             this.UndoMenu.Click += new System.EventHandler(this.UndoMenu_Click);
             // 
@@ -186,7 +188,7 @@
             // 
             this.RedoMenu.Enabled = false;
             this.RedoMenu.Name = "RedoMenu";
-            this.RedoMenu.Size = new System.Drawing.Size(144, 22);
+            this.RedoMenu.Size = new System.Drawing.Size(180, 22);
             this.RedoMenu.Text = "Redo";
             this.RedoMenu.Click += new System.EventHandler(this.RedoMenu_Click);
             // 
@@ -194,7 +196,7 @@
             // 
             this.SelectAllMenu.Enabled = false;
             this.SelectAllMenu.Name = "SelectAllMenu";
-            this.SelectAllMenu.Size = new System.Drawing.Size(144, 22);
+            this.SelectAllMenu.Size = new System.Drawing.Size(180, 22);
             this.SelectAllMenu.Text = "Select all";
             this.SelectAllMenu.Click += new System.EventHandler(this.SelectAllMenu_Click);
             // 
@@ -202,7 +204,7 @@
             // 
             this.BakeInMenu.Enabled = false;
             this.BakeInMenu.Name = "BakeInMenu";
-            this.BakeInMenu.Size = new System.Drawing.Size(144, 22);
+            this.BakeInMenu.Size = new System.Drawing.Size(180, 22);
             this.BakeInMenu.Text = "Bake in";
             this.BakeInMenu.Click += new System.EventHandler(this.BakeInMenu_Click);
             // 
@@ -210,7 +212,7 @@
             // 
             this.ShowToolBarMenu.Enabled = false;
             this.ShowToolBarMenu.Name = "ShowToolBarMenu";
-            this.ShowToolBarMenu.Size = new System.Drawing.Size(144, 22);
+            this.ShowToolBarMenu.Size = new System.Drawing.Size(180, 22);
             this.ShowToolBarMenu.Text = "Show toolbar";
             this.ShowToolBarMenu.Click += new System.EventHandler(this.ShowToolBarMenu_Click);
             // 
@@ -456,6 +458,14 @@
             this.MagnifierBtn.ToolTipText = "Magnifying glass";
             this.MagnifierBtn.Click += new System.EventHandler(this.MagnifierBtn_Click);
             // 
+            // AddImageMenu
+            // 
+            this.AddImageMenu.Enabled = false;
+            this.AddImageMenu.Name = "AddImageMenu";
+            this.AddImageMenu.Size = new System.Drawing.Size(180, 22);
+            this.AddImageMenu.Text = "Add image";
+            this.AddImageMenu.Click += new System.EventHandler(this.AddImageMenu_Click);
+            // 
             // MenuBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -513,5 +523,6 @@
         private System.Windows.Forms.ToolStripButton FilePrintBtn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton MagnifierBtn;
+        private System.Windows.Forms.ToolStripMenuItem AddImageMenu;
     }
 }

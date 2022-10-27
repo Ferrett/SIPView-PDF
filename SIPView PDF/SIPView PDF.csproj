@@ -59,6 +59,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -161,45 +162,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BatchProcessesEnum.cs" />
-    <Compile Include="BatchProcessesForm.cs">
+    <Compile Include="Forms\AddImagesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BatchProcessesForm.Designer.cs">
+    <Compile Include="Forms\AddImagesForm.Designer.cs">
+      <DependentUpon>AddImagesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Backend\BatchProcessesEnum.cs" />
+    <Compile Include="Forms\BatchProcessesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BatchProcessesForm.Designer.cs">
       <DependentUpon>BatchProcessesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PDFViewClass.cs" />
-    <Compile Include="MenuBarClass.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Backend\PDFViewClass.cs" />
+    <Compile Include="Backend\MenuBarClass.cs" />
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MenuBar.cs">
+    <Compile Include="User Controls\MenuBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MenuBar.Designer.cs">
+    <Compile Include="User Controls\MenuBar.Designer.cs">
       <DependentUpon>MenuBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="PDFView.cs">
+    <Compile Include="User Controls\PDFView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PDFView.Designer.cs">
+    <Compile Include="User Controls\PDFView.Designer.cs">
       <DependentUpon>PDFView.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="BatchProcessesForm.resx">
+    <EmbeddedResource Include="Forms\AddImagesForm.resx">
+      <DependentUpon>AddImagesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BatchProcessesForm.resx">
       <DependentUpon>BatchProcessesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MenuBar.resx">
+    <EmbeddedResource Include="User Controls\MenuBar.resx">
       <DependentUpon>MenuBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PDFView.resx">
+    <EmbeddedResource Include="User Controls\PDFView.resx">
       <DependentUpon>PDFView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -278,6 +288,7 @@
   <ItemGroup>
     <None Include="Resources\glass.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

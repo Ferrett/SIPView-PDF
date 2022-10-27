@@ -51,12 +51,12 @@ namespace SIPView_PDF
             this.PageView.Cursor = System.Windows.Forms.Cursors.Default;
             this.PageView.Display = null;
             this.PageView.HorizontalArrowIncerment = 1;
-            this.PageView.Location = new System.Drawing.Point(117, -4);
+            this.PageView.Location = new System.Drawing.Point(117, 0);
             this.PageView.Name = "PageView";
             this.PageView.NotifyPageDown = null;
             this.PageView.NotifyPageUp = null;
             this.PageView.Page = null;
-            this.PageView.Size = new System.Drawing.Size(667, 524);
+            this.PageView.Size = new System.Drawing.Size(676, 520);
             this.PageView.TabIndex = 0;
             this.PageView.UseConfiguredScrollbarIncrements = false;
             this.PageView.VerticalArrowIncerment = 1;
@@ -123,7 +123,7 @@ namespace SIPView_PDF
             this.ThumbnailController.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.ThumbnailController.BorderWidth = 3;
             this.ThumbnailController.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ThumbnailController.DragDropOptions = ImageGear.Windows.Forms.Thumbnails.ImGearDragDropOptions.Disable;
+            this.ThumbnailController.DragDropOptions = ImageGear.Windows.Forms.Thumbnails.ImGearDragDropOptions.DragDrop;
             this.ThumbnailController.Flat = true;
             this.ThumbnailController.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ThumbnailController.HighlightBackColor = System.Drawing.Color.Empty;
