@@ -18,6 +18,8 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Net.NetworkInformation;
+using System.Security.Policy;
 
 namespace SIPView_PDF
 {
@@ -44,6 +46,10 @@ namespace SIPView_PDF
 
         private static string DocumentPath;
 
+        public static PrintDialog PrintDialog = new PrintDialog();
+        public static PageSetupDialog PageSetupDialog = new PageSetupDialog();
+        public static PageSettings PageSettings = new PageSettings();
+        public static PrintDocument PrintDocument = new PrintDocument();
         internal static void MagnifierChangeVisibility()
         {
             Magnifier.IsPopUp = !Magnifier.IsPopUp;
@@ -142,8 +148,6 @@ namespace SIPView_PDF
 
             //ImGearEvaluationManager.Initialize();
             //ImGearEvaluationManager.Mode = ImGearEvaluationMode.Watermark;
-           
-            PageSetupDialog frmSetup = new PageSetupDialog();
 
             //try
             //{
@@ -158,16 +162,14 @@ namespace SIPView_PDF
             //    }
             //    throw ex;
             //}
-            ThumbnailController.AllPages = true;
-            int bd = ThumbnailController.Count;
-            ImGearPage a =null;
-            using (FileStream stream = new FileStream(@"C:\Users\User\Desktop\solution_result.png", FileMode.Open, FileAccess.Read))
-            {
-                a = ImGearFileFormats.LoadPage(stream);
-                
-            }
-            ThumbnailController.PageAppend(a, "1");
-            ImGearThumbnailItem b = new ImGearThumbnailItem(ThumbnailController, a, "ses", 1, ImGearFormats.PDF);
+
+
+
+
+
+
+            //ThumbnailController.PageAppend(a, "1");
+            //ImGearThumbnailItem b = new ImGearThumbnailItem(ThumbnailController, a, "ses", 1, ImGearFormats.PDF);
 
             //ThumbnailController.DocumentAppend(PDFDocument, "dd");
         }
@@ -244,7 +246,7 @@ namespace SIPView_PDF
                     igRectangleZoom = new ImGearRectangle(CurrentMousePos, StartMousePos);
                 // Draw the selection box.
                 gr.DrawRectangle(pen, igRectangleZoom.Left, igRectangleZoom.Top,
-                    igRectangleZoom.Width, igRectangleZoom.Height);  
+                    igRectangleZoom.Width, igRectangleZoom.Height);
             }
         }
 
@@ -455,18 +457,68 @@ namespace SIPView_PDF
 
         public static void FilePrint()
         {
-            ImGearPDFPrintOptions printOptions = new ImGearPDFPrintOptions();
-            PrintDocument printDocument = new PrintDocument();
+            PrintDocument.DefaultPageSettings.Landscape = PageSettings.Landscape;
+            PrintDocument.DefaultPageSettings.Margins = PageSettings.Margins;
+            PrintDocument.DefaultPageSettings.PaperSource = PageSettings.PaperSource;
+            PrintDocument.DefaultPageSettings.PaperSize = PageSettings.PaperSize;
+            
+            // Initialize a PrintDialog for the user to select a printer.
 
-            //Use default Windows printer.
+            PrintDialog.ShowNetwork = true;
+            PrintDialog.Document = PrintDocument;
 
-            printOptions.DeviceName = printDocument.PrinterSettings.PrinterName;
-            var a = printOptions.PaperHeight;
-            var b = printOptions.PaperHeight;
-            //Print all pages.
-            printOptions.StartPage = 0;
-            printOptions.EndPage = PDFDocument.Pages.Count;
-            PDFDocument.Print(printOptions);
+            // Set the page range to 1 page.
+            PrintDialog.AllowSomePages = true;
+            PrintDialog.PrinterSettings.MinimumPage = 1;
+            PrintDialog.PrinterSettings.MaximumPage = PDFDocument.Pages.Count;
+            PrintDialog.PrinterSettings.FromPage = 1;
+            PrintDialog.PrinterSettings.ToPage = PDFDocument.Pages.Count;
+
+            if (DialogResult.OK == PrintDialog.ShowDialog())
+            {
+                //if(PrintDialog.PrinterSettings.ToPage > PDFDocument.Pages.Count)
+                //{
+                //    MessageBox.Show("Test");
+                //    return;
+                //}
+                // Set a name for the print job.
+                PrintDocument.DocumentName = DocumentPath;
+
+
+                // Define a PrintPage event handler and start printing.
+                PrintDocument.PrintPage += new PrintPageEventHandler(HandlePrinting);
+                for (int j = 0; j < PrintDialog.PrinterSettings.Copies; j++)
+                {
+                    for (int i = 0; i < PrintDialog.PrinterSettings.ToPage; i++)
+                    {
+                        RenderPage(i);
+                        UpdatePageView();
+                        PrintDocument.Print();
+
+                    }
+                }
+            }
+        }
+
+        static void HandlePrinting(object sender, PrintPageEventArgs args)
+        {
+            // Clone the current Display for use as a printing display.
+            ImGearPageDisplay igPageDisplayPrinting =  PageView.Display.Clone();
+            igPageDisplayPrinting.Page = PageView.Display.Page;
+
+            // Get the current Zoom settings and disabled fixed zoom.
+            ImGearZoomInfo igZoomInfo = igPageDisplayPrinting.GetZoomInfo(PageView);
+            igZoomInfo.Horizontal.Fixed = igZoomInfo.Vertical.Fixed = false;
+            igPageDisplayPrinting.UpdateZoomFrom(igZoomInfo);
+
+            // Disable any background before printing.
+            igPageDisplayPrinting.Background.Mode = ImGearBackgroundModes.NONE;
+
+            // Print to the Graphics device chosen from the PrintDialog.
+            igPageDisplayPrinting.Print(args.Graphics);
+
+            // Let the PrintDialog know there are no more pages.
+            args.HasMorePages = false;
         }
 
         public static void DisposeImGear()
@@ -474,7 +526,7 @@ namespace SIPView_PDF
             ImGearPDF.Terminate();
             PageView.Display = null;
         }
-       
+
 
         public static void FileLoad()
         {
@@ -490,12 +542,12 @@ namespace SIPView_PDF
             }
         }
 
-        public static void AddPagesToDocument(int startIndex,ImGearPDFDocument pDFDocument)
+        public static void AddPagesToDocument(int startIndex, ImGearPDFDocument pDFDocument)
         {
-            PDFDocument.InsertPages(startIndex-2, pDFDocument, 0, pDFDocument.Pages.Count, ImGearPDFInsertFlags.ALL);
+            PDFDocument.InsertPages(startIndex - 2, pDFDocument, 0, pDFDocument.Pages.Count, ImGearPDFInsertFlags.ALL);
             for (int i = 0; i < pDFDocument.Pages.Count; i++)
             {
-                ARTPages.Insert((startIndex-1) + i, new ImGearARTPage());
+                ARTPages.Insert((startIndex - 1) + i, new ImGearARTPage());
             }
 
             InitializeScrollBar();
@@ -513,7 +565,7 @@ namespace SIPView_PDF
                 {
                     // Load the entire the document.
                     PDFDocument = (ImGearPDFDocument)ImGearFileFormats.LoadDocument(inputStream);
-                    
+
                     ARTPages.Clear();
 
                     InitializeScrollBar();
@@ -552,6 +604,13 @@ namespace SIPView_PDF
             OnPageChanged(null);
             UpdateAfterRender();
         }
-       
+
+        public static void ShowPrintMenu()
+        {
+            PageSetupDialog.PageSettings = PageSettings;
+
+            PageSetupDialog.ShowDialog();
+
+        }
     }
 }

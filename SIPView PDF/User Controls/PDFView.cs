@@ -22,8 +22,6 @@ namespace SIPView_PDF
 
         private void InitializeClassControls()
         {
-            //ImGearEvaluationManager.Initialize();
-
             PDFViewClass.ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
             PDFViewClass.PageView = PageView;
             PDFViewClass.ScrollBar = ScrollBar;

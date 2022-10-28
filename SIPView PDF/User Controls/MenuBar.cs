@@ -165,5 +165,10 @@ namespace SIPView_PDF
             AddImagesForm addImagesForm = new AddImagesForm(PDFViewClass.PDFDocument.Pages.Count);
             addImagesForm.Show();
         }
+
+        private void PrintSettingsMenu_Click(object sender, EventArgs e)
+        {
+            PDFViewClass.ShowPrintMenu();
+        }
     }
 }
