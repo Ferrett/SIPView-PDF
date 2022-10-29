@@ -68,6 +68,7 @@
             this.BakeInBtn = new System.Windows.Forms.ToolStripButton();
             this.ShowToolBarBtn = new System.Windows.Forms.ToolStripButton();
             this.MagnifierBtn = new System.Windows.Forms.ToolStripButton();
+            this.PDFSettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.ToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -93,6 +94,7 @@
             this.FileSaveMenu,
             this.FilePrintMenu,
             this.PrintSettingsMenu,
+            this.PDFSettingsMenu,
             this.AddImageMenu});
             this.FileMenu.Name = "FileMenu";
             this.FileMenu.Size = new System.Drawing.Size(37, 20);
@@ -152,7 +154,7 @@
             // 
             this.PrevPageMenu.Enabled = false;
             this.PrevPageMenu.Name = "PrevPageMenu";
-            this.PrevPageMenu.Size = new System.Drawing.Size(180, 22);
+            this.PrevPageMenu.Size = new System.Drawing.Size(148, 22);
             this.PrevPageMenu.Text = "Previous page";
             this.PrevPageMenu.Click += new System.EventHandler(this.PrevPageMenu_Click);
             // 
@@ -160,7 +162,7 @@
             // 
             this.NextPageMenu.Enabled = false;
             this.NextPageMenu.Name = "NextPageMenu";
-            this.NextPageMenu.Size = new System.Drawing.Size(180, 22);
+            this.NextPageMenu.Size = new System.Drawing.Size(148, 22);
             this.NextPageMenu.Text = "Next page";
             this.NextPageMenu.Click += new System.EventHandler(this.NextPageMenu_Click);
             // 
@@ -168,7 +170,7 @@
             // 
             this.RotateRightMenu.Enabled = false;
             this.RotateRightMenu.Name = "RotateRightMenu";
-            this.RotateRightMenu.Size = new System.Drawing.Size(180, 22);
+            this.RotateRightMenu.Size = new System.Drawing.Size(148, 22);
             this.RotateRightMenu.Text = "Rotate right";
             this.RotateRightMenu.Click += new System.EventHandler(this.RotateRightMenu_Click);
             // 
@@ -176,7 +178,7 @@
             // 
             this.RotateLeftMenu.Enabled = false;
             this.RotateLeftMenu.Name = "RotateLeftMenu";
-            this.RotateLeftMenu.Size = new System.Drawing.Size(180, 22);
+            this.RotateLeftMenu.Size = new System.Drawing.Size(148, 22);
             this.RotateLeftMenu.Text = "Rotate left";
             this.RotateLeftMenu.Click += new System.EventHandler(this.RotateLeftMenu_Click);
             // 
@@ -475,6 +477,13 @@
             this.MagnifierBtn.ToolTipText = "Magnifying glass";
             this.MagnifierBtn.Click += new System.EventHandler(this.MagnifierBtn_Click);
             // 
+            // PDFSettingsMenu
+            // 
+            this.PDFSettingsMenu.Name = "PDFSettingsMenu";
+            this.PDFSettingsMenu.Size = new System.Drawing.Size(180, 22);
+            this.PDFSettingsMenu.Text = "PDF settings";
+            this.PDFSettingsMenu.Click += new System.EventHandler(this.PDFSettingsMenu_Click);
+            // 
             // MenuBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -534,5 +543,6 @@
         private System.Windows.Forms.ToolStripButton MagnifierBtn;
         private System.Windows.Forms.ToolStripMenuItem AddImageMenu;
         private System.Windows.Forms.ToolStripMenuItem PrintSettingsMenu;
+        private System.Windows.Forms.ToolStripMenuItem PDFSettingsMenu;
     }
 }

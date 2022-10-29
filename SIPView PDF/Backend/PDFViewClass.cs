@@ -50,6 +50,9 @@ namespace SIPView_PDF
         public static PageSetupDialog PageSetupDialog = new PageSetupDialog();
         public static PageSettings PageSettings = new PageSettings();
         public static PrintDocument PrintDocument = new PrintDocument();
+
+        public static ImGearCompressOptions CompressOptions = new ImGearCompressOptions();
+        public static bool DoCompression = false;
         internal static void MagnifierChangeVisibility()
         {
             Magnifier.IsPopUp = !Magnifier.IsPopUp;
@@ -423,16 +426,11 @@ namespace SIPView_PDF
             {
                 try
                 {
-                    // Save the page in the requested format.
-                    ImGearFileFormats.SaveDocument(
-                        PDFDocument,
-                        outputStream,
-                        0,
-                        ImGearSavingModes.OVERWRITE,
-                        ImGearSavingFormats.PDF,
-                        null);
+                    if (DoCompression)
+                        PDFDocument.SaveCompressed(outputStream, CompressOptions);
+                    else
+                        PDFDocument.Save(outputStream, ImGearSavingFormats.PDF, 0, 0, PDFDocument.Pages.Count, ImGearSavingModes.OVERWRITE);
                 }
-                // Perform error handling.
                 catch (Exception ex)
                 {
                     MessageBox.Show(string.Format("Could not save file {0}. {1}", fileName, ex.Message));
@@ -461,7 +459,7 @@ namespace SIPView_PDF
             PrintDocument.DefaultPageSettings.Margins = PageSettings.Margins;
             PrintDocument.DefaultPageSettings.PaperSource = PageSettings.PaperSource;
             PrintDocument.DefaultPageSettings.PaperSize = PageSettings.PaperSize;
-            
+
             // Initialize a PrintDialog for the user to select a printer.
 
             PrintDialog.ShowNetwork = true;
@@ -503,7 +501,7 @@ namespace SIPView_PDF
         static void HandlePrinting(object sender, PrintPageEventArgs args)
         {
             // Clone the current Display for use as a printing display.
-            ImGearPageDisplay igPageDisplayPrinting =  PageView.Display.Clone();
+            ImGearPageDisplay igPageDisplayPrinting = PageView.Display.Clone();
             igPageDisplayPrinting.Page = PageView.Display.Page;
 
             // Get the current Zoom settings and disabled fixed zoom.
@@ -525,6 +523,8 @@ namespace SIPView_PDF
         {
             ImGearPDF.Terminate();
             PageView.Display = null;
+
+
         }
 
 
@@ -608,9 +608,7 @@ namespace SIPView_PDF
         public static void ShowPrintMenu()
         {
             PageSetupDialog.PageSettings = PageSettings;
-
             PageSetupDialog.ShowDialog();
-
         }
     }
 }

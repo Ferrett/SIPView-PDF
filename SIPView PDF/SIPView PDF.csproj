@@ -159,6 +159,12 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PDFSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PDFSettingsForm.Designer.cs">
+      <DependentUpon>PDFSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\PrintForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PDFSettingsForm.resx">
+      <DependentUpon>PDFSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>

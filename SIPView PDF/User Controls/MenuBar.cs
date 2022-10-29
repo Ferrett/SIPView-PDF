@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIPView_PDF.Forms;
+using System;
 using System.Windows.Forms;
 
 namespace SIPView_PDF
@@ -163,12 +164,19 @@ namespace SIPView_PDF
         private void AddImageMenu_Click(object sender, EventArgs e)
         {
             AddImagesForm addImagesForm = new AddImagesForm(PDFViewClass.PDFDocument.Pages.Count);
-            addImagesForm.Show();
+            addImagesForm.ShowDialog();
         }
 
         private void PrintSettingsMenu_Click(object sender, EventArgs e)
         {
             PDFViewClass.ShowPrintMenu();
+        }
+
+        private void PDFSettingsMenu_Click(object sender, EventArgs e)
+        {
+            PDFSettingsForm settingsForm = new PDFSettingsForm();
+            settingsForm.ShowDialog();
+            
         }
     }
 }

@@ -30,19 +30,20 @@
         {
             this.selectImagesLabel = new System.Windows.Forms.Label();
             this.selectImagesPanel = new System.Windows.Forms.Panel();
+            this.removeImagesBtn = new System.Windows.Forms.Button();
+            this.clearImagesBtn = new System.Windows.Forms.Button();
             this.addImagesBtn = new System.Windows.Forms.Button();
             this.selectImagesListBox = new System.Windows.Forms.ListBox();
             this.exitBtn = new System.Windows.Forms.Button();
             this.applyBtn = new System.Windows.Forms.Button();
             this.posInDocumentLabel = new System.Windows.Forms.Label();
-            this.posInDocumentTextBox = new System.Windows.Forms.TextBox();
             this.posInDocumentPanel = new System.Windows.Forms.Panel();
             this.endPos = new System.Windows.Forms.Button();
             this.startPos = new System.Windows.Forms.Button();
-            this.clearImagesBtn = new System.Windows.Forms.Button();
-            this.removeImagesBtn = new System.Windows.Forms.Button();
+            this.posInDocumentTextBox = new System.Windows.Forms.NumericUpDown();
             this.selectImagesPanel.SuspendLayout();
             this.posInDocumentPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.posInDocumentTextBox)).BeginInit();
             this.SuspendLayout();
             // 
             // selectImagesLabel
@@ -68,6 +69,34 @@
             this.selectImagesPanel.Name = "selectImagesPanel";
             this.selectImagesPanel.Size = new System.Drawing.Size(341, 216);
             this.selectImagesPanel.TabIndex = 14;
+            // 
+            // removeImagesBtn
+            // 
+            this.removeImagesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.removeImagesBtn.Enabled = false;
+            this.removeImagesBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.removeImagesBtn.Location = new System.Drawing.Point(132, 172);
+            this.removeImagesBtn.Name = "removeImagesBtn";
+            this.removeImagesBtn.Size = new System.Drawing.Size(79, 27);
+            this.removeImagesBtn.TabIndex = 17;
+            this.removeImagesBtn.Text = "Remove";
+            this.removeImagesBtn.UseVisualStyleBackColor = true;
+            this.removeImagesBtn.Click += new System.EventHandler(this.removeImagesBtn_Click);
+            // 
+            // clearImagesBtn
+            // 
+            this.clearImagesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearImagesBtn.Enabled = false;
+            this.clearImagesBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.clearImagesBtn.Location = new System.Drawing.Point(15, 172);
+            this.clearImagesBtn.Name = "clearImagesBtn";
+            this.clearImagesBtn.Size = new System.Drawing.Size(79, 27);
+            this.clearImagesBtn.TabIndex = 16;
+            this.clearImagesBtn.Text = "Clear";
+            this.clearImagesBtn.UseVisualStyleBackColor = true;
+            this.clearImagesBtn.Click += new System.EventHandler(this.clearImagesBtn_Click);
             // 
             // addImagesBtn
             // 
@@ -131,23 +160,14 @@
             this.posInDocumentLabel.TabIndex = 0;
             this.posInDocumentLabel.Text = "Position in document";
             // 
-            // posInDocumentTextBox
-            // 
-            this.posInDocumentTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.posInDocumentTextBox.Location = new System.Drawing.Point(15, 23);
-            this.posInDocumentTextBox.Name = "posInDocumentTextBox";
-            this.posInDocumentTextBox.Size = new System.Drawing.Size(310, 20);
-            this.posInDocumentTextBox.TabIndex = 18;
-            // 
             // posInDocumentPanel
             // 
             this.posInDocumentPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.posInDocumentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.posInDocumentPanel.Controls.Add(this.posInDocumentTextBox);
             this.posInDocumentPanel.Controls.Add(this.endPos);
             this.posInDocumentPanel.Controls.Add(this.startPos);
-            this.posInDocumentPanel.Controls.Add(this.posInDocumentTextBox);
             this.posInDocumentPanel.Location = new System.Drawing.Point(25, 268);
             this.posInDocumentPanel.Name = "posInDocumentPanel";
             this.posInDocumentPanel.Size = new System.Drawing.Size(341, 100);
@@ -158,7 +178,7 @@
             this.endPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.endPos.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.endPos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.endPos.Location = new System.Drawing.Point(246, 58);
+            this.endPos.Location = new System.Drawing.Point(184, 58);
             this.endPos.Name = "endPos";
             this.endPos.Size = new System.Drawing.Size(79, 28);
             this.endPos.TabIndex = 19;
@@ -171,7 +191,7 @@
             this.startPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.startPos.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.startPos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.startPos.Location = new System.Drawing.Point(15, 58);
+            this.startPos.Location = new System.Drawing.Point(72, 58);
             this.startPos.Name = "startPos";
             this.startPos.Size = new System.Drawing.Size(79, 28);
             this.startPos.TabIndex = 17;
@@ -179,33 +199,12 @@
             this.startPos.UseVisualStyleBackColor = true;
             this.startPos.Click += new System.EventHandler(this.startPos_Click);
             // 
-            // clearImagesBtn
+            // posInDocumentTextBox
             // 
-            this.clearImagesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.clearImagesBtn.Enabled = false;
-            this.clearImagesBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.clearImagesBtn.Location = new System.Drawing.Point(15, 172);
-            this.clearImagesBtn.Name = "clearImagesBtn";
-            this.clearImagesBtn.Size = new System.Drawing.Size(79, 27);
-            this.clearImagesBtn.TabIndex = 16;
-            this.clearImagesBtn.Text = "Clear";
-            this.clearImagesBtn.UseVisualStyleBackColor = true;
-            this.clearImagesBtn.Click += new System.EventHandler(this.clearImagesBtn_Click);
-            // 
-            // removeImagesBtn
-            // 
-            this.removeImagesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeImagesBtn.Enabled = false;
-            this.removeImagesBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.removeImagesBtn.Location = new System.Drawing.Point(132, 172);
-            this.removeImagesBtn.Name = "removeImagesBtn";
-            this.removeImagesBtn.Size = new System.Drawing.Size(79, 27);
-            this.removeImagesBtn.TabIndex = 17;
-            this.removeImagesBtn.Text = "Remove";
-            this.removeImagesBtn.UseVisualStyleBackColor = true;
-            this.removeImagesBtn.Click += new System.EventHandler(this.removeImagesBtn_Click);
+            this.posInDocumentTextBox.Location = new System.Drawing.Point(72, 23);
+            this.posInDocumentTextBox.Name = "posInDocumentTextBox";
+            this.posInDocumentTextBox.Size = new System.Drawing.Size(191, 20);
+            this.posInDocumentTextBox.TabIndex = 20;
             // 
             // AddImagesForm
             // 
@@ -224,7 +223,7 @@
             this.Text = "Add Images";
             this.selectImagesPanel.ResumeLayout(false);
             this.posInDocumentPanel.ResumeLayout(false);
-            this.posInDocumentPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.posInDocumentTextBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,11 +238,11 @@
         private System.Windows.Forms.Button exitBtn;
         private System.Windows.Forms.Button applyBtn;
         private System.Windows.Forms.Label posInDocumentLabel;
-        private System.Windows.Forms.TextBox posInDocumentTextBox;
         private System.Windows.Forms.Panel posInDocumentPanel;
         private System.Windows.Forms.Button endPos;
         private System.Windows.Forms.Button startPos;
         private System.Windows.Forms.Button removeImagesBtn;
         private System.Windows.Forms.Button clearImagesBtn;
+        private System.Windows.Forms.NumericUpDown posInDocumentTextBox;
     }
 }
