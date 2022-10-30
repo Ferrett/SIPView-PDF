@@ -15,9 +15,6 @@ namespace SIPView_PDF
 
             PDFViewClass.InitializeImGear();
             PDFViewClass.InitializeToolBar();
-
-
-            
         }
 
         private void InitializeClassControls()

@@ -28,302 +28,351 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.compressionLabel = new System.Windows.Forms.Label();
-            this.compressionPanel = new System.Windows.Forms.Panel();
-            this.jpegLabel = new System.Windows.Forms.Label();
-            this.jpegComboBox = new System.Windows.Forms.ComboBox();
-            this.bitonalLabel = new System.Windows.Forms.Label();
-            this.bitonalComboBox = new System.Windows.Forms.ComboBox();
-            this.noneCheckBox = new System.Windows.Forms.CheckBox();
-            this.downsampleCheckBox = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.thumbnailsCheckBox = new System.Windows.Forms.CheckBox();
-            this.metadataCheckBox = new System.Windows.Forms.CheckBox();
-            this.exitBtn = new System.Windows.Forms.Button();
-            this.startBtn = new System.Windows.Forms.Button();
-            this.jpeg2KLabel = new System.Windows.Forms.Label();
-            this.jpeg2KComboBox = new System.Windows.Forms.ComboBox();
-            this.flatteringCheckBox = new System.Windows.Forms.CheckBox();
-            this.jpegRadioButton = new System.Windows.Forms.RadioButton();
-            this.jpeg2KRadioButton = new System.Windows.Forms.RadioButton();
-            this.compressionPanel2 = new System.Windows.Forms.Panel();
-            this.compressionPanel.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.metadataLabel = new System.Windows.Forms.Label();
+            this.metadataPanel = new System.Windows.Forms.Panel();
+            this.modifiedLabel = new System.Windows.Forms.Label();
+            this.createdLabel = new System.Windows.Forms.Label();
+            this.producerLabel = new System.Windows.Forms.Label();
+            this.creatorLabel = new System.Windows.Forms.Label();
+            this.keywordsLabel = new System.Windows.Forms.Label();
+            this.subjectLabel = new System.Windows.Forms.Label();
+            this.authorLabel = new System.Windows.Forms.Label();
+            this.titleLabel = new System.Windows.Forms.Label();
+            this.modifiedTextBox = new System.Windows.Forms.TextBox();
+            this.createdTextBox = new System.Windows.Forms.TextBox();
+            this.producerTextBox = new System.Windows.Forms.TextBox();
+            this.creatorTextBox = new System.Windows.Forms.TextBox();
+            this.keywordsTextBox = new System.Windows.Forms.TextBox();
+            this.subjectTextBox = new System.Windows.Forms.TextBox();
+            this.authorTextBox = new System.Windows.Forms.TextBox();
+            this.titleTextBox = new System.Windows.Forms.TextBox();
+            this.dontSaveThumbnailsCheckBox = new System.Windows.Forms.CheckBox();
+            this.dontSaveMetadataCheckBox = new System.Windows.Forms.CheckBox();
+            this.savePDFlabel = new System.Windows.Forms.Label();
+            this.savePDFpanel = new System.Windows.Forms.Panel();
+            this.PDFX3radioButton = new System.Windows.Forms.RadioButton();
+            this.PDFA1aradioButton = new System.Windows.Forms.RadioButton();
+            this.PDFA1bradioButton = new System.Windows.Forms.RadioButton();
+            this.PDFradioButton = new System.Windows.Forms.RadioButton();
+            this.cancelBtn = new System.Windows.Forms.Button();
+            this.applyBtn = new System.Windows.Forms.Button();
+            this.metadataPanel.SuspendLayout();
+            this.savePDFpanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // compressionLabel
+            // metadataLabel
             // 
-            this.compressionLabel.AutoSize = true;
-            this.compressionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.compressionLabel.Location = new System.Drawing.Point(35, 14);
-            this.compressionLabel.Name = "compressionLabel";
-            this.compressionLabel.Size = new System.Drawing.Size(90, 17);
-            this.compressionLabel.TabIndex = 14;
-            this.compressionLabel.Text = "Compression";
+            this.metadataLabel.AutoSize = true;
+            this.metadataLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.metadataLabel.Location = new System.Drawing.Point(24, 120);
+            this.metadataLabel.Name = "metadataLabel";
+            this.metadataLabel.Size = new System.Drawing.Size(67, 17);
+            this.metadataLabel.TabIndex = 18;
+            this.metadataLabel.Text = "Metadata";
             // 
-            // compressionPanel
+            // metadataPanel
             // 
-            this.compressionPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.compressionPanel.Controls.Add(this.jpeg2KRadioButton);
-            this.compressionPanel.Controls.Add(this.jpegRadioButton);
-            this.compressionPanel.Controls.Add(this.bitonalComboBox);
-            this.compressionPanel.Controls.Add(this.bitonalLabel);
-            this.compressionPanel.Controls.Add(this.flatteringCheckBox);
-            this.compressionPanel.Controls.Add(this.jpeg2KLabel);
-            this.compressionPanel.Controls.Add(this.jpeg2KComboBox);
-            this.compressionPanel.Controls.Add(this.jpegLabel);
-            this.compressionPanel.Controls.Add(this.jpegComboBox);
-            this.compressionPanel.Controls.Add(this.noneCheckBox);
-            this.compressionPanel.Controls.Add(this.downsampleCheckBox);
-            this.compressionPanel.Controls.Add(this.compressionPanel2);
-            this.compressionPanel.Location = new System.Drawing.Point(24, 24);
-            this.compressionPanel.Name = "compressionPanel";
-            this.compressionPanel.Size = new System.Drawing.Size(475, 274);
-            this.compressionPanel.TabIndex = 13;
+            this.metadataPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metadataPanel.Controls.Add(this.modifiedLabel);
+            this.metadataPanel.Controls.Add(this.createdLabel);
+            this.metadataPanel.Controls.Add(this.producerLabel);
+            this.metadataPanel.Controls.Add(this.creatorLabel);
+            this.metadataPanel.Controls.Add(this.keywordsLabel);
+            this.metadataPanel.Controls.Add(this.subjectLabel);
+            this.metadataPanel.Controls.Add(this.authorLabel);
+            this.metadataPanel.Controls.Add(this.titleLabel);
+            this.metadataPanel.Controls.Add(this.modifiedTextBox);
+            this.metadataPanel.Controls.Add(this.createdTextBox);
+            this.metadataPanel.Controls.Add(this.producerTextBox);
+            this.metadataPanel.Controls.Add(this.creatorTextBox);
+            this.metadataPanel.Controls.Add(this.keywordsTextBox);
+            this.metadataPanel.Controls.Add(this.subjectTextBox);
+            this.metadataPanel.Controls.Add(this.authorTextBox);
+            this.metadataPanel.Controls.Add(this.titleTextBox);
+            this.metadataPanel.Controls.Add(this.dontSaveThumbnailsCheckBox);
+            this.metadataPanel.Controls.Add(this.dontSaveMetadataCheckBox);
+            this.metadataPanel.Location = new System.Drawing.Point(13, 130);
+            this.metadataPanel.Name = "metadataPanel";
+            this.metadataPanel.Size = new System.Drawing.Size(475, 339);
+            this.metadataPanel.TabIndex = 17;
             // 
-            // jpegLabel
+            // modifiedLabel
             // 
-            this.jpegLabel.AutoSize = true;
-            this.jpegLabel.Enabled = false;
-            this.jpegLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.jpegLabel.Location = new System.Drawing.Point(14, 202);
-            this.jpegLabel.Name = "jpegLabel";
-            this.jpegLabel.Size = new System.Drawing.Size(122, 16);
-            this.jpegLabel.TabIndex = 14;
-            this.jpegLabel.Text = "Jpeg Recompress:";
+            this.modifiedLabel.AutoSize = true;
+            this.modifiedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.modifiedLabel.Location = new System.Drawing.Point(268, 267);
+            this.modifiedLabel.Name = "modifiedLabel";
+            this.modifiedLabel.Size = new System.Drawing.Size(59, 16);
+            this.modifiedLabel.TabIndex = 27;
+            this.modifiedLabel.Text = "Modified";
             // 
-            // jpegComboBox
+            // createdLabel
             // 
-            this.jpegComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.jpegComboBox.Enabled = false;
-            this.jpegComboBox.FormattingEnabled = true;
-            this.jpegComboBox.Items.AddRange(new object[] {
-            "None",
-            "LossyLow",
-            "LossyMedium",
-            "LossyHigh",
-            "LossyMaximum"});
-            this.jpegComboBox.Location = new System.Drawing.Point(17, 223);
-            this.jpegComboBox.Name = "jpegComboBox";
-            this.jpegComboBox.Size = new System.Drawing.Size(189, 21);
-            this.jpegComboBox.TabIndex = 13;
+            this.createdLabel.AutoSize = true;
+            this.createdLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.createdLabel.Location = new System.Drawing.Point(10, 267);
+            this.createdLabel.Name = "createdLabel";
+            this.createdLabel.Size = new System.Drawing.Size(55, 16);
+            this.createdLabel.TabIndex = 26;
+            this.createdLabel.Text = "Created";
             // 
-            // bitonalLabel
+            // producerLabel
             // 
-            this.bitonalLabel.AutoSize = true;
-            this.bitonalLabel.Enabled = false;
-            this.bitonalLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.bitonalLabel.Location = new System.Drawing.Point(268, 71);
-            this.bitonalLabel.Name = "bitonalLabel";
-            this.bitonalLabel.Size = new System.Drawing.Size(132, 16);
-            this.bitonalLabel.TabIndex = 11;
-            this.bitonalLabel.Text = "Bitonal Recompress:";
+            this.producerLabel.AutoSize = true;
+            this.producerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.producerLabel.Location = new System.Drawing.Point(268, 196);
+            this.producerLabel.Name = "producerLabel";
+            this.producerLabel.Size = new System.Drawing.Size(62, 16);
+            this.producerLabel.TabIndex = 25;
+            this.producerLabel.Text = "Producer";
             // 
-            // bitonalComboBox
+            // creatorLabel
             // 
-            this.bitonalComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.bitonalComboBox.Enabled = false;
-            this.bitonalComboBox.FormattingEnabled = true;
-            this.bitonalComboBox.Items.AddRange(new object[] {
-            "Lossless Generic",
-            "Lossless Text",
-            "Lossy Text"});
-            this.bitonalComboBox.Location = new System.Drawing.Point(271, 90);
-            this.bitonalComboBox.Name = "bitonalComboBox";
-            this.bitonalComboBox.Size = new System.Drawing.Size(189, 21);
-            this.bitonalComboBox.TabIndex = 10;
+            this.creatorLabel.AutoSize = true;
+            this.creatorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.creatorLabel.Location = new System.Drawing.Point(10, 196);
+            this.creatorLabel.Name = "creatorLabel";
+            this.creatorLabel.Size = new System.Drawing.Size(51, 16);
+            this.creatorLabel.TabIndex = 24;
+            this.creatorLabel.Text = "Creator";
             // 
-            // noneCheckBox
+            // keywordsLabel
             // 
-            this.noneCheckBox.AutoSize = true;
-            this.noneCheckBox.Checked = true;
-            this.noneCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.noneCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.noneCheckBox.Location = new System.Drawing.Point(13, 29);
-            this.noneCheckBox.Name = "noneCheckBox";
-            this.noneCheckBox.Size = new System.Drawing.Size(59, 20);
-            this.noneCheckBox.TabIndex = 9;
-            this.noneCheckBox.Text = "None";
-            this.noneCheckBox.UseVisualStyleBackColor = true;
-            this.noneCheckBox.CheckedChanged += new System.EventHandler(this.noneCheckBox_CheckedChanged);
+            this.keywordsLabel.AutoSize = true;
+            this.keywordsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.keywordsLabel.Location = new System.Drawing.Point(268, 131);
+            this.keywordsLabel.Name = "keywordsLabel";
+            this.keywordsLabel.Size = new System.Drawing.Size(66, 16);
+            this.keywordsLabel.TabIndex = 23;
+            this.keywordsLabel.Text = "Keywords";
             // 
-            // downsampleCheckBox
+            // subjectLabel
             // 
-            this.downsampleCheckBox.AutoSize = true;
-            this.downsampleCheckBox.Enabled = false;
-            this.downsampleCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.downsampleCheckBox.Location = new System.Drawing.Point(13, 69);
-            this.downsampleCheckBox.Name = "downsampleCheckBox";
-            this.downsampleCheckBox.Size = new System.Drawing.Size(153, 20);
-            this.downsampleCheckBox.TabIndex = 9;
-            this.downsampleCheckBox.Text = "Downsample Images";
-            this.downsampleCheckBox.UseVisualStyleBackColor = true;
+            this.subjectLabel.AutoSize = true;
+            this.subjectLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.subjectLabel.Location = new System.Drawing.Point(10, 131);
+            this.subjectLabel.Name = "subjectLabel";
+            this.subjectLabel.Size = new System.Drawing.Size(52, 16);
+            this.subjectLabel.TabIndex = 22;
+            this.subjectLabel.Text = "Subject";
             // 
-            // label1
+            // authorLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.label1.Location = new System.Drawing.Point(35, 336);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 17);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "Metadata";
+            this.authorLabel.AutoSize = true;
+            this.authorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.authorLabel.Location = new System.Drawing.Point(268, 64);
+            this.authorLabel.Name = "authorLabel";
+            this.authorLabel.Size = new System.Drawing.Size(45, 16);
+            this.authorLabel.TabIndex = 21;
+            this.authorLabel.Text = "Author";
             // 
-            // panel1
+            // titleLabel
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.thumbnailsCheckBox);
-            this.panel1.Controls.Add(this.metadataCheckBox);
-            this.panel1.Location = new System.Drawing.Point(24, 346);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(475, 156);
-            this.panel1.TabIndex = 15;
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.titleLabel.Location = new System.Drawing.Point(9, 64);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(33, 16);
+            this.titleLabel.TabIndex = 20;
+            this.titleLabel.Text = "Title";
             // 
-            // thumbnailsCheckBox
+            // modifiedTextBox
             // 
-            this.thumbnailsCheckBox.AutoSize = true;
-            this.thumbnailsCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.thumbnailsCheckBox.Location = new System.Drawing.Point(13, 48);
-            this.thumbnailsCheckBox.Name = "thumbnailsCheckBox";
-            this.thumbnailsCheckBox.Size = new System.Drawing.Size(145, 20);
-            this.thumbnailsCheckBox.TabIndex = 8;
-            this.thumbnailsCheckBox.Text = "Remove thumbnails";
-            this.thumbnailsCheckBox.UseVisualStyleBackColor = true;
+            this.modifiedTextBox.Location = new System.Drawing.Point(271, 286);
+            this.modifiedTextBox.Name = "modifiedTextBox";
+            this.modifiedTextBox.ReadOnly = true;
+            this.modifiedTextBox.Size = new System.Drawing.Size(191, 20);
+            this.modifiedTextBox.TabIndex = 19;
             // 
-            // metadataCheckBox
+            // createdTextBox
             // 
-            this.metadataCheckBox.AutoSize = true;
-            this.metadataCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.metadataCheckBox.Location = new System.Drawing.Point(13, 22);
-            this.metadataCheckBox.Name = "metadataCheckBox";
-            this.metadataCheckBox.Size = new System.Drawing.Size(138, 20);
-            this.metadataCheckBox.TabIndex = 7;
-            this.metadataCheckBox.Text = "Remove metadata";
-            this.metadataCheckBox.UseVisualStyleBackColor = true;
+            this.createdTextBox.Location = new System.Drawing.Point(12, 286);
+            this.createdTextBox.Name = "createdTextBox";
+            this.createdTextBox.ReadOnly = true;
+            this.createdTextBox.Size = new System.Drawing.Size(191, 20);
+            this.createdTextBox.TabIndex = 18;
             // 
-            // exitBtn
+            // producerTextBox
             // 
-            this.exitBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.exitBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.exitBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.exitBtn.Location = new System.Drawing.Point(137, 526);
-            this.exitBtn.Name = "exitBtn";
-            this.exitBtn.Size = new System.Drawing.Size(94, 28);
-            this.exitBtn.TabIndex = 10;
-            this.exitBtn.Text = "Cancel";
-            this.exitBtn.UseVisualStyleBackColor = true;
-            this.exitBtn.Click += new System.EventHandler(this.exitBtn_Click);
+            this.producerTextBox.Location = new System.Drawing.Point(271, 215);
+            this.producerTextBox.Name = "producerTextBox";
+            this.producerTextBox.ReadOnly = true;
+            this.producerTextBox.Size = new System.Drawing.Size(191, 20);
+            this.producerTextBox.TabIndex = 17;
             // 
-            // startBtn
+            // creatorTextBox
             // 
-            this.startBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.startBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.startBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.startBtn.Location = new System.Drawing.Point(287, 527);
-            this.startBtn.Margin = new System.Windows.Forms.Padding(0);
-            this.startBtn.Name = "startBtn";
-            this.startBtn.Size = new System.Drawing.Size(94, 27);
-            this.startBtn.TabIndex = 9;
-            this.startBtn.Text = "Apply";
-            this.startBtn.UseVisualStyleBackColor = true;
-            this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
+            this.creatorTextBox.Location = new System.Drawing.Point(12, 215);
+            this.creatorTextBox.Name = "creatorTextBox";
+            this.creatorTextBox.Size = new System.Drawing.Size(191, 20);
+            this.creatorTextBox.TabIndex = 16;
             // 
-            // jpeg2KLabel
+            // keywordsTextBox
             // 
-            this.jpeg2KLabel.AutoSize = true;
-            this.jpeg2KLabel.Enabled = false;
-            this.jpeg2KLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.jpeg2KLabel.Location = new System.Drawing.Point(268, 202);
-            this.jpeg2KLabel.Name = "jpeg2KLabel";
-            this.jpeg2KLabel.Size = new System.Drawing.Size(137, 16);
-            this.jpeg2KLabel.TabIndex = 17;
-            this.jpeg2KLabel.Text = "Jpeg2K Recompress:";
+            this.keywordsTextBox.Location = new System.Drawing.Point(271, 150);
+            this.keywordsTextBox.Name = "keywordsTextBox";
+            this.keywordsTextBox.Size = new System.Drawing.Size(191, 20);
+            this.keywordsTextBox.TabIndex = 15;
             // 
-            // jpeg2KComboBox
+            // subjectTextBox
             // 
-            this.jpeg2KComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.jpeg2KComboBox.Enabled = false;
-            this.jpeg2KComboBox.FormattingEnabled = true;
-            this.jpeg2KComboBox.Items.AddRange(new object[] {
-            "Lossless",
-            "LossyMinimum",
-            "LossyLow",
-            "LossyMedium",
-            "LossyHigh",
-            "LossyMaximum"});
-            this.jpeg2KComboBox.Location = new System.Drawing.Point(271, 223);
-            this.jpeg2KComboBox.Name = "jpeg2KComboBox";
-            this.jpeg2KComboBox.Size = new System.Drawing.Size(189, 21);
-            this.jpeg2KComboBox.TabIndex = 16;
+            this.subjectTextBox.Location = new System.Drawing.Point(12, 150);
+            this.subjectTextBox.Name = "subjectTextBox";
+            this.subjectTextBox.Size = new System.Drawing.Size(191, 20);
+            this.subjectTextBox.TabIndex = 14;
             // 
-            // flatteringCheckBox
+            // authorTextBox
             // 
-            this.flatteringCheckBox.AutoSize = true;
-            this.flatteringCheckBox.Enabled = false;
-            this.flatteringCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.flatteringCheckBox.Location = new System.Drawing.Point(13, 95);
-            this.flatteringCheckBox.Name = "flatteringCheckBox";
-            this.flatteringCheckBox.Size = new System.Drawing.Size(117, 20);
-            this.flatteringCheckBox.TabIndex = 18;
-            this.flatteringCheckBox.Text = "Field Flattening";
-            this.flatteringCheckBox.UseVisualStyleBackColor = true;
+            this.authorTextBox.Location = new System.Drawing.Point(271, 83);
+            this.authorTextBox.Name = "authorTextBox";
+            this.authorTextBox.Size = new System.Drawing.Size(191, 20);
+            this.authorTextBox.TabIndex = 13;
             // 
-            // jpegRadioButton
+            // titleTextBox
             // 
-            this.jpegRadioButton.AutoSize = true;
-            this.jpegRadioButton.Checked = true;
-            this.jpegRadioButton.Enabled = false;
-            this.jpegRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.jpegRadioButton.Location = new System.Drawing.Point(17, 149);
-            this.jpegRadioButton.Name = "jpegRadioButton";
-            this.jpegRadioButton.Size = new System.Drawing.Size(106, 36);
-            this.jpegRadioButton.TabIndex = 19;
-            this.jpegRadioButton.TabStop = true;
-            this.jpegRadioButton.Text = "Recompress \r\nUsing Jpeg\r\n";
-            this.jpegRadioButton.UseVisualStyleBackColor = true;
-            this.jpegRadioButton.CheckedChanged += new System.EventHandler(this.jpegRadioButton_CheckedChanged);
+            this.titleTextBox.Location = new System.Drawing.Point(12, 83);
+            this.titleTextBox.Name = "titleTextBox";
+            this.titleTextBox.Size = new System.Drawing.Size(191, 20);
+            this.titleTextBox.TabIndex = 9;
             // 
-            // jpeg2KRadioButton
+            // dontSaveThumbnailsCheckBox
             // 
-            this.jpeg2KRadioButton.AutoSize = true;
-            this.jpeg2KRadioButton.Enabled = false;
-            this.jpeg2KRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.jpeg2KRadioButton.Location = new System.Drawing.Point(271, 149);
-            this.jpeg2KRadioButton.Name = "jpeg2KRadioButton";
-            this.jpeg2KRadioButton.Size = new System.Drawing.Size(109, 36);
-            this.jpeg2KRadioButton.TabIndex = 20;
-            this.jpeg2KRadioButton.Text = "Recompress \r\nUsing Jpeg2K\r\n";
-            this.jpeg2KRadioButton.UseVisualStyleBackColor = true;
-            this.jpeg2KRadioButton.CheckedChanged += new System.EventHandler(this.jpeg2KRadioButton_CheckedChanged);
+            this.dontSaveThumbnailsCheckBox.AutoSize = true;
+            this.dontSaveThumbnailsCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.dontSaveThumbnailsCheckBox.Location = new System.Drawing.Point(271, 22);
+            this.dontSaveThumbnailsCheckBox.Name = "dontSaveThumbnailsCheckBox";
+            this.dontSaveThumbnailsCheckBox.Size = new System.Drawing.Size(157, 20);
+            this.dontSaveThumbnailsCheckBox.TabIndex = 8;
+            this.dontSaveThumbnailsCheckBox.Text = "Don\'t save thumbnails";
+            this.dontSaveThumbnailsCheckBox.UseVisualStyleBackColor = true;
             // 
-            // compressionPanel2
+            // dontSaveMetadataCheckBox
             // 
-            this.compressionPanel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.compressionPanel2.Location = new System.Drawing.Point(-1, 134);
-            this.compressionPanel2.Name = "compressionPanel2";
-            this.compressionPanel2.Size = new System.Drawing.Size(475, 139);
-            this.compressionPanel2.TabIndex = 21;
+            this.dontSaveMetadataCheckBox.AutoSize = true;
+            this.dontSaveMetadataCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.dontSaveMetadataCheckBox.Location = new System.Drawing.Point(12, 22);
+            this.dontSaveMetadataCheckBox.Name = "dontSaveMetadataCheckBox";
+            this.dontSaveMetadataCheckBox.Size = new System.Drawing.Size(150, 20);
+            this.dontSaveMetadataCheckBox.TabIndex = 7;
+            this.dontSaveMetadataCheckBox.Text = "Don\'t save metadata";
+            this.dontSaveMetadataCheckBox.UseVisualStyleBackColor = true;
+            this.dontSaveMetadataCheckBox.CheckedChanged += new System.EventHandler(this.dontSaveMetadataCheckBox_CheckedChanged);
+            // 
+            // savePDFlabel
+            // 
+            this.savePDFlabel.AutoSize = true;
+            this.savePDFlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.savePDFlabel.Location = new System.Drawing.Point(23, 16);
+            this.savePDFlabel.Name = "savePDFlabel";
+            this.savePDFlabel.Size = new System.Drawing.Size(90, 17);
+            this.savePDFlabel.TabIndex = 20;
+            this.savePDFlabel.Text = "Save PDF as";
+            // 
+            // savePDFpanel
+            // 
+            this.savePDFpanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.savePDFpanel.Controls.Add(this.PDFX3radioButton);
+            this.savePDFpanel.Controls.Add(this.PDFA1aradioButton);
+            this.savePDFpanel.Controls.Add(this.PDFA1bradioButton);
+            this.savePDFpanel.Controls.Add(this.PDFradioButton);
+            this.savePDFpanel.Location = new System.Drawing.Point(12, 26);
+            this.savePDFpanel.Name = "savePDFpanel";
+            this.savePDFpanel.Size = new System.Drawing.Size(475, 71);
+            this.savePDFpanel.TabIndex = 19;
+            // 
+            // PDFX3radioButton
+            // 
+            this.PDFX3radioButton.AutoSize = true;
+            this.PDFX3radioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.PDFX3radioButton.Location = new System.Drawing.Point(370, 24);
+            this.PDFX3radioButton.Name = "PDFX3radioButton";
+            this.PDFX3radioButton.Size = new System.Drawing.Size(75, 20);
+            this.PDFX3radioButton.TabIndex = 3;
+            this.PDFX3radioButton.TabStop = true;
+            this.PDFX3radioButton.Text = "PDF/X-3";
+            this.PDFX3radioButton.UseVisualStyleBackColor = true;
+            // 
+            // PDFA1aradioButton
+            // 
+            this.PDFA1aradioButton.AutoSize = true;
+            this.PDFA1aradioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.PDFA1aradioButton.Location = new System.Drawing.Point(106, 24);
+            this.PDFA1aradioButton.Name = "PDFA1aradioButton";
+            this.PDFA1aradioButton.Size = new System.Drawing.Size(84, 20);
+            this.PDFA1aradioButton.TabIndex = 2;
+            this.PDFA1aradioButton.TabStop = true;
+            this.PDFA1aradioButton.Text = "PDF/A-1a";
+            this.PDFA1aradioButton.UseVisualStyleBackColor = true;
+            this.PDFA1aradioButton.CheckedChanged += new System.EventHandler(this.PDFA1aradioButton_CheckedChanged);
+            // 
+            // PDFA1bradioButton
+            // 
+            this.PDFA1bradioButton.AutoSize = true;
+            this.PDFA1bradioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.PDFA1bradioButton.Location = new System.Drawing.Point(244, 24);
+            this.PDFA1bradioButton.Name = "PDFA1bradioButton";
+            this.PDFA1bradioButton.Size = new System.Drawing.Size(84, 20);
+            this.PDFA1bradioButton.TabIndex = 1;
+            this.PDFA1bradioButton.TabStop = true;
+            this.PDFA1bradioButton.Text = "PDF/A-1b";
+            this.PDFA1bradioButton.UseVisualStyleBackColor = true;
+            // 
+            // PDFradioButton
+            // 
+            this.PDFradioButton.AutoSize = true;
+            this.PDFradioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.PDFradioButton.Location = new System.Drawing.Point(13, 24);
+            this.PDFradioButton.Name = "PDFradioButton";
+            this.PDFradioButton.Size = new System.Drawing.Size(52, 20);
+            this.PDFradioButton.TabIndex = 0;
+            this.PDFradioButton.TabStop = true;
+            this.PDFradioButton.Text = "PDF";
+            this.PDFradioButton.UseVisualStyleBackColor = true;
+            // 
+            // cancelBtn
+            // 
+            this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.cancelBtn.Location = new System.Drawing.Point(119, 493);
+            this.cancelBtn.Name = "cancelBtn";
+            this.cancelBtn.Size = new System.Drawing.Size(94, 28);
+            this.cancelBtn.TabIndex = 22;
+            this.cancelBtn.Text = "Cancel";
+            this.cancelBtn.UseVisualStyleBackColor = true;
+            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
+            // 
+            // applyBtn
+            // 
+            this.applyBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.applyBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.applyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.applyBtn.Location = new System.Drawing.Point(274, 494);
+            this.applyBtn.Margin = new System.Windows.Forms.Padding(0);
+            this.applyBtn.Name = "applyBtn";
+            this.applyBtn.Size = new System.Drawing.Size(94, 27);
+            this.applyBtn.TabIndex = 21;
+            this.applyBtn.Text = "Apply";
+            this.applyBtn.UseVisualStyleBackColor = true;
+            this.applyBtn.Click += new System.EventHandler(this.applyBtn_Click);
             // 
             // PDFSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(524, 579);
-            this.Controls.Add(this.exitBtn);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.startBtn);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.compressionLabel);
-            this.Controls.Add(this.compressionPanel);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            this.ClientSize = new System.Drawing.Size(500, 533);
+            this.Controls.Add(this.cancelBtn);
+            this.Controls.Add(this.applyBtn);
+            this.Controls.Add(this.savePDFlabel);
+            this.Controls.Add(this.metadataLabel);
+            this.Controls.Add(this.savePDFpanel);
+            this.Controls.Add(this.metadataPanel);
             this.Name = "PDFSettingsForm";
             this.Text = "PDF Settings";
-            this.compressionPanel.ResumeLayout(false);
-            this.compressionPanel.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.metadataPanel.ResumeLayout(false);
+            this.metadataPanel.PerformLayout();
+            this.savePDFpanel.ResumeLayout(false);
+            this.savePDFpanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -331,25 +380,33 @@
 
         #endregion
 
-        private System.Windows.Forms.Label compressionLabel;
-        private System.Windows.Forms.Panel compressionPanel;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button exitBtn;
-        private System.Windows.Forms.Button startBtn;
-        private System.Windows.Forms.CheckBox thumbnailsCheckBox;
-        private System.Windows.Forms.CheckBox metadataCheckBox;
-        private System.Windows.Forms.CheckBox noneCheckBox;
-        private System.Windows.Forms.CheckBox downsampleCheckBox;
-        private System.Windows.Forms.Label bitonalLabel;
-        private System.Windows.Forms.ComboBox bitonalComboBox;
-        private System.Windows.Forms.Label jpegLabel;
-        private System.Windows.Forms.ComboBox jpegComboBox;
-        private System.Windows.Forms.CheckBox flatteringCheckBox;
-        private System.Windows.Forms.Label jpeg2KLabel;
-        private System.Windows.Forms.ComboBox jpeg2KComboBox;
-        private System.Windows.Forms.RadioButton jpeg2KRadioButton;
-        private System.Windows.Forms.RadioButton jpegRadioButton;
-        private System.Windows.Forms.Panel compressionPanel2;
+        private System.Windows.Forms.Label metadataLabel;
+        private System.Windows.Forms.Panel metadataPanel;
+        private System.Windows.Forms.CheckBox dontSaveThumbnailsCheckBox;
+        private System.Windows.Forms.CheckBox dontSaveMetadataCheckBox;
+        private System.Windows.Forms.Label savePDFlabel;
+        private System.Windows.Forms.Panel savePDFpanel;
+        private System.Windows.Forms.RadioButton PDFX3radioButton;
+        private System.Windows.Forms.RadioButton PDFA1aradioButton;
+        private System.Windows.Forms.RadioButton PDFA1bradioButton;
+        private System.Windows.Forms.RadioButton PDFradioButton;
+        private System.Windows.Forms.Button cancelBtn;
+        private System.Windows.Forms.Button applyBtn;
+        private System.Windows.Forms.Label modifiedLabel;
+        private System.Windows.Forms.Label createdLabel;
+        private System.Windows.Forms.Label producerLabel;
+        private System.Windows.Forms.Label creatorLabel;
+        private System.Windows.Forms.Label keywordsLabel;
+        private System.Windows.Forms.Label subjectLabel;
+        private System.Windows.Forms.Label authorLabel;
+        private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.TextBox modifiedTextBox;
+        private System.Windows.Forms.TextBox createdTextBox;
+        private System.Windows.Forms.TextBox producerTextBox;
+        private System.Windows.Forms.TextBox creatorTextBox;
+        private System.Windows.Forms.TextBox keywordsTextBox;
+        private System.Windows.Forms.TextBox subjectTextBox;
+        private System.Windows.Forms.TextBox authorTextBox;
+        private System.Windows.Forms.TextBox titleTextBox;
     }
 }

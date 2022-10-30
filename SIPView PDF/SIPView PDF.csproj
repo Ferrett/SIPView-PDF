@@ -159,17 +159,17 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PDFCompressionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PDFCompressionForm.Designer.cs">
+      <DependentUpon>PDFCompressionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\PDFSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\PDFSettingsForm.Designer.cs">
       <DependentUpon>PDFSettingsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\PrintForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PrintForm.Designer.cs">
-      <DependentUpon>PrintForm.cs</DependentUpon>
     </Compile>
     <Compile Include="User Controls\MenuBar.cs">
       <SubType>UserControl</SubType>
@@ -194,11 +194,11 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PDFCompressionForm.resx">
+      <DependentUpon>PDFCompressionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PDFSettingsForm.resx">
       <DependentUpon>PDFSettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PrintForm.resx">
-      <DependentUpon>PrintForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Controls\MenuBar.resx">
       <DependentUpon>MenuBar.cs</DependentUpon>

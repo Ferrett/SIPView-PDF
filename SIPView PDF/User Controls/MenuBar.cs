@@ -174,9 +174,15 @@ namespace SIPView_PDF
 
         private void PDFSettingsMenu_Click(object sender, EventArgs e)
         {
+            PDFCompressionForm compressioForm = new PDFCompressionForm();
+            compressioForm.ShowDialog();
+            
+        }
+
+        private void pDFSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             PDFSettingsForm settingsForm = new PDFSettingsForm();
             settingsForm.ShowDialog();
-            
         }
     }
 }

@@ -20,6 +20,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
 using System.Security.Policy;
+using static System.Net.WebRequestMethods;
 
 namespace SIPView_PDF
 {
@@ -44,14 +45,14 @@ namespace SIPView_PDF
         private static bool CtrlKeyPressed;
         private static bool PageIsZoming = false;
 
-        private static string DocumentPath;
+        public static string DocumentPath;
 
         public static PrintDialog PrintDialog = new PrintDialog();
         public static PageSetupDialog PageSetupDialog = new PageSetupDialog();
         public static PageSettings PageSettings = new PageSettings();
         public static PrintDocument PrintDocument = new PrintDocument();
 
-        public static ImGearCompressOptions CompressOptions = new ImGearCompressOptions();
+        public static ImGearCompressOptions CompressOptions = new ImGearCompressOptions() { IsRemoveImageThumbnailEnabled = false };
         public static bool DoCompression = false;
         internal static void MagnifierChangeVisibility()
         {
@@ -422,14 +423,24 @@ namespace SIPView_PDF
         public static void FileSave(string fileName)
         {
             // Save to output file.
-            using (FileStream outputStream = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite))
+            using (FileStream outputStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 try
                 {
-                    if (DoCompression)
-                        PDFDocument.SaveCompressed(outputStream, CompressOptions);
-                    else
+                    ImGearPDFPreflightConvertOptions conversionOptions = new ImGearPDFPreflightConvertOptions(ImGearPDFPreflightProfile.PDFA_1A_2005, 0, 0);
+
+
+                    // Perform conversion of PDF document to PDFA-1a standard.
+                    using (ImGearPDFPreflight preflight = new ImGearPDFPreflight(PDFDocument))
+                          preflight.Convert(conversionOptions);
+                   
+
+
+                    //if (DoCompression)
+                    //    PDFDocument.SaveCompressed(outputStream, CompressOptions);
+                    //else
                         PDFDocument.Save(outputStream, ImGearSavingFormats.PDF, 0, 0, PDFDocument.Pages.Count, ImGearSavingModes.OVERWRITE);
+
                 }
                 catch (Exception ex)
                 {
@@ -474,12 +485,7 @@ namespace SIPView_PDF
 
             if (DialogResult.OK == PrintDialog.ShowDialog())
             {
-                //if(PrintDialog.PrinterSettings.ToPage > PDFDocument.Pages.Count)
-                //{
-                //    MessageBox.Show("Test");
-                //    return;
-                //}
-                // Set a name for the print job.
+
                 PrintDocument.DocumentName = DocumentPath;
 
 
