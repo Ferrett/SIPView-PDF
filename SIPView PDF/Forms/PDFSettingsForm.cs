@@ -52,6 +52,13 @@ namespace SIPView_PDF.Forms
                 modifiedLabel.Enabled = false;
                 modifiedTextBox.Enabled = false;
             }
+
+            if (PDFViewClass.DoConversion == false)
+                PDFradioButton.Checked = true;
+            else if(PDFViewClass.PreflightProfile==ImGearPDFPreflightProfile.PDFA_1A_2005)
+                PDFA1aradioButton.Checked = true;
+            else if (PDFViewClass.PreflightProfile == ImGearPDFPreflightProfile.PDFA_1B_2005)
+                PDFA1bradioButton.Checked = true;
         }
 
         private void applyBtn_Click(object sender, EventArgs e)
@@ -64,7 +71,21 @@ namespace SIPView_PDF.Forms
 
             PDFViewClass.CompressOptions.IsRemoveMetadataEnabled = dontSaveMetadataCheckBox.Checked;
             PDFViewClass.CompressOptions.IsRemoveImageThumbnailEnabled = dontSaveThumbnailsCheckBox.Checked;
-            PDFViewClass.FileSave(PDFViewClass.DocumentPath);
+
+            PDFViewClass.FileSave(PDFViewClass.DocumentPath,PDFViewClass.PDFDocument);
+
+            if (PDFradioButton.Checked)
+                PDFViewClass.DoConversion = false;
+            if (PDFA1aradioButton.Checked)
+            {
+                PDFViewClass.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1A_2005;
+                PDFViewClass.DoConversion = true;
+            }
+            if (PDFA1bradioButton.Checked)
+            {
+                PDFViewClass.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1B_2005;
+                PDFViewClass.DoConversion = true;
+            }
             this.Close();
         }
 
@@ -92,21 +113,6 @@ namespace SIPView_PDF.Forms
             modifiedLabel.Enabled = !modifiedLabel.Enabled;
             modifiedTextBox.Enabled = !modifiedTextBox.Enabled;
         }
-
-        private void PDFA1aradioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            ImGearPDFPreflightConvertOptions conversionOptions = new ImGearPDFPreflightConvertOptions(ImGearPDFPreflightProfile.PDFA_1A_2005, 0, PDFViewClass.PDFDocument.Pages.Count);
-            ImGearPDFPreflightReport report;
-
-            ImGearPDFPreflight preflight = new ImGearPDFPreflight(PDFViewClass.PDFDocument);
-                report = preflight.Convert(conversionOptions);
-
-            if (report.Status != ImGearPDFPreflightStatusCode.Fixed)
-                MessageBox.Show("Test");
-
-
-            
-
-        }
+        
     }
 }

@@ -44,11 +44,11 @@ namespace SIPView_PDF
                     break;
             }
 
-           
+
             ProgressBar.Style = ProgressBarStyle.Continuous;
         }
 
-       
+
 
         private void sourseFolderBtn_Click(object sender, EventArgs e)
         {
@@ -152,10 +152,10 @@ namespace SIPView_PDF
             }
 
             Invoke(new Action(() => this.FinishProgressBar()));
-            Invoke(new Action(()=> currentProcessLabel.Text = "Done!") );
+            Invoke(new Action(() => currentProcessLabel.Text = "Done!"));
             //MessageBox.Show("All files are converted to PDFs", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        
+
 
         private void SplitMultipagePDFsThreadManager()
         {
@@ -181,7 +181,7 @@ namespace SIPView_PDF
         {
             ImGearPDF.Initialize();
 
-          
+
             // Open file for reading.
             using (FileStream pdfData = new FileStream(file, FileMode.Open, FileAccess.Read))
             {
@@ -209,16 +209,16 @@ namespace SIPView_PDF
 
                         // Create a new empty PDF document.
                         ImGearPDFDocument igTargetDocument = new ImGearPDFDocument();
-
+                        
                         // Insert page into new PDF document.
                         igTargetDocument.InsertPages((int)ImGearPDFPageNumber.BEFORE_FIRST_PAGE,
                             igSourceDocument, i, 1, ImGearPDFInsertFlags.DEFAULT);
 
                         // Save new PDF document to file.
-                        igTargetDocument.Save(outputPath, ImGearSavingFormats.PDF, 0, 0, 1, ImGearSavingModes.OVERWRITE);
+                        PDFViewClass.FileSave(outputPath, igTargetDocument);
                     }
-
                     Invoke(new Action(() => ProgressBar.Value++));
+
                 }
             }
 
@@ -228,7 +228,7 @@ namespace SIPView_PDF
         private void AllFilesToSiglePDF()
         {
             ImGearPDFDocument igResultDocument = new ImGearPDFDocument();
-            
+
             foreach (var file in filesInSelectedDir)
             {
                 currentProcessLabel.Text = $"Adding: {file}                                         ";
@@ -258,26 +258,8 @@ namespace SIPView_PDF
             }
 
             string filename = targetFolderTextBox.Text + "\\" + Path.GetFileName(sourseFolderTextBox.Text) + ".pdf";
-            using (FileStream outputStream = new FileStream(filename, FileMode.Create, FileAccess.ReadWrite))
-            {
-                try
-                {
-                    // Save the document.
-                    ImGearFileFormats.SaveDocument(
-                        igResultDocument,
-                        outputStream,
-                        0,
-                        ImGearSavingModes.OVERWRITE,
-                        ImGearSavingFormats.PDF,
-                        null);
-                }
-                // Perform error handling.
-                catch (Exception)
-                {
-                    MessageBox.Show("Could not save file", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
+
+            PDFViewClass.FileSave(filename, igResultDocument);
 
             FinishProgressBar();
             currentProcessLabel.Text = "Done!";
@@ -290,16 +272,19 @@ namespace SIPView_PDF
 
             Invoke(new Action(() => currentProcessLabel.Text = $"Converting: {file}                                         "));
             Invoke(new Action(() => this.Update()));
-            Invoke(new Action(() => UpdProgressBar())); 
+            Invoke(new Action(() => UpdProgressBar()));
             try
             {
                 // Load required page from a file.
                 using (Stream stream = new FileStream(file, FileMode.Open, FileAccess.Read))
                     page = ImGearFileFormats.LoadPage(stream);
 
+                string filename = $"{targetFolderTextBox.Text}\\{Path.GetFileNameWithoutExtension(file)}.pdf";
                 // Save page as PDF document to a file.
-                using (Stream stream = new FileStream($"{targetFolderTextBox.Text}\\{Path.GetFileNameWithoutExtension(file)}.pdf", FileMode.Create, FileAccess.Write))
-                    ImGearFileFormats.SavePage(page, stream, ImGearSavingFormats.PDF);
+
+                ImGearPDFDocument tmp = new ImGearPDFDocument();
+                tmp.Pages.Add(page);
+                PDFViewClass.FileSave(filename, tmp);
             }
             // If file can't be converted to PDF, it triggers exeption.
             catch (Exception) { }
@@ -319,7 +304,7 @@ namespace SIPView_PDF
         {
             var a = ProgressBar.Value;
             ProgressBar.Value = ProgressBar.Maximum;
-            ProgressBar.Value =a;
+            ProgressBar.Value = a;
         }
 
         private void exitBtn_Click(object sender, EventArgs e)

@@ -50,7 +50,6 @@
             this.dontSaveMetadataCheckBox = new System.Windows.Forms.CheckBox();
             this.savePDFlabel = new System.Windows.Forms.Label();
             this.savePDFpanel = new System.Windows.Forms.Panel();
-            this.PDFX3radioButton = new System.Windows.Forms.RadioButton();
             this.PDFA1aradioButton = new System.Windows.Forms.RadioButton();
             this.PDFA1bradioButton = new System.Windows.Forms.RadioButton();
             this.PDFradioButton = new System.Windows.Forms.RadioButton();
@@ -271,7 +270,6 @@
             // savePDFpanel
             // 
             this.savePDFpanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.savePDFpanel.Controls.Add(this.PDFX3radioButton);
             this.savePDFpanel.Controls.Add(this.PDFA1aradioButton);
             this.savePDFpanel.Controls.Add(this.PDFA1bradioButton);
             this.savePDFpanel.Controls.Add(this.PDFradioButton);
@@ -280,48 +278,34 @@
             this.savePDFpanel.Size = new System.Drawing.Size(475, 71);
             this.savePDFpanel.TabIndex = 19;
             // 
-            // PDFX3radioButton
-            // 
-            this.PDFX3radioButton.AutoSize = true;
-            this.PDFX3radioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.PDFX3radioButton.Location = new System.Drawing.Point(370, 24);
-            this.PDFX3radioButton.Name = "PDFX3radioButton";
-            this.PDFX3radioButton.Size = new System.Drawing.Size(75, 20);
-            this.PDFX3radioButton.TabIndex = 3;
-            this.PDFX3radioButton.TabStop = true;
-            this.PDFX3radioButton.Text = "PDF/X-3";
-            this.PDFX3radioButton.UseVisualStyleBackColor = true;
-            // 
             // PDFA1aradioButton
             // 
             this.PDFA1aradioButton.AutoSize = true;
             this.PDFA1aradioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.PDFA1aradioButton.Location = new System.Drawing.Point(106, 24);
+            this.PDFA1aradioButton.Location = new System.Drawing.Point(175, 24);
             this.PDFA1aradioButton.Name = "PDFA1aradioButton";
             this.PDFA1aradioButton.Size = new System.Drawing.Size(84, 20);
             this.PDFA1aradioButton.TabIndex = 2;
-            this.PDFA1aradioButton.TabStop = true;
             this.PDFA1aradioButton.Text = "PDF/A-1a";
             this.PDFA1aradioButton.UseVisualStyleBackColor = true;
-            this.PDFA1aradioButton.CheckedChanged += new System.EventHandler(this.PDFA1aradioButton_CheckedChanged);
             // 
             // PDFA1bradioButton
             // 
             this.PDFA1bradioButton.AutoSize = true;
             this.PDFA1bradioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.PDFA1bradioButton.Location = new System.Drawing.Point(244, 24);
+            this.PDFA1bradioButton.Location = new System.Drawing.Point(334, 24);
             this.PDFA1bradioButton.Name = "PDFA1bradioButton";
             this.PDFA1bradioButton.Size = new System.Drawing.Size(84, 20);
             this.PDFA1bradioButton.TabIndex = 1;
-            this.PDFA1bradioButton.TabStop = true;
             this.PDFA1bradioButton.Text = "PDF/A-1b";
             this.PDFA1bradioButton.UseVisualStyleBackColor = true;
             // 
             // PDFradioButton
             // 
             this.PDFradioButton.AutoSize = true;
+            this.PDFradioButton.Checked = true;
             this.PDFradioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.PDFradioButton.Location = new System.Drawing.Point(13, 24);
+            this.PDFradioButton.Location = new System.Drawing.Point(48, 24);
             this.PDFradioButton.Name = "PDFradioButton";
             this.PDFradioButton.Size = new System.Drawing.Size(52, 20);
             this.PDFradioButton.TabIndex = 0;
@@ -386,7 +370,6 @@
         private System.Windows.Forms.CheckBox dontSaveMetadataCheckBox;
         private System.Windows.Forms.Label savePDFlabel;
         private System.Windows.Forms.Panel savePDFpanel;
-        private System.Windows.Forms.RadioButton PDFX3radioButton;
         private System.Windows.Forms.RadioButton PDFA1aradioButton;
         private System.Windows.Forms.RadioButton PDFA1bradioButton;
         private System.Windows.Forms.RadioButton PDFradioButton;

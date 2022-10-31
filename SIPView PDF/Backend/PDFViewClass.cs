@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using System.Net.NetworkInformation;
 using System.Security.Policy;
 using static System.Net.WebRequestMethods;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace SIPView_PDF
 {
@@ -54,6 +55,9 @@ namespace SIPView_PDF
 
         public static ImGearCompressOptions CompressOptions = new ImGearCompressOptions() { IsRemoveImageThumbnailEnabled = false };
         public static bool DoCompression = false;
+
+        public static ImGearPDFPreflightProfile PreflightProfile;
+        public static bool DoConversion = false;
         internal static void MagnifierChangeVisibility()
         {
             Magnifier.IsPopUp = !Magnifier.IsPopUp;
@@ -420,32 +424,56 @@ namespace SIPView_PDF
             RenderPage(ScrollBar.Value);
         }
 
-        public static void FileSave(string fileName)
+        public static void FileSave(string fileName, ImGearPDFDocument document)
         {
             // Save to output file.
             using (FileStream outputStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 try
                 {
-                    ImGearPDFPreflightConvertOptions conversionOptions = new ImGearPDFPreflightConvertOptions(ImGearPDFPreflightProfile.PDFA_1A_2005, 0, 0);
+                    // КОМПРЕССИЯ В БАТЧ ПРОЦЕССАХ!!
+                    if (DoConversion)
+                        SavePdfDocumentAsPDFA(document, PreflightProfile, outputStream);
 
-
-                    // Perform conversion of PDF document to PDFA-1a standard.
-                    using (ImGearPDFPreflight preflight = new ImGearPDFPreflight(PDFDocument))
-                          preflight.Convert(conversionOptions);
-                   
-
-
-                    //if (DoCompression)
-                    //    PDFDocument.SaveCompressed(outputStream, CompressOptions);
-                    //else
-                        PDFDocument.Save(outputStream, ImGearSavingFormats.PDF, 0, 0, PDFDocument.Pages.Count, ImGearSavingModes.OVERWRITE);
+                    if (DoCompression)
+                        document.SaveCompressed(outputStream, CompressOptions);
+                    else
+                        document.Save(outputStream, ImGearSavingFormats.PDF, 0, 0, document.Pages.Count, ImGearSavingModes.OVERWRITE);
 
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(string.Format("Could not save file {0}. {1}", fileName, ex.Message));
                     return;
+                }
+            }
+        }
+
+        private static void SavePdfDocumentAsPDFA(ImGearPDFDocument document, ImGearPDFPreflightProfile profile, FileStream outputStream)
+        {
+            // Create object-converter. 
+            using (ImGearPDFPreflight preflight = new ImGearPDFPreflight(document))
+            {
+                ImGearPDFPreflightReport report = preflight.VerifyCompliance(profile, 0, document.Pages.Count);
+               
+                if (report.Code != ImGearPDFPreflightReportCodes.SUCCESS)
+                {
+                    if (report.Status == ImGearPDFPreflightStatusCode.Fixable)
+                    {
+                        // Create conversion options. We need to be sure the "ig_rgb_profile.icm" color profile
+                        // is placed in executable file directory of this application.
+                        ImGearPDFPreflightConvertOptions conversionOptions = new ImGearPDFPreflightConvertOptions(profile, 0, document.Pages.Count);
+                        // Perform the conversion.
+                        report = preflight.Convert(conversionOptions);
+                        if (report.Code == ImGearPDFPreflightReportCodes.SUCCESS)
+                        {
+                            return;
+                        }
+                        else
+                            MessageBox.Show("PDF document cannot be converted to APDF standard.");
+                    }
+                    else
+                        MessageBox.Show("PDF document cannot be converted to APDF standard.");
                 }
             }
         }
@@ -459,7 +487,7 @@ namespace SIPView_PDF
 
                 if (DialogResult.OK == fileDialogSave.ShowDialog())
                 {
-                    FileSave(fileDialogSave.FileName);
+                    FileSave(fileDialogSave.FileName, PDFDocument);
                 }
             }
         }
@@ -559,7 +587,7 @@ namespace SIPView_PDF
             InitializeScrollBar();
             RenderPage(ScrollBar.Value);
             UpdatePageView();
-            FileSave(DocumentPath);
+            FileSave(DocumentPath,PDFDocument);
         }
 
         public static void FileLoad(string fileName)
