@@ -86,9 +86,6 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.Protobuf, Version=3.13.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Protobuf.3.13.0\lib\net45\Google.Protobuf.dll</HintPath>
-    </Reference>
     <Reference Include="ImageGear24.Art, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
       <HintPath>..\packages\Accusoft.ImageGear.ART.WinForms.24.14.0\lib\net20\ImageGear24.Art.dll</HintPath>
     </Reference>
@@ -293,8 +290,10 @@
     <Error Condition="!Exists('..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets'))" />
     <Error Condition="!Exists('..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets'))" />
     <Error Condition="!Exists('..\packages\Accusoft.ImageGear.Recognition.24.14.0\build\Accusoft.ImageGear.Recognition.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accusoft.ImageGear.Recognition.24.14.0\build\Accusoft.ImageGear.Recognition.targets'))" />
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets'))" />
   </Target>
   <Import Project="..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Vector.24.14.0\build\Accusoft.ImageGear.Vector.targets')" />
   <Import Project="..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets" Condition="Exists('..\packages\Accusoft.ImageGear.PDF.24.14.0\build\Accusoft.ImageGear.PDF.targets')" />
   <Import Project="..\packages\Accusoft.ImageGear.Recognition.24.14.0\build\Accusoft.ImageGear.Recognition.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Recognition.24.14.0\build\Accusoft.ImageGear.Recognition.targets')" />
+  <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>

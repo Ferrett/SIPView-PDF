@@ -37,7 +37,7 @@ namespace SIPView_PDF
             this.ScrollBar = new System.Windows.Forms.VScrollBar();
             this.Pan = new ImageGear.Windows.Forms.ImGearPan(this.components);
             this.Magnifier = new ImageGear.Windows.Forms.ImGearMagnifier(this.components);
-            this.ThumbnailController = new ImageGear.Windows.Forms.Thumbnails.ImGearThumbnailCtl();
+            this.ThumbnailController = new System.Windows.Forms.Panel();
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,12 +51,12 @@ namespace SIPView_PDF
             this.PageView.Cursor = System.Windows.Forms.Cursors.Default;
             this.PageView.Display = null;
             this.PageView.HorizontalArrowIncerment = 1;
-            this.PageView.Location = new System.Drawing.Point(117, 0);
+            this.PageView.Location = new System.Drawing.Point(156, 0);
             this.PageView.Name = "PageView";
             this.PageView.NotifyPageDown = null;
             this.PageView.NotifyPageUp = null;
             this.PageView.Page = null;
-            this.PageView.Size = new System.Drawing.Size(676, 520);
+            this.PageView.Size = new System.Drawing.Size(637, 520);
             this.PageView.TabIndex = 0;
             this.PageView.UseConfiguredScrollbarIncrements = false;
             this.PageView.VerticalArrowIncerment = 1;
@@ -116,40 +116,12 @@ namespace SIPView_PDF
             // 
             // ThumbnailController
             // 
-            this.ThumbnailController.AllowDrop = true;
-            this.ThumbnailController.AllPages = true;
-            this.ThumbnailController.AutoFocus = false;
             this.ThumbnailController.AutoScroll = true;
-            this.ThumbnailController.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ThumbnailController.BorderWidth = 3;
             this.ThumbnailController.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ThumbnailController.DragDropOptions = ImageGear.Windows.Forms.Thumbnails.ImGearDragDropOptions.DragDrop;
-            this.ThumbnailController.Flat = true;
-            this.ThumbnailController.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ThumbnailController.HighlightBackColor = System.Drawing.Color.Empty;
-            this.ThumbnailController.HighlightForeColor = System.Drawing.Color.Empty;
-            this.ThumbnailController.Interior = 1;
-            this.ThumbnailController.ItemHeight = 100;
-            this.ThumbnailController.ItemWidth = 100;
-            this.ThumbnailController.LeftMargin = 20;
             this.ThumbnailController.Location = new System.Drawing.Point(0, 0);
-            this.ThumbnailController.MultiSelect = true;
             this.ThumbnailController.Name = "ThumbnailController";
-            this.ThumbnailController.SelectionBackColor = System.Drawing.Color.Empty;
-            this.ThumbnailController.SelectionForeColor = System.Drawing.Color.Empty;
-            this.ThumbnailController.ShadowWidth = 3;
-            this.ThumbnailController.ShowMagnify = true;
-            this.ThumbnailController.ShowTitles = true;
-            this.ThumbnailController.Size = new System.Drawing.Size(119, 523);
-            this.ThumbnailController.Sort = ImageGear.Windows.Forms.Thumbnails.ImGearSortOptions.NoSort;
-            this.ThumbnailController.SortComparer = null;
+            this.ThumbnailController.Size = new System.Drawing.Size(157, 523);
             this.ThumbnailController.TabIndex = 3;
-            this.ThumbnailController.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ThumbnailController.TitleHeight = 40;
-            this.ThumbnailController.TopMargin = 20;
-            this.ThumbnailController.XSpacing = 20;
-            this.ThumbnailController.YSpacing = 20;
-            this.ThumbnailController.ZoomFactor = 2.5F;
             // 
             // PDFView
             // 
@@ -177,6 +149,6 @@ namespace SIPView_PDF
         private System.Windows.Forms.ToolStripStatusLabel StatusStripLabel;
         private ImageGear.Windows.Forms.ImGearPan Pan;
         private ImageGear.Windows.Forms.ImGearMagnifier Magnifier;
-        private ImageGear.Windows.Forms.Thumbnails.ImGearThumbnailCtl ThumbnailController;
+        private Panel ThumbnailController;
     }
 }

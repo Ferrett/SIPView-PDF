@@ -22,6 +22,8 @@ using System.Net.NetworkInformation;
 using System.Security.Policy;
 using static System.Net.WebRequestMethods;
 using System.Runtime.InteropServices.ComTypes;
+using static System.Resources.ResXFileRef;
+
 
 namespace SIPView_PDF
 {
@@ -35,7 +37,7 @@ namespace SIPView_PDF
         public static ImGearMagnifier Magnifier;
         public static ImGearARTForms ARTForm;
         public static ImGearPageView PageView;
-        public static ImGearThumbnailCtl ThumbnailController;
+        public static Panel ThumbnailController;
         public static ScrollBar ScrollBar;
         public static StatusStrip StatusStrip;
         public static int CurrentPageID = 0;
@@ -58,6 +60,96 @@ namespace SIPView_PDF
 
         public static ImGearPDFPreflightProfile PreflightProfile;
         public static bool DoConversion = false;
+
+        public static List<ImGearPageView> Thumbnails = new List<ImGearPageView>();
+        public static List<Panel> BGs = new List<Panel>();
+        public static List<Label> LBs = new List<Label>();
+        
+        private static void InitializeThumbnails()
+        {
+            if (PDFDocument.Pages.Count <= 1)
+                return;
+
+            Thumbnails.Clear();
+            BGs.Clear();
+            LBs.Clear();
+            ThumbnailController.Controls.Clear();
+
+            for (int i = 0; i < PDFDocument.Pages.Count; i++)
+            {
+                LBs.Add(new Label
+                {
+                    Text = $"Page {i + 1}",
+                    Location = new Point(44, 130 + 140 * i),
+                });
+
+                BGs.Add(new Panel()
+                {
+                    Location = new Point(14, 14 + 140 * i),
+                    Width = 112,
+                    Height = 112,
+                    Tag = i,
+                    BackColor =Color.Transparent,
+                   
+                    Visible = true,
+
+                });
+
+                Thumbnails.Add(new ImGearPageView()
+                {
+                    Page = PDFDocument.Pages[i],
+                    Location = new Point(20, 20 + 140 * i),
+                    Width = 100,
+                    Height = 100,
+                    Tag = i,
+
+                });
+
+                Thumbnails.Last().Display.Background.Color.Red = ThumbnailController.BackColor.R;
+                Thumbnails.Last().Display.Background.Color.Green = ThumbnailController.BackColor.G;
+                Thumbnails.Last().Display.Background.Color.Blue = ThumbnailController.BackColor.B;
+
+                Thumbnails.Last().MouseEnter += PDFViewClass_MouseEnter;
+                Thumbnails.Last().MouseLeave += PDFViewClass_MouseLeave;
+                Thumbnails.Last().Click += PDFViewClass_Click;
+
+                ThumbnailController.Controls.Add(LBs.Last());
+                ThumbnailController.Controls.Add(BGs.Last());
+                ThumbnailController.Controls.Add(Thumbnails.Last());
+                Thumbnails.Last().BringToFront();
+
+            }
+           
+           
+        }
+
+        private static void PDFViewClass_Click(object sender, EventArgs e)
+        {
+            RenderPage((int)(sender as ImGearPageView).Tag);
+            for (int i = 0; i < BGs.Count; i++)
+            {
+                BGs[i].BackColor = Color.Transparent;
+            }
+            BGs[(int)(sender as ImGearPageView).Tag].BackColor = Color.Cyan;
+            BGs[(int)(sender as ImGearPageView).Tag].Visible = true;
+        }
+
+        private static void PDFViewClass_MouseLeave(object sender, EventArgs e)
+        {
+            BGs[(int)(sender as ImGearPageView).Tag].BorderStyle = BorderStyle.None;
+        
+
+        }
+
+        private static void PDFViewClass_MouseEnter(object sender, EventArgs e)
+        {
+            BGs[(int)(sender as ImGearPageView).Tag].BorderStyle = BorderStyle.FixedSingle;
+            
+
+        }
+
+
+
         internal static void MagnifierChangeVisibility()
         {
             Magnifier.IsPopUp = !Magnifier.IsPopUp;
@@ -172,15 +264,9 @@ namespace SIPView_PDF
             //}
 
 
-
-
-
-
-            //ThumbnailController.PageAppend(a, "1");
-            //ImGearThumbnailItem b = new ImGearThumbnailItem(ThumbnailController, a, "ses", 1, ImGearFormats.PDF);
-
-            //ThumbnailController.DocumentAppend(PDFDocument, "dd");
         }
+
+
 
         private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
         {
@@ -424,6 +510,7 @@ namespace SIPView_PDF
             RenderPage(ScrollBar.Value);
         }
 
+
         public static void FileSave(string fileName, ImGearPDFDocument document)
         {
             // Save to output file.
@@ -431,7 +518,6 @@ namespace SIPView_PDF
             {
                 try
                 {
-                    // КОМПРЕССИЯ В БАТЧ ПРОЦЕССАХ!!
                     if (DoConversion)
                         SavePdfDocumentAsPDFA(document, PreflightProfile, outputStream);
 
@@ -455,7 +541,7 @@ namespace SIPView_PDF
             using (ImGearPDFPreflight preflight = new ImGearPDFPreflight(document))
             {
                 ImGearPDFPreflightReport report = preflight.VerifyCompliance(profile, 0, document.Pages.Count);
-               
+
                 if (report.Code != ImGearPDFPreflightReportCodes.SUCCESS)
                 {
                     if (report.Status == ImGearPDFPreflightStatusCode.Fixable)
@@ -491,6 +577,9 @@ namespace SIPView_PDF
                 }
             }
         }
+
+
+
 
         public static void FilePrint()
         {
@@ -557,8 +646,6 @@ namespace SIPView_PDF
         {
             ImGearPDF.Terminate();
             PageView.Display = null;
-
-
         }
 
 
@@ -587,27 +674,26 @@ namespace SIPView_PDF
             InitializeScrollBar();
             RenderPage(ScrollBar.Value);
             UpdatePageView();
-            FileSave(DocumentPath,PDFDocument);
+            FileSave(DocumentPath, PDFDocument);
         }
 
         public static void FileLoad(string fileName)
         {
-            using (FileStream inputStream =
-                    new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+            using (FileStream inputStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
             {
                 try
                 {
                     // Load the entire the document.
                     PDFDocument = (ImGearPDFDocument)ImGearFileFormats.LoadDocument(inputStream);
 
+                    DocumentPath = fileName;
                     ARTPages.Clear();
 
                     InitializeScrollBar();
                     InitializeArtPages();
+                    InitializeThumbnails();
 
-                    DocumentPath = fileName;
                     RenderPage(0);
-
                     OnDocumentChanged(null);
                 }
                 catch (ImGearException ex)
@@ -628,6 +714,7 @@ namespace SIPView_PDF
                 PageView.Display.Background.Color.Red
                     = PageView.Display.Background.Color.Green
                     = PageView.Display.Background.Color.Blue = 96;
+
             }
             catch (ImGearException ex)
             {
