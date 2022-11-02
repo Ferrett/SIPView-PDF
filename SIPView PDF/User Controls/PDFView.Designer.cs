@@ -51,12 +51,12 @@ namespace SIPView_PDF
             this.PageView.Cursor = System.Windows.Forms.Cursors.Default;
             this.PageView.Display = null;
             this.PageView.HorizontalArrowIncerment = 1;
-            this.PageView.Location = new System.Drawing.Point(156, 0);
+            this.PageView.Location = new System.Drawing.Point(0, 0);
             this.PageView.Name = "PageView";
             this.PageView.NotifyPageDown = null;
             this.PageView.NotifyPageUp = null;
             this.PageView.Page = null;
-            this.PageView.Size = new System.Drawing.Size(637, 520);
+            this.PageView.Size = new System.Drawing.Size(1000, 678);
             this.PageView.TabIndex = 0;
             this.PageView.UseConfiguredScrollbarIncrements = false;
             this.PageView.VerticalArrowIncerment = 1;
@@ -70,9 +70,9 @@ namespace SIPView_PDF
             // 
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusStripLabel});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 523);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 678);
             this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Size = new System.Drawing.Size(813, 22);
+            this.StatusStrip.Size = new System.Drawing.Size(1000, 22);
             this.StatusStrip.TabIndex = 1;
             this.StatusStrip.Text = "statusStrip1";
             // 
@@ -85,9 +85,9 @@ namespace SIPView_PDF
             // 
             this.ScrollBar.Dock = System.Windows.Forms.DockStyle.Right;
             this.ScrollBar.LargeChange = 1;
-            this.ScrollBar.Location = new System.Drawing.Point(796, 0);
+            this.ScrollBar.Location = new System.Drawing.Point(983, 0);
             this.ScrollBar.Name = "ScrollBar";
-            this.ScrollBar.Size = new System.Drawing.Size(17, 523);
+            this.ScrollBar.Size = new System.Drawing.Size(17, 678);
             this.ScrollBar.TabIndex = 2;
             this.ScrollBar.Visible = false;
             this.ScrollBar.ValueChanged += new System.EventHandler(this.ScrollBar_ValueChanged);
@@ -120,19 +120,19 @@ namespace SIPView_PDF
             this.ThumbnailController.Dock = System.Windows.Forms.DockStyle.Left;
             this.ThumbnailController.Location = new System.Drawing.Point(0, 0);
             this.ThumbnailController.Name = "ThumbnailController";
-            this.ThumbnailController.Size = new System.Drawing.Size(157, 523);
+            this.ThumbnailController.Size = new System.Drawing.Size(155, 678);
             this.ThumbnailController.TabIndex = 3;
             // 
             // PDFView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.PageView);
             this.Controls.Add(this.ThumbnailController);
             this.Controls.Add(this.ScrollBar);
             this.Controls.Add(this.StatusStrip);
-            this.Controls.Add(this.PageView);
             this.Name = "PDFView";
-            this.Size = new System.Drawing.Size(813, 545);
+            this.Size = new System.Drawing.Size(1000, 700);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.PDFView_MouseWheel);
             this.StatusStrip.ResumeLayout(false);
             this.StatusStrip.PerformLayout();

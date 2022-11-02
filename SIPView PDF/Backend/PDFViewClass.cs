@@ -68,7 +68,16 @@ namespace SIPView_PDF
         private static void InitializeThumbnails()
         {
             if (PDFDocument.Pages.Count <= 1)
+            {
+                PageView.Location = new Point(0, PageView.Location.Y);
+                PageView.Width = 1184;
+                UpdatePageView();
                 return;
+            }
+
+            PageView.Location = new Point(ThumbnailController.Width, PageView.Location.Y);
+            PageView.Width = 1184 - ThumbnailController.Width - ScrollBar.Width;
+            UpdatePageView();
 
             Thumbnails.Clear();
             BGs.Clear();
@@ -80,7 +89,7 @@ namespace SIPView_PDF
                 LBs.Add(new Label
                 {
                     Text = $"Page {i + 1}",
-                    Location = new Point(44, 130 + 140 * i),
+                    Location = new Point(46, 130 + 140 * i),
                 });
 
                 BGs.Add(new Panel()
@@ -117,10 +126,7 @@ namespace SIPView_PDF
                 ThumbnailController.Controls.Add(BGs.Last());
                 ThumbnailController.Controls.Add(Thumbnails.Last());
                 Thumbnails.Last().BringToFront();
-
             }
-           
-           
         }
 
         private static void PDFViewClass_Click(object sender, EventArgs e)
@@ -137,18 +143,12 @@ namespace SIPView_PDF
         private static void PDFViewClass_MouseLeave(object sender, EventArgs e)
         {
             BGs[(int)(sender as ImGearPageView).Tag].BorderStyle = BorderStyle.None;
-        
-
         }
 
         private static void PDFViewClass_MouseEnter(object sender, EventArgs e)
         {
             BGs[(int)(sender as ImGearPageView).Tag].BorderStyle = BorderStyle.FixedSingle;
-            
-
         }
-
-
 
         internal static void MagnifierChangeVisibility()
         {
@@ -245,28 +245,7 @@ namespace SIPView_PDF
             {
                 CtrlKeyPressed = true;
             }
-
-            //ImGearEvaluationManager.Initialize();
-            //ImGearEvaluationManager.Mode = ImGearEvaluationMode.Watermark;
-
-            //try
-            //{
-            //    ImGearRecognition recognitionEngine = new ImGearRecognition();
-            //}
-            //catch (ImGearException ex)
-            //{
-            //    if (ex.ErrorCode == ImGearErrorCodes.NOT_LICENSED)
-            //    {
-            //        MessageBox.Show("You are not licensed to use the OCR feature.", "Unlicensed", MessageBoxButtons.OK);
-            //        Application.Exit();
-            //    }
-            //    throw ex;
-            //}
-
-
         }
-
-
 
         private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
         {
@@ -385,7 +364,9 @@ namespace SIPView_PDF
                 ScrollBar.Maximum = PDFDocument.Pages.Count - 1;
             }
             else
+            {
                 ScrollBar.Visible = false;
+            }
         }
 
         private static void InitializeArtPages()
