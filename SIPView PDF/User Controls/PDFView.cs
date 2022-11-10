@@ -42,23 +42,6 @@ namespace SIPView_PDF
            PDFViewClass.ScrollBarScrolled();
         }
 
-        private void PageView_MouseDown(object sender, MouseEventArgs e)
-        {
-            PDFViewClass.ARTForm.MouseDown(sender, e);
-            PDFViewClass.PageView.Cursor = Cursors.IBeam;
-        }
-
-        private void PageView_MouseUp(object sender, MouseEventArgs e)
-        {
-            PDFViewClass.ARTForm.MouseUp(sender, e);
-            PDFViewClass.PageView.Cursor = Cursors.Default;
-        }
-
-        private void PageView_MouseMove(object sender, MouseEventArgs e)
-        {
-            PDFViewClass.ARTForm.MouseMove(sender, e);
-        }
-
         private void PageView_KeyUp(object sender, KeyEventArgs e)
         {
             PDFViewClass.PageView_KeyUp(sender, e);

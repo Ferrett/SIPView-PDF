@@ -184,5 +184,11 @@ namespace SIPView_PDF
             PDFSettingsForm settingsForm = new PDFSettingsForm();
             settingsForm.ShowDialog();
         }
+
+        private void TextSelectionBtn_Click(object sender, EventArgs e)
+        {
+            PDFViewClass.TextSelectionModeChange();
+            MenuBarClass.TextSelectionChangeCheck();
+        }
     }
 }

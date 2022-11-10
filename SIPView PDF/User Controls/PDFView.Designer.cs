@@ -62,9 +62,9 @@ namespace SIPView_PDF
             this.PageView.VerticalArrowIncerment = 1;
             this.PageView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PageView_KeyDown);
             this.PageView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PageView_KeyUp);
-            this.PageView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PageView_MouseDown);
-            this.PageView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PageView_MouseMove);
-            this.PageView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PageView_MouseUp);
+            this.PageView.MouseDown += new System.Windows.Forms.MouseEventHandler(PDFViewClass.PageView_MouseDown);
+            this.PageView.MouseMove += new System.Windows.Forms.MouseEventHandler(PDFViewClass.PageView_MouseMove);
+            this.PageView.MouseUp += new System.Windows.Forms.MouseEventHandler(PDFViewClass.PageView_MouseUp);
             // 
             // StatusStrip
             // 
@@ -131,6 +131,7 @@ namespace SIPView_PDF
             this.Controls.Add(this.ThumbnailController);
             this.Controls.Add(this.ScrollBar);
             this.Controls.Add(this.StatusStrip);
+            this.DoubleBuffered = true;
             this.Name = "PDFView";
             this.Size = new System.Drawing.Size(1000, 700);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.PDFView_MouseWheel);
