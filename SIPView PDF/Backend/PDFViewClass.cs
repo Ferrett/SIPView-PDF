@@ -33,6 +33,7 @@ namespace SIPView_PDF
         public static Panel ThumbnailController;
         public static ScrollBar ScrollBar;
         public static StatusStrip StatusStrip;
+        public static ImGearPDFWordFinder PDFWordFinder;
         public static int CurrentPageID = 0;
 
         private static ImGearPoint StartMousePos;
@@ -252,7 +253,18 @@ namespace SIPView_PDF
             {
                 CtrlKeyPressed = true;
             }
+
+            if (CtrlKeyPressed == true && SelectionMode == true && e.KeyCode == Keys.A)
+            {
+                SelectAllText();
+            }
+
+            if (CtrlKeyPressed == true && SelectionMode == true && e.KeyCode == Keys.C)
+            {
+                CopySelectedText();
+            }
         }
+
 
         private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
         {
@@ -313,7 +325,7 @@ namespace SIPView_PDF
 
         private static void ARTForm_MouseRightButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            if (e.Mark!=null)
+            if (e.Mark != null)
                 return;
 
             PageIsZoming = true;
@@ -325,7 +337,7 @@ namespace SIPView_PDF
             PageView.RegisterAfterDraw(
                 new ImGearPageView.AfterDraw(DrawSelector));
         }
-        private static ImGearRectangle RectangleSelection;
+
         private static void DrawSelector(System.Drawing.Graphics gr)
         {
             if (PageIsZoming || TextIsSelecting)
@@ -336,17 +348,17 @@ namespace SIPView_PDF
                 pen.DashStyle = DashStyle.Solid;
                 pen.Width = 2;
 
-
+                ImGearRectangle rect;
 
                 // Define the currently selected zoom rectangle.
 
                 if (StartMousePos.Y >= CurrentMousePos.Y)
-                    RectangleSelection = new ImGearRectangle(StartMousePos, CurrentMousePos);
+                    rect = new ImGearRectangle(StartMousePos, CurrentMousePos);
                 else
-                    RectangleSelection = new ImGearRectangle(CurrentMousePos, StartMousePos);
+                    rect = new ImGearRectangle(CurrentMousePos, StartMousePos);
                 // Draw the selection box.
-                gr.DrawRectangle(pen, RectangleSelection.Left, RectangleSelection.Top,
-                    RectangleSelection.Width, RectangleSelection.Height);
+                gr.DrawRectangle(pen, rect.Left, rect.Top,
+                    rect.Width, rect.Height);
 
             }
         }
@@ -413,7 +425,6 @@ namespace SIPView_PDF
             DisplayCurrentPageMarks();
             ScrollBar.Value = CurrentPageID;
             FindWordsInPage();
-
             UpdatePageView();
         }
 
@@ -657,7 +668,7 @@ namespace SIPView_PDF
             PageView.Display = null;
         }
 
-        public static ImGearPDFWordFinder PDFWordFinder;
+
 
         public static void FileLoad()
         {
@@ -675,7 +686,8 @@ namespace SIPView_PDF
 
 
             //PageView.Display.Layout.FitMode = ImGearFitModes.ACTUAL_SIZE;
-            Clipboard.SetText(openFileDialogLoad.FileName);
+            //PageView.Display.Layout.Alignment.Horizontal = ImGearAlignmentHModes.LEFT;
+            //Clipboard.SetText(openFileDialogLoad.FileName);
         }
 
         public static int WordsInPageCount(int page)
@@ -684,63 +696,123 @@ namespace SIPView_PDF
             return PDFWordFinder.AcquireWordList(page);
         }
         private static ImGearRectangle[] WordsBounds;
+        private static bool[] WordIsShowed;
         public static void FindWordsInPage()
         {
+            ARTPages[CurrentPageID].SetCoordType(ImGearARTCoordinatesType.DEVICE_COORD);
             WordsBounds = new ImGearRectangle[WordsInPageCount(CurrentPageID)];
+            WordIsShowed = new bool[WordsInPageCount(CurrentPageID)];
 
             for (int i = 0; i < WordsBounds.Length; i++)
             {
-                WordsBounds[i] = (new ImGearRectangle()
+                WordIsShowed[i] = false;
+                WordsBounds[i] = new ImGearRectangle()
                 {
                     Top = PDFDocument.Pages[CurrentPageID].DIB.Height - ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomRight.V),
                     Left = ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).TopLeft.H),
                     Bottom = PDFDocument.Pages[CurrentPageID].DIB.Height - ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).TopLeft.V),
                     Right = ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomRight.H)
-                });
+                };
             }
-            //for (int i = 0; i < WordsBounds.Length; i++)
-            //{
-            //    ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad()) { Opacity = 100 }, ImGearARTCoordinatesType.IMAGE_COORD);
-            //}
         }
 
-        private static bool IsMarkNotExists(ImGearRectangle rect)
+        public static void CopySelectedText()
         {
-            foreach (ImGearARTMark ARTMark in ARTPages[CurrentPageID])
+            string text = String.Empty;
+            bool s = false;
+            for (int i = 0; i < WordsBounds.Length; i++)
             {
-                if (ARTMark.Bounds.Equals(rect))
-                    return false;
+                if (WordIsShowed[i] == true)
+                {
+                    if (s==true && PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomLeft.V < PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i - 1).GetQuad(0).BottomLeft.V)
+                    {
+                        var a = PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomLeft.V;
+                        var b = PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i-1).GetQuad(0).BottomLeft.V;
+                        text += '\n';
+                    }
+                    s = true;
+                    text += PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).String + " ";
+                }
             }
-            return true;
+            text.Remove(text.Length - 1);
+            Clipboard.SetText(text);
         }
+
+        public static void SelectAllText()
+        {
+            for (int i = 0; i < WordsBounds.Length; i++)
+            {
+                if (WordIsShowed[i] == true)
+                {
+                    foreach (ImGearARTMark igARTMark in ARTPages[CurrentPageID])
+                    {
+                        if (igARTMark.UserData.Equals(i))
+                        {
+                            ARTPages[CurrentPageID].MarkRemove(igARTMark);
+                            WordIsShowed[i] = false;
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < WordsBounds.Length; i++)
+            {
+                WordIsShowed[i] = true;
+                ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad()) { Opacity = 100, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
+            }
+
+            UpdatePageView();
+        }
+
         public static void Test()
         {
-            //  Если выделенная область интерсектится: добавить
+            ImGearPoint[] array = {new ImGearPoint(StartMousePos.X,StartMousePos.Y),
+                    new ImGearPoint(CurrentMousePos.X,CurrentMousePos.Y) };
 
-            // Если выделенная область не интерсектится: удалить
-            if (RectangleSelection.Width >= 100)
+
+            if (array[0].X > array[1].X)
             {
-                var a = RectangleSelection;
-                var b = WordsBounds[0];
+                int tmp = array[0].X;
+                array[0].X = array[1].X;
+                array[1].X = tmp;
             }
+
+            if (array[0].Y > array[1].Y)
+            {
+                int tmp = array[0].Y;
+                array[0].Y = array[1].Y;
+                array[1].Y = tmp;
+            }
+            ARTPages[CurrentPageID].ConvertCoordinates(PageView, PageView.Display, ImGearCoordConvModes.DEVICE_TO_IMAGE, array);
+
+
 
             for (int i = 0; i < WordsBounds.Length; i++)
             {
-                if (WordsBounds[i].Intersect(RectangleSelection) && IsMarkNotExists(WordsBounds[i]))
-                    ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad()) { Opacity = 100 }, ImGearARTCoordinatesType.IMAGE_COORD);
-                else
+                if (new ImGearRectangle() { Left = array[0].X, Top = array[0].Y, Right = array[1].X, Bottom = array[1].Y }.Contains(new ImGearPoint(WordsBounds[i].Left, WordsBounds[i].Top)) &&
+                    new ImGearRectangle() { Left = array[0].X, Top = array[0].Y, Right = array[1].X, Bottom = array[1].Y }.Contains(new ImGearPoint(WordsBounds[i].Right, WordsBounds[i].Bottom)))
                 {
-                    foreach (ImGearARTMark ARTMark in ARTPages[CurrentPageID])
+                    if (WordIsShowed[i] == false)
                     {
-
-                        if (ARTMark.Bounds.Equals(WordsBounds[i]))
-                            ARTPages[CurrentPageID].MarkRemove(ARTMark);
+                        WordIsShowed[i] = true;
+                        ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad()) { Opacity = 100, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
                     }
                 }
+                else
+                {
+                    if (WordIsShowed[i] == true)
+                    {
+                        foreach (ImGearARTMark igARTMark in ARTPages[CurrentPageID])
+                        {
+                            if (igARTMark.UserData.Equals(i))
+                            {
+                                ARTPages[CurrentPageID].MarkRemove(igARTMark);
+                                WordIsShowed[i] = false;
+                            }
+                        }
+                    }
 
+                }
             }
-
-
         }
 
         public static void AddPagesToDocument(int startIndex, ImGearPDFDocument pDFDocument)
