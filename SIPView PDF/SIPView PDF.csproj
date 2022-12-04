@@ -168,6 +168,12 @@
     <Compile Include="Forms\PDFSettingsForm.Designer.cs">
       <DependentUpon>PDFSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PrintSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PrintSettingsForm.Designer.cs">
+      <DependentUpon>PrintSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="User Controls\MenuBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -196,6 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PDFSettingsForm.resx">
       <DependentUpon>PDFSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PrintSettingsForm.resx">
+      <DependentUpon>PrintSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Controls\MenuBar.resx">
       <DependentUpon>MenuBar.cs</DependentUpon>

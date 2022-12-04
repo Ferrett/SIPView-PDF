@@ -48,7 +48,7 @@ namespace SIPView_PDF
 
         public static PrintDialog PrintDialog = new PrintDialog();
         public static PageSetupDialog PageSetupDialog = new PageSetupDialog();
-        public static PageSettings PageSettings = new PageSettings();
+        public static PageSettings PageSettings = new PageSettings() ;
         public static PrintDocument PrintDocument = new PrintDocument();
 
         public static ImGearCompressOptions CompressOptions = new ImGearCompressOptions() { IsRemoveImageThumbnailEnabled = false };
@@ -634,8 +634,6 @@ namespace SIPView_PDF
                         RenderPage(i);
                         UpdatePageView();
                         PrintDocument.Print();
-
-
                     }
                 }
             }
@@ -726,10 +724,9 @@ namespace SIPView_PDF
                 {
                     if (s==true && PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomLeft.V < PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i - 1).GetQuad(0).BottomLeft.V)
                     {
-                        var a = PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomLeft.V;
-                        var b = PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i-1).GetQuad(0).BottomLeft.V;
                         text += '\n';
                     }
+
                     s = true;
                     text += PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).String + " ";
                 }
@@ -757,7 +754,7 @@ namespace SIPView_PDF
             for (int i = 0; i < WordsBounds.Length; i++)
             {
                 WordIsShowed[i] = true;
-                ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad()) { Opacity = 100, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
+                ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad() { Red= 179 ,Green=226,Blue=255}) { Opacity = 120, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
             }
 
             UpdatePageView();
@@ -765,8 +762,7 @@ namespace SIPView_PDF
 
         public static void Test()
         {
-            ImGearPoint[] array = {new ImGearPoint(StartMousePos.X,StartMousePos.Y),
-                    new ImGearPoint(CurrentMousePos.X,CurrentMousePos.Y) };
+            ImGearPoint[] array = {new ImGearPoint(StartMousePos.X,StartMousePos.Y), new ImGearPoint(CurrentMousePos.X,CurrentMousePos.Y) };
 
 
             if (array[0].X > array[1].X)
@@ -794,7 +790,7 @@ namespace SIPView_PDF
                     if (WordIsShowed[i] == false)
                     {
                         WordIsShowed[i] = true;
-                        ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad()) { Opacity = 100, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
+                        ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad() { Red = 179, Green = 226, Blue = 255 }) { Opacity = 120, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
                     }
                 }
                 else
@@ -881,8 +877,12 @@ namespace SIPView_PDF
 
         public static void ShowPrintMenu()
         {
+            if (PageSetupDialog.PageSettings == null)
+                PageSettings.Margins = new Margins(4, 4, 4, 4);
+            PageSetupDialog.EnableMetric = true;
             PageSetupDialog.PageSettings = PageSettings;
             PageSetupDialog.ShowDialog();
+
         }
 
         public static void TextSelectionModeChange()
