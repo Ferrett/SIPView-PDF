@@ -1,4 +1,4 @@
-﻿namespace SIPView_PDF
+namespace SIPView_PDF
 {
     partial class MenuBar
     {
@@ -33,10 +33,12 @@
             this.FileOpenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FilePrintMenu = new System.Windows.Forms.ToolStripMenuItem();
+
             this.PrintSettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PDFCompressionMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PDFSettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.AddImageMenu = new System.Windows.Forms.ToolStripMenuItem();
+
             this.ToolsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PrevPageMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.NextPageMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,8 +71,10 @@
             this.SelectAllBtn = new System.Windows.Forms.ToolStripButton();
             this.BakeInBtn = new System.Windows.Forms.ToolStripButton();
             this.ShowToolBarBtn = new System.Windows.Forms.ToolStripButton();
+
             this.MagnifierBtn = new System.Windows.Forms.ToolStripButton();
             this.TextSelectionBtn = new System.Windows.Forms.ToolStripButton();
+
             this.MenuStrip.SuspendLayout();
             this.ToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -94,11 +98,13 @@
             this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileOpenMenu,
             this.FileSaveMenu,
+
             this.FilePrintMenu,
             this.PrintSettingsMenu,
             this.PDFCompressionMenu,
             this.PDFSettingsMenu,
             this.AddImageMenu});
+
             this.FileMenu.Name = "FileMenu";
             this.FileMenu.Size = new System.Drawing.Size(37, 20);
             this.FileMenu.Text = "File";
@@ -106,7 +112,9 @@
             // FileOpenMenu
             // 
             this.FileOpenMenu.Name = "FileOpenMenu";
+
             this.FileOpenMenu.Size = new System.Drawing.Size(166, 22);
+
             this.FileOpenMenu.Text = "Open";
             this.FileOpenMenu.Click += new System.EventHandler(this.FileOpenMenu_Click);
             // 
@@ -114,7 +122,9 @@
             // 
             this.FileSaveMenu.Enabled = false;
             this.FileSaveMenu.Name = "FileSaveMenu";
+
             this.FileSaveMenu.Size = new System.Drawing.Size(166, 22);
+
             this.FileSaveMenu.Text = "Save";
             this.FileSaveMenu.Click += new System.EventHandler(this.FileSaveMenu_Click);
             // 
@@ -122,6 +132,7 @@
             // 
             this.FilePrintMenu.Enabled = false;
             this.FilePrintMenu.Name = "FilePrintMenu";
+
             this.FilePrintMenu.Size = new System.Drawing.Size(166, 22);
             this.FilePrintMenu.Text = "Print";
             this.FilePrintMenu.Click += new System.EventHandler(this.FilePrintMenu_Click);
@@ -156,6 +167,7 @@
             this.AddImageMenu.Text = "Add image";
             this.AddImageMenu.Click += new System.EventHandler(this.AddImageMenu_Click);
             // 
+
             // ToolsMenu
             // 
             this.ToolsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -306,9 +318,11 @@
             this.toolStripSeparator4,
             this.SelectAllBtn,
             this.BakeInBtn,
+
             this.ShowToolBarBtn,
             this.MagnifierBtn,
             this.TextSelectionBtn});
+
             this.ToolStrip.Location = new System.Drawing.Point(0, 24);
             this.ToolStrip.Margin = new System.Windows.Forms.Padding(20);
             this.ToolStrip.Name = "ToolStrip";
@@ -484,6 +498,7 @@
             this.ShowToolBarBtn.ToolTipText = "Edit";
             this.ShowToolBarBtn.Click += new System.EventHandler(this.EditBtn_Click);
             // 
+
             // MagnifierBtn
             // 
             this.MagnifierBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -508,6 +523,7 @@
             this.TextSelectionBtn.ToolTipText = "Text selection";
             this.TextSelectionBtn.Click += new System.EventHandler(this.TextSelectionBtn_Click);
             // 
+
             // MenuBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -564,11 +580,13 @@
         private System.Windows.Forms.ToolStripButton ShowToolBarBtn;
         private System.Windows.Forms.ToolStripButton FilePrintBtn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+
         private System.Windows.Forms.ToolStripButton MagnifierBtn;
         private System.Windows.Forms.ToolStripMenuItem AddImageMenu;
         private System.Windows.Forms.ToolStripMenuItem PrintSettingsMenu;
         private System.Windows.Forms.ToolStripMenuItem PDFCompressionMenu;
         private System.Windows.Forms.ToolStripMenuItem PDFSettingsMenu;
         private System.Windows.Forms.ToolStripButton TextSelectionBtn;
+
     }
 }

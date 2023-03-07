@@ -1,7 +1,9 @@
-﻿using ImageGear.ART;
+using ImageGear.ART;
 using ImageGear.ART.Forms;
 using ImageGear.Core;
 using ImageGear.Display;
+
+
 
 using ImageGear.Formats;
 using ImageGear.Formats.PDF;
@@ -18,6 +20,8 @@ using System.Windows.Forms;
 
 
 
+
+
 namespace SIPView_PDF
 {
     public static class PDFViewClass
@@ -27,6 +31,7 @@ namespace SIPView_PDF
 
         public static List<ImGearARTPage> ARTPages = new List<ImGearARTPage>();
         public static ImGearPDFDocument PDFDocument = null;
+
         public static ImGearMagnifier Magnifier;
         public static ImGearARTForms ARTForm;
         public static ImGearPageView PageView;
@@ -164,18 +169,23 @@ namespace SIPView_PDF
             PageView.Display = new ImGearPageDisplay(PDFDocument.Pages[CurrentPageID], ARTPages[CurrentPageID]);
             ARTForm.Page = ARTPages[CurrentPageID];
 
+
         }
 
         public static void InitializeEvents()
         {
             ARTForm.MouseRightButtonDown += ARTForm_MouseRightButtonDown;
+
             ARTForm.MouseLeftButtonDown += ARTForm_MouseLeftButtonDown;
             ARTForm.MouseLeftButtonUp += ARTForm_MouseLeftButtonUp;
+
             ARTForm.MouseRightButtonUp += ARTForm_MouseRightButtonUp;
             ARTForm.MouseMoved += ARTForm_MouseMoved;
 
             ARTForm.MarkCreated += ARTForm_MarkCreated;
         }
+
+
 
 
         public static void PageView_KeyUp(object sender, KeyEventArgs e)
@@ -188,6 +198,7 @@ namespace SIPView_PDF
 
         public static void WheelScrolled(object sender, MouseEventArgs e)
         {
+
             if (PDFDocument == null)
                 return;
 
@@ -231,14 +242,17 @@ namespace SIPView_PDF
             {
                 NextPage();
             }
+
         }
 
         private static void ARTForm_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
         {
+
             UpdatePageView();
         }
         public static void KeyDown(object sender, KeyEventArgs e)
         {
+
 
 
             if (PDFDocument == null)
@@ -247,12 +261,15 @@ namespace SIPView_PDF
             if (e.KeyCode == Keys.Space)
             {
                 PageView.Display.UpdateZoomFrom(new ImGearZoomInfo(1, 1, false, false));
+
                 UpdatePageView();
+
             }
             else if (e.KeyCode == Keys.ControlKey)
             {
                 CtrlKeyPressed = true;
             }
+
 
             if (CtrlKeyPressed == true && SelectionMode == true && e.KeyCode == Keys.A)
             {
@@ -300,6 +317,7 @@ namespace SIPView_PDF
         private static void ARTForm_MouseLeftButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
         {
             Test1(sender, e.EventData);
+
         }
 
         private static void ARTForm_MouseRightButtonUp(object sender, ImGearARTFormsMouseEventArgs e)
@@ -309,15 +327,18 @@ namespace SIPView_PDF
                 PageView.RegisterAfterDraw(null);
                 PageIsZoming = false;
 
+
                 CurrentMousePos.X = e.EventData.X;
                 CurrentMousePos.Y = e.EventData.Y;
 
                 ImGearRectangle igRectangle = new ImGearRectangle(StartMousePos, CurrentMousePos);
+
                 // Cancel the zoom if it would be for a 0x0 or 1x1 rectangle.
                 if (igRectangle.Width <= 1 || igRectangle.Height <= 1)
                     return;
                 // Zoom to the selected rectangle
                 PageView.Display.ZoomToRectangle(PageView, igRectangle);
+
 
                 UpdatePageView();
             }
@@ -326,9 +347,11 @@ namespace SIPView_PDF
         private static void ARTForm_MouseRightButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
         {
             if (e.Mark != null)
+
                 return;
 
             PageIsZoming = true;
+
 
             StartMousePos.X = e.EventData.X;
             StartMousePos.Y = e.EventData.Y;
@@ -363,6 +386,7 @@ namespace SIPView_PDF
             }
         }
 
+
         public static void OnPageChanged(EventArgs e)
         {
             if (PageChanged != null)
@@ -374,6 +398,7 @@ namespace SIPView_PDF
             if (DocumentChanged != null)
                 DocumentChanged(null, e);
         }
+
 
         public static void InitializeImGear()
         {
@@ -428,6 +453,7 @@ namespace SIPView_PDF
             UpdatePageView();
         }
 
+
         public static void ToolBarChangeVisibility()
         {
             if (ARTForm.ToolBar.Visible)
@@ -435,6 +461,7 @@ namespace SIPView_PDF
             else
                 ARTForm.ToolBar.Show();
         }
+
 
         public static int PagesInDocumentCount()
         {
@@ -444,25 +471,32 @@ namespace SIPView_PDF
         {
             ImGearProcessing.Rotate(PageView.Page, ImGearRotationValues.VALUE_270);
             UpdatePageView();
+
         }
 
         public static void RotateRight()
         {
             ImGearProcessing.Rotate(PageView.Page, ImGearRotationValues.VALUE_90);
 
+
             UpdatePageView();
+
         }
 
         public static void Undo()
         {
             ARTPages[CurrentPageID].History.Undo();
+
             UpdatePageView();
+
         }
 
         public static void Redo()
         {
             ARTPages[CurrentPageID].History.Redo();
+
             UpdatePageView();
+
         }
 
         public static void PrevPage()
@@ -477,6 +511,7 @@ namespace SIPView_PDF
                 RenderPage(CurrentPageID + 1);
         }
 
+
         public static int SelectedMarksCount()
         {
             int selectedMarksCounter = 0;
@@ -490,18 +525,21 @@ namespace SIPView_PDF
             return selectedMarksCounter;
         }
 
+
         public static void SelectAllMarks()
         {
             if (SelectedMarksCount() == ARTPages[CurrentPageID].MarkCount)
                 ARTPages[CurrentPageID].SelectMarks(false);
             else
                 ARTPages[CurrentPageID].SelectMarks(true);
+
             UpdatePageView();
         }
 
         public static void UpdatePageView()
         {
             PageView.Invalidate();
+
             PageView.Update();
         }
 
@@ -523,6 +561,7 @@ namespace SIPView_PDF
             {
                 ARTPages[CurrentPageID].MarkRemove(ID);
             }
+
 
             UpdatePageView();
         }
@@ -823,23 +862,29 @@ namespace SIPView_PDF
             RenderPage(ScrollBar.Value);
             UpdatePageView();
             FileSave(DocumentPath, PDFDocument);
+
         }
 
         public static void FileLoad(string fileName)
         {
+
             using (FileStream inputStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+
             {
                 try
                 {
                     // Load the entire the document.
                     PDFDocument = (ImGearPDFDocument)ImGearFileFormats.LoadDocument(inputStream);
+
                     PDFWordFinder = new ImGearPDFWordFinder(PDFDocument, ImGearPDFWordFinderVersion.LATEST_VERSION, ImGearPDFContextFlags.XY_ORDER);
 
                     DocumentPath = fileName;
+
                     ARTPages.Clear();
 
                     InitializeScrollBar();
                     InitializeArtPages();
+
                     InitializeThumbnails();
 
                     OnDocumentChanged(null);
@@ -849,9 +894,11 @@ namespace SIPView_PDF
                 {
                     // Perform error handling.
                     MessageBox.Show(ex.Message);
+
                 }
             }
         }
+
 
         public static void RenderPage(int pageID)
         {
@@ -937,6 +984,7 @@ namespace SIPView_PDF
             }
             else
                 ARTForm.MouseMove(sender, e);
+
         }
     }
 }

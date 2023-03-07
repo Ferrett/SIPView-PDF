@@ -1,6 +1,7 @@
-﻿
+
 using System;
 using System.Windows.Forms;
+
 
 namespace SIPView_PDF
 {
@@ -17,15 +18,19 @@ namespace SIPView_PDF
         private static ToolStripButton SelectAllBtn;
         private static ToolStripButton BakeInBtn;
         private static ToolStripButton ShowToolBarBtn;
+
         private static ToolStripButton MagnifierBtn;
         private static ToolStripButton TextSelectionBtn;
+
 
         private static ToolStripMenuItem EditMenu;
         private static ToolStripMenuItem FileMenu;
         private static ToolStripMenuItem ToolsMenu;
+
         private static ToolStripMenuItem AddImageMenu;
         private static ToolStripMenuItem PDFSettingsMenu;
         private static ToolStripMenuItem PDFCompressionMenu;
+
 
         private static ToolStripMenuItem RotateLeftMenu;
         private static ToolStripMenuItem RotateRightMenu;
@@ -52,12 +57,15 @@ namespace SIPView_PDF
             SelectAllBtn = (ToolStripButton)toolStrip["SelectAllBtn"];
             BakeInBtn = (ToolStripButton)toolStrip["BakeInBtn"];
             ShowToolBarBtn = (ToolStripButton)toolStrip["ShowToolBarBtn"];
+
             MagnifierBtn = (ToolStripButton)toolStrip["MagnifierBtn"];
             TextSelectionBtn = (ToolStripButton)toolStrip["TextSelectionBtn"];
+
 
             EditMenu = (ToolStripMenuItem)menuStrip["EditMenu"];
             FileMenu = (ToolStripMenuItem)menuStrip["FileMenu"];
             ToolsMenu = (ToolStripMenuItem)menuStrip["ToolsMenu"];
+
 
             AddImageMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["AddImageMenu"];
             PDFCompressionMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["PDFCompressionMenu"];
@@ -65,6 +73,7 @@ namespace SIPView_PDF
             FileSaveMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["FileSaveMenu"];
             FilePrintMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["FilePrintMenu"];
             PrevPageMenu = (ToolStripMenuItem)(menuStrip["ToolsMenu"] as ToolStripMenuItem).DropDownItems["PrevPageMenu"];
+
             NextPageMenu = (ToolStripMenuItem)(menuStrip["ToolsMenu"] as ToolStripMenuItem).DropDownItems["NextPageMenu"];
             RotateLeftMenu = (ToolStripMenuItem)(menuStrip["ToolsMenu"] as ToolStripMenuItem).DropDownItems["RotateLeftMenu"];
             RotateRightMenu = (ToolStripMenuItem)(menuStrip["ToolsMenu"] as ToolStripMenuItem).DropDownItems["RotateRightMenu"];
@@ -81,7 +90,9 @@ namespace SIPView_PDF
             UpdateHistoryBtns();
             UpdateSelectionBtn();
             UpdatePageBtns();
+
             UpdateTextSelectionBtn();
+
         }
 
         public static void DocumentOpened()
@@ -91,7 +102,9 @@ namespace SIPView_PDF
             FileSaveBtn.Enabled = true;
             FilePrintBtn.Enabled = true;
             ShowToolBarBtn.Enabled = true;
+
             MagnifierBtn.Enabled = true;
+
 
 
 
@@ -99,11 +112,14 @@ namespace SIPView_PDF
             RotateRightMenu.Enabled = true;
             FileSaveMenu.Enabled = true;
             FilePrintMenu.Enabled = true;
+
             AddImageMenu.Enabled = true;
+
             ShowToolBarMenu.Enabled = true;
 
             FileSaveMenu.Enabled = true;
             FilePrintMenu.Enabled = true;
+
             PDFSettingsMenu.Enabled = true;
             ToolsMenu.Enabled = true;
             EditMenu.Enabled = true;
@@ -112,6 +128,7 @@ namespace SIPView_PDF
         public static void UpdateTextSelectionBtn()
         {
             TextSelectionBtn.Enabled = PDFViewClass.WordsInPageCount(PDFViewClass.CurrentPageID) > 0 ? true : false;
+
         }
 
         public static void UpdateBakeInBtn()
@@ -127,10 +144,12 @@ namespace SIPView_PDF
         public static void UpdatePageBtns()
         {
             PrevPageBtn.Enabled = PDFViewClass.CurrentPageID == 0 ? false : true;
+
             PrevPageMenu.Enabled = PDFViewClass.CurrentPageID == 0 ? false : true;
 
             NextPageBtn.Enabled = PDFViewClass.CurrentPageID == PDFViewClass.PDFDocument.Pages.Count-1 ? false : true;
             NextPageBtn.Enabled = PDFViewClass.CurrentPageID == PDFViewClass.PDFDocument.Pages.Count-1 ? false : true;
+
         }
 
         public static void UpdateHistoryBtns()
@@ -138,6 +157,7 @@ namespace SIPView_PDF
             UndoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].History.UndoCount == 0 ? false : true;
             RedoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].History.RedoCount == 0 ? false : true;
         }
+
 
         public static void ToolBarChangeCheck()
         {
@@ -153,5 +173,6 @@ namespace SIPView_PDF
         {
             TextSelectionBtn.Checked = !TextSelectionBtn.Checked;
         }
+
     }
 }

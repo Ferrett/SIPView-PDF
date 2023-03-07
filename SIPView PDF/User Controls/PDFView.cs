@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using ImageGear.ART.Forms;
+
 using ImageGear.Evaluation;
+
 using ImageGear.Windows.Forms;
 
 namespace SIPView_PDF
@@ -15,6 +17,7 @@ namespace SIPView_PDF
 
             PDFViewClass.InitializeImGear();
             PDFViewClass.InitializeToolBar();
+
         }
 
         private void InitializeClassControls()
@@ -23,8 +26,10 @@ namespace SIPView_PDF
             PDFViewClass.PageView = PageView;
             PDFViewClass.ScrollBar = ScrollBar;
             PDFViewClass.StatusStrip = StatusStrip;
+
             PDFViewClass.Magnifier = Magnifier;
             PDFViewClass.ThumbnailController = ThumbnailController;
+
         }
 
         private void PDFView_MouseWheel(object sender, MouseEventArgs e)
@@ -39,7 +44,9 @@ namespace SIPView_PDF
 
         private void ScrollBar_ValueChanged(object sender, EventArgs e)
         {
+
            PDFViewClass.ScrollBarScrolled();
+
         }
 
         private void PageView_KeyUp(object sender, KeyEventArgs e)

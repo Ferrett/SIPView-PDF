@@ -1,6 +1,8 @@
-﻿using System;
+using System;
+
 using System.ComponentModel;
 using System.Reflection;
+
 using System.Windows.Forms;
 using ImageGear.ART;
 using ImageGear.Core;
@@ -9,12 +11,15 @@ namespace SIPView_PDF
 {
     public partial class MainForm : Form
     {
+
+
         public MainForm()
         {
             InitializeComponent();
 
             PDFViewClass.DocumentChanged += DocumentUpdated;
             PDFViewClass.PageChanged += PageViewUpdated;
+
         }
 
 
@@ -25,6 +30,7 @@ namespace SIPView_PDF
             else
                 base.WndProc(ref m);
         }
+
 
         private void DocumentUpdated(object sender, EventArgs e)
         {
@@ -68,6 +74,6 @@ namespace SIPView_PDF
             MenuBarClass.UpdateSelectionBtn();
         }
 
-       
+
     }
 }
