@@ -19,32 +19,46 @@ namespace SIPView_PDF
 
         private void InitializeClassControls()
         {
-            PDFViewClass.ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
+            //PDFViewClass.ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
             PDFViewClass.PageView = PageView;
             PDFViewClass.ScrollBar = ScrollBar;
-            PDFViewClass.StatusStrip = StatusStrip;
             PDFViewClass.Magnifier = Magnifier;
             PDFViewClass.ThumbnailController = ThumbnailController;
         }
 
         private void PDFView_MouseWheel(object sender, MouseEventArgs e)
         {
-            PDFViewClass.WheelScrolled(sender,e);
+            PDFViewKeyEvents.WheelScrolled(sender,e);
         }
 
         private void PageView_KeyDown(object sender, KeyEventArgs e)
         {
-            PDFViewClass.KeyDown(sender,e);
-        }
-
-        private void ScrollBar_ValueChanged(object sender, EventArgs e)
-        {
-           PDFViewClass.ScrollBarScrolled();
+            PDFViewKeyEvents.KeyDown(sender,e);
         }
 
         private void PageView_KeyUp(object sender, KeyEventArgs e)
         {
-            PDFViewClass.PageView_KeyUp(sender, e);
+            PDFViewKeyEvents.PageView_KeyUp(sender, e);
+        }
+
+        public  void PageView_MouseDown(object sender, MouseEventArgs e)
+        {
+            PDFViewKeyEvents.PageView_MouseDown(sender, e);
+        }
+
+        public  void PageView_MouseUp(object sender, MouseEventArgs e)
+        {
+            PDFViewKeyEvents.PageView_MouseUp(sender, e);
+        }
+
+        public  void PageView_MouseMove(object sender, MouseEventArgs e)
+        {
+            PDFViewKeyEvents.PageView_MouseMove(sender, e);
+        }
+
+        public void ScrollBar_ValueChanged(object sender, EventArgs e)
+        {
+            PDFViewKeyEvents.ScrollBarScrolled();
         }
     }
 }

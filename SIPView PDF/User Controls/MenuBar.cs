@@ -92,7 +92,7 @@ namespace SIPView_PDF
 
         private void FilePrintBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.FilePrint();
+            PDFVeiwPrint.FilePrint();
         }
 
         private void FileOpenMenu_Click(object sender, EventArgs e)
@@ -107,7 +107,7 @@ namespace SIPView_PDF
 
         private void FilePrintMenu_Click(object sender, EventArgs e)
         {
-            PDFViewClass.FilePrint();
+            PDFVeiwPrint.FilePrint();
         }
 
         private void PrevPageMenu_Click(object sender, EventArgs e)
@@ -161,22 +161,9 @@ namespace SIPView_PDF
             MenuBarClass.MagnifierChangeCheck();
         }
 
-        private void AddImageMenu_Click(object sender, EventArgs e)
-        {
-            AddImagesForm addImagesForm = new AddImagesForm(PDFViewClass.PDFDocument.Pages.Count);
-            addImagesForm.ShowDialog();
-        }
-
         private void PrintSettingsMenu_Click(object sender, EventArgs e)
         {
-            PDFViewClass.ShowPrintMenu();
-        }
-
-        private void PDFSettingsMenu_Click(object sender, EventArgs e)
-        {
-            PDFCompressionForm compressioForm = new PDFCompressionForm();
-            compressioForm.ShowDialog();
-            
+            PDFVeiwPrint.ShowPrintMenu();
         }
 
         private void pDFSettingsToolStripMenuItem_Click(object sender, EventArgs e)

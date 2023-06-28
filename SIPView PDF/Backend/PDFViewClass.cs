@@ -32,24 +32,18 @@ namespace SIPView_PDF
         public static ImGearPageView PageView;
         public static Panel ThumbnailController;
         public static ScrollBar ScrollBar;
-        public static StatusStrip StatusStrip;
+
         public static ImGearPDFWordFinder PDFWordFinder;
         public static int CurrentPageID = 0;
 
-        private static ImGearPoint StartMousePos;
-        private static ImGearPoint CurrentMousePos;
 
-        private static bool CtrlKeyPressed;
-        private static bool PageIsZoming = false;
-        private static bool TextIsSelecting = false;
+
+
+        public static bool PageIsZoming = false;
+        public static bool TextIsSelecting = false;
         public static bool SelectionMode = false;
 
         public static string DocumentPath;
-
-        public static PrintDialog PrintDialog = new PrintDialog();
-        public static PageSetupDialog PageSetupDialog = new PageSetupDialog();
-        public static PageSettings PageSettings = new PageSettings() ;
-        public static PrintDocument PrintDocument = new PrintDocument();
 
         public static ImGearCompressOptions CompressOptions = new ImGearCompressOptions() { IsRemoveImageThumbnailEnabled = false };
         public static bool DoCompression = false;
@@ -168,177 +162,45 @@ namespace SIPView_PDF
 
         public static void InitializeEvents()
         {
-            ARTForm.MouseRightButtonDown += ARTForm_MouseRightButtonDown;
-            ARTForm.MouseLeftButtonDown += ARTForm_MouseLeftButtonDown;
-            ARTForm.MouseLeftButtonUp += ARTForm_MouseLeftButtonUp;
-            ARTForm.MouseRightButtonUp += ARTForm_MouseRightButtonUp;
-            ARTForm.MouseMoved += ARTForm_MouseMoved;
+            ARTForm.MouseRightButtonDown += PDFViewKeyEvents.ARTForm_MouseRightButtonDown;
+            ARTForm.MouseLeftButtonDown += PDFViewKeyEvents.ARTForm_MouseLeftButtonDown;
+            ARTForm.MouseLeftButtonUp += PDFViewKeyEvents.ARTForm_MouseLeftButtonUp;
+            ARTForm.MouseRightButtonUp += PDFViewKeyEvents.ARTForm_MouseRightButtonUp;
+            ARTForm.MouseMoved += PDFViewKeyEvents.ARTForm_MouseMoved;
 
             ARTForm.MarkCreated += ARTForm_MarkCreated;
-        }
-
-
-        public static void PageView_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode != Keys.ControlKey)
-                return;
-
-            CtrlKeyPressed = false;
-        }
-
-        public static void WheelScrolled(object sender, MouseEventArgs e)
-        {
-            if (PDFDocument == null)
-                return;
-
-            if (CtrlKeyPressed)
-            {
-                if (e.Delta > 0)
-                {
-                    PageView.Display.ZoomToRectangle(PageView, new ImGearRectangle(
-                        new ImGearPoint((int)(CurrentMousePos.X - PageView.Width / 2.4), (int)(CurrentMousePos.Y - PageView.Height / 2.4)),
-                        new ImGearPoint((int)(CurrentMousePos.X + PageView.Width / 2.4), (int)(CurrentMousePos.Y + PageView.Height / 2.4))));
-                }
-                else
-                {
-                    PageView.Display.ZoomToRectangle(PageView, new ImGearRectangle(
-                        new ImGearPoint((int)(CurrentMousePos.X - PageView.Width * 0.6), (int)(CurrentMousePos.Y - PageView.Height * 0.6)),
-                        new ImGearPoint((int)(CurrentMousePos.X + PageView.Width * 0.6), (int)(CurrentMousePos.Y + PageView.Height * 0.6))));
-                }
-
-                UpdatePageView();
-                return;
-            }
-
-            if (PageView.Display.GetScrollInfo(PageView).Vertical.Max == 0 && PageView.Display.GetScrollInfo(PageView).Horizontal.Max == 0)
-            {
-                if (e.Delta > 0)
-                {
-                    PrevPage();
-                }
-                else
-                {
-                    NextPage();
-                }
-                return;
-            }
-
-            if (PageView.Display.GetScrollInfo(PageView).Vertical.Pos == PageView.Display.GetScrollInfo(PageView).Vertical.Min)
-            {
-                PrevPage();
-            }
-            else if (PageView.Display.GetScrollInfo(PageView).Vertical.Pos == PageView.Display.GetScrollInfo(PageView).Vertical.Max)
-            {
-                NextPage();
-            }
         }
 
         private static void ARTForm_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
         {
             UpdatePageView();
         }
-        public static void KeyDown(object sender, KeyEventArgs e)
-        {
-
-
-            if (PDFDocument == null)
-                return;
-
-            if (e.KeyCode == Keys.Space)
-            {
-                PageView.Display.UpdateZoomFrom(new ImGearZoomInfo(1, 1, false, false));
-                UpdatePageView();
-            }
-            else if (e.KeyCode == Keys.ControlKey)
-            {
-                CtrlKeyPressed = true;
-            }
-
-            if (CtrlKeyPressed == true && SelectionMode == true && e.KeyCode == Keys.A)
-            {
-                SelectAllText();
-            }
-
-            if (CtrlKeyPressed == true && SelectionMode == true && e.KeyCode == Keys.C)
-            {
-                CopySelectedText();
-            }
-        }
-
-
-        private static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
-        {
-            Test3(sender, e.EventData);
-        }
-
-        private static void ARTForm_MouseLeftButtonUp(object sender, ImGearARTFormsMouseEventArgs e)
-        {
-            Test2(sender, e.EventData);
-        }
-        private static void Test1(object sender, MouseEventArgs e)
+       
+        public static void Test1(object sender, MouseEventArgs e)
         {
             if (SelectionMode)
             {
-                StartMousePos.X = e.X;
-                StartMousePos.Y = e.Y;
+                PDFViewKeyEvents.StartMousePos.X = e.X;
+                PDFViewKeyEvents.StartMousePos.Y = e.Y;
 
                 PageView.RegisterAfterDraw(
                new ImGearPageView.AfterDraw(DrawSelector));
             }
         }
 
-        private static void Test2(object sender, MouseEventArgs e)
+        public static void Test2(object sender, MouseEventArgs e)
         {
             UpdatePageView();
         }
-        private static void Test3(object sender, MouseEventArgs e)
+
+        public static void Test3(object sender, MouseEventArgs e)
         {
-            CurrentMousePos.X = e.X;
-            CurrentMousePos.Y = e.Y;
+            PDFViewKeyEvents.CurrentMousePos.X = e.X;
+            PDFViewKeyEvents.CurrentMousePos.Y = e.Y;
             UpdatePageView();
         }
-        private static void ARTForm_MouseLeftButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
-        {
-            Test1(sender, e.EventData);
-        }
 
-        private static void ARTForm_MouseRightButtonUp(object sender, ImGearARTFormsMouseEventArgs e)
-        {
-            if (PageIsZoming)
-            {
-                PageView.RegisterAfterDraw(null);
-                PageIsZoming = false;
-
-                CurrentMousePos.X = e.EventData.X;
-                CurrentMousePos.Y = e.EventData.Y;
-
-                ImGearRectangle igRectangle = new ImGearRectangle(StartMousePos, CurrentMousePos);
-                // Cancel the zoom if it would be for a 0x0 or 1x1 rectangle.
-                if (igRectangle.Width <= 1 || igRectangle.Height <= 1)
-                    return;
-                // Zoom to the selected rectangle
-                PageView.Display.ZoomToRectangle(PageView, igRectangle);
-
-                UpdatePageView();
-            }
-        }
-
-        private static void ARTForm_MouseRightButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
-        {
-            if (e.Mark != null)
-                return;
-
-            PageIsZoming = true;
-
-            StartMousePos.X = e.EventData.X;
-            StartMousePos.Y = e.EventData.Y;
-            // Register method to draw the selection rectangle.
-
-            PageView.RegisterAfterDraw(
-                new ImGearPageView.AfterDraw(DrawSelector));
-        }
-
-        private static void DrawSelector(System.Drawing.Graphics gr)
+        public static void DrawSelector(System.Drawing.Graphics gr)
         {
             if (PageIsZoming || TextIsSelecting)
             {
@@ -352,10 +214,10 @@ namespace SIPView_PDF
 
                 // Define the currently selected zoom rectangle.
 
-                if (StartMousePos.Y >= CurrentMousePos.Y)
-                    rect = new ImGearRectangle(StartMousePos, CurrentMousePos);
+                if (PDFViewKeyEvents.StartMousePos.Y >= PDFViewKeyEvents.CurrentMousePos.Y)
+                    rect = new ImGearRectangle(PDFViewKeyEvents.StartMousePos, PDFViewKeyEvents.CurrentMousePos);
                 else
-                    rect = new ImGearRectangle(CurrentMousePos, StartMousePos);
+                    rect = new ImGearRectangle(PDFViewKeyEvents.CurrentMousePos, PDFViewKeyEvents.StartMousePos);
                 // Draw the selection box.
                 gr.DrawRectangle(pen, rect.Left, rect.Top,
                     rect.Width, rect.Height);
@@ -381,7 +243,7 @@ namespace SIPView_PDF
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePDFFormat());
             ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePSFormat());
             ImGearPDF.Initialize();
-
+            ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
             InitializeEvents();
         }
 
@@ -436,10 +298,6 @@ namespace SIPView_PDF
                 ARTForm.ToolBar.Show();
         }
 
-        public static int PagesInDocumentCount()
-        {
-            return PDFDocument.Pages.Count;
-        }
         public static void RotateLeft()
         {
             ImGearProcessing.Rotate(PageView.Page, ImGearRotationValues.VALUE_270);
@@ -527,11 +385,6 @@ namespace SIPView_PDF
             UpdatePageView();
         }
 
-        public static void ScrollBarScrolled()
-        {
-            RenderPage(ScrollBar.Value);
-        }
-
         public static void FileSave(string fileName, ImGearPDFDocument document)
         {
             // Save to output file.
@@ -600,73 +453,7 @@ namespace SIPView_PDF
             }
         }
 
-        public static void FilePrint()
-        {
-            PrintDocument.DefaultPageSettings.Landscape = PageSettings.Landscape;
-            PrintDocument.DefaultPageSettings.Margins = PageSettings.Margins;
-            PrintDocument.DefaultPageSettings.PaperSource = PageSettings.PaperSource;
-            PrintDocument.DefaultPageSettings.PaperSize = PageSettings.PaperSize;
-
-            // Initialize a PrintDialog for the user to select a printer.
-
-            PrintDialog.ShowNetwork = true;
-            PrintDialog.Document = PrintDocument;
-
-            // Set the page range to 1 page.
-            PrintDialog.AllowSomePages = true;
-            PrintDialog.PrinterSettings.MinimumPage = 1;
-            PrintDialog.PrinterSettings.MaximumPage = PDFDocument.Pages.Count;
-            PrintDialog.PrinterSettings.FromPage = 1;
-            PrintDialog.PrinterSettings.ToPage = PDFDocument.Pages.Count;
-
-            if (DialogResult.OK == PrintDialog.ShowDialog())
-            {
-
-                PrintDocument.DocumentName = DocumentPath;
-
-
-                // Define a PrintPage event handler and start printing.
-                PrintDocument.PrintPage += new PrintPageEventHandler(HandlePrinting);
-                for (int j = 0; j < PrintDialog.PrinterSettings.Copies; j++)
-                {
-                    for (int i = 0; i < PrintDialog.PrinterSettings.ToPage; i++)
-                    {
-                        RenderPage(i);
-                        UpdatePageView();
-                        PrintDocument.Print();
-                    }
-                }
-            }
-        }
-
-        static void HandlePrinting(object sender, PrintPageEventArgs args)
-        {
-            // Clone the current Display for use as a printing display.
-            ImGearPageDisplay igPageDisplayPrinting = PageView.Display.Clone();
-            igPageDisplayPrinting.Page = PageView.Display.Page;
-
-            // Get the current Zoom settings and disabled fixed zoom.
-            ImGearZoomInfo igZoomInfo = igPageDisplayPrinting.GetZoomInfo(PageView);
-            igZoomInfo.Horizontal.Fixed = igZoomInfo.Vertical.Fixed = false;
-            igPageDisplayPrinting.UpdateZoomFrom(igZoomInfo);
-
-            // Disable any background before printing.
-            igPageDisplayPrinting.Background.Mode = ImGearBackgroundModes.NONE;
-
-            // Print to the Graphics device chosen from the PrintDialog.
-            igPageDisplayPrinting.Print(args.Graphics);
-
-            // Let the PrintDialog know there are no more pages.
-            args.HasMorePages = false;
-        }
-
-        public static void DisposeImGear()
-        {
-            ImGearPDF.Terminate();
-            PageView.Display = null;
-        }
-
-
+       
 
         public static void FileLoad()
         {
@@ -688,10 +475,10 @@ namespace SIPView_PDF
             //Clipboard.SetText(openFileDialogLoad.FileName);
         }
 
-        public static int WordsInPageCount(int page)
+        public static int WordsInPageCount(int pageID)
         {
             PDFWordFinder = new ImGearPDFWordFinder(PDFDocument, ImGearPDFWordFinderVersion.LATEST_VERSION, ImGearPDFContextFlags.XY_ORDER);
-            return PDFWordFinder.AcquireWordList(page);
+            return PDFWordFinder.AcquireWordList(pageID);
         }
         private static ImGearRectangle[] WordsBounds;
         private static bool[] WordIsShowed;
@@ -762,7 +549,8 @@ namespace SIPView_PDF
 
         public static void Test()
         {
-            ImGearPoint[] array = {new ImGearPoint(StartMousePos.X,StartMousePos.Y), new ImGearPoint(CurrentMousePos.X,CurrentMousePos.Y) };
+            ImGearPoint[] array = {new ImGearPoint(PDFViewKeyEvents.StartMousePos.X, PDFViewKeyEvents.StartMousePos.Y), 
+                new ImGearPoint(PDFViewKeyEvents.CurrentMousePos.X,PDFViewKeyEvents.CurrentMousePos.Y) };
 
 
             if (array[0].X > array[1].X)
@@ -811,20 +599,6 @@ namespace SIPView_PDF
             }
         }
 
-        public static void AddPagesToDocument(int startIndex, ImGearPDFDocument pDFDocument)
-        {
-            PDFDocument.InsertPages(startIndex - 2, pDFDocument, 0, pDFDocument.Pages.Count, ImGearPDFInsertFlags.ALL);
-            for (int i = 0; i < pDFDocument.Pages.Count; i++)
-            {
-                ARTPages.Insert((startIndex - 1) + i, new ImGearARTPage());
-            }
-
-            InitializeScrollBar();
-            RenderPage(ScrollBar.Value);
-            UpdatePageView();
-            FileSave(DocumentPath, PDFDocument);
-        }
-
         public static void FileLoad(string fileName)
         {
             using (FileStream inputStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
@@ -856,7 +630,7 @@ namespace SIPView_PDF
         public static void RenderPage(int pageID)
         {
             CurrentPageID = pageID;
-            //Load a single page from the loaded document.
+
             try
             {
                 PageView.Page = PDFDocument.Pages[CurrentPageID];
@@ -870,20 +644,12 @@ namespace SIPView_PDF
                 MessageBox.Show(ex.Message);
             }
 
-            UpdateThumbnailSelection(pageID);
+            UpdateThumbnailSelection(CurrentPageID);
             OnPageChanged(null);
             UpdateAfterRender();
         }
 
-        public static void ShowPrintMenu()
-        {
-            if (PageSetupDialog.PageSettings == null)
-                PageSettings.Margins = new Margins(4, 4, 4, 4);
-            PageSetupDialog.EnableMetric = true;
-            PageSetupDialog.PageSettings = PageSettings;
-            PageSetupDialog.ShowDialog();
-
-        }
+        
 
         public static void TextSelectionModeChange()
         {
@@ -895,48 +661,10 @@ namespace SIPView_PDF
             }
         }
 
-        public static void PageView_MouseDown(object sender, MouseEventArgs e)
+        public static void DisposeImGear()
         {
-            if (SelectionMode)
-            {
-                if (e.Button == MouseButtons.Left)
-                {
-                    Test1(sender, e);
-                    TextIsSelecting = true;
-                    PageView.Cursor = Cursors.IBeam;
-                }
-            }
-            else
-                ARTForm.MouseDown(sender, e);
-        }
-
-        public static void PageView_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (SelectionMode)
-            {
-                if (e.Button == MouseButtons.Left)
-                {
-                    Test2(sender, e);
-                    TextIsSelecting = false;
-                }
-            }
-            else
-                ARTForm.MouseUp(sender, e);
-        }
-
-        public static void PageView_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (SelectionMode)
-            {
-                if (TextIsSelecting)
-                {
-                    Test3(sender, e);
-                    PageView.Cursor = Cursors.IBeam;
-                    Test();
-                }
-            }
-            else
-                ARTForm.MouseMove(sender, e);
+            ImGearPDF.Terminate();
+            PageView.Display = null;
         }
     }
 }

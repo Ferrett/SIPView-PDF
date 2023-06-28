@@ -37,11 +37,6 @@ namespace SIPView_PDF
             MenuBarClass.PageChanged();
         }
 
-        protected override void OnFormClosed(FormClosedEventArgs e)
-        {
-            PDFViewClass.DisposeImGear();
-        }
-
         public void InitArtPageEvents()
         {
             for (int i = 0; i < PDFViewClass.ARTPages.Count; i++)
@@ -68,6 +63,9 @@ namespace SIPView_PDF
             MenuBarClass.UpdateSelectionBtn();
         }
 
-       
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            PDFViewClass.DisposeImGear();
+        }
     }
 }

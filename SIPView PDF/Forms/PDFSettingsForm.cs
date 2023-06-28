@@ -20,6 +20,23 @@ namespace SIPView_PDF.Forms
         {
             InitializeComponent();
 
+            if (PDFViewClass.DoCompression)
+            {
+                noneCheckBox.Checked = false;
+                downsampleCheckBox.Checked = PDFViewClass.CompressOptions.IsDownsampleImagesEnabled;
+                jpeg2KRadioButton.Checked = PDFViewClass.CompressOptions.RecompressUsingJpeg2k;
+                bitonalComboBox.SelectedIndex = (int)PDFViewClass.CompressOptions.RecompressImageJbig2CompressionLevel;
+                jpegComboBox.SelectedIndex = (int)PDFViewClass.CompressOptions.RecompressImageJpegCompressionLevel;
+                jpeg2KComboBox.SelectedIndex = (int)PDFViewClass.CompressOptions.RecompressImageJpeg2kCompressionLevel;
+                flatteringCheckBox.Checked = PDFViewClass.CompressOptions.IsFieldFlatteningEnabled;
+            }
+            else
+            {
+                bitonalComboBox.SelectedIndex = 0;
+                jpegComboBox.SelectedIndex = 0;
+                jpeg2KComboBox.SelectedIndex = 0;
+            }
+
             titleTextBox.Text = PDFViewClass.PDFDocument.GetInfo("Title");
             subjectTextBox.Text = PDFViewClass.PDFDocument.GetInfo("Subject");
             creatorTextBox.Text = PDFViewClass.PDFDocument.GetInfo("Creator");
@@ -61,37 +78,73 @@ namespace SIPView_PDF.Forms
                 PDFA1bradioButton.Checked = true;
         }
 
-        private void applyBtn_Click(object sender, EventArgs e)
+       
+
+       
+
+        private void jpeg2KRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            PDFViewClass.PDFDocument.SetInfo("Title", titleTextBox.Text);
-            PDFViewClass.PDFDocument.SetInfo("Author", authorTextBox.Text);
-            PDFViewClass.PDFDocument.SetInfo("Subject", subjectTextBox.Text);
-            PDFViewClass.PDFDocument.SetInfo("Keywords", keywordsTextBox.Text);
-            PDFViewClass.PDFDocument.SetInfo("Creator", creatorTextBox.Text);
-
-            PDFViewClass.CompressOptions.IsRemoveMetadataEnabled = dontSaveMetadataCheckBox.Checked;
-            PDFViewClass.CompressOptions.IsRemoveImageThumbnailEnabled = dontSaveThumbnailsCheckBox.Checked;
-
-            PDFViewClass.FileSave(PDFViewClass.DocumentPath,PDFViewClass.PDFDocument);
-
-            if (PDFradioButton.Checked)
-                PDFViewClass.DoConversion = false;
-            if (PDFA1aradioButton.Checked)
+            if (jpeg2KRadioButton.Checked)
             {
-                PDFViewClass.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1A_2005;
-                PDFViewClass.DoConversion = true;
+                jpeg2KLabel.Enabled = true;
+                jpeg2KComboBox.Enabled = true;
             }
-            if (PDFA1bradioButton.Checked)
+            else
             {
-                PDFViewClass.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1B_2005;
-                PDFViewClass.DoConversion = true;
+                jpeg2KLabel.Enabled = false;
+                jpeg2KComboBox.Enabled = false;
             }
-            this.Close();
         }
 
-        private void cancelBtn_Click(object sender, EventArgs e)
+        private void jpegRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            this.Close();
+            if (jpegRadioButton.Checked)
+            {
+                jpegLabel.Enabled = true;
+                jpegComboBox.Enabled = true;
+            }
+            else
+            {
+                jpegLabel.Enabled = false;
+                jpegComboBox.Enabled = false;
+            }
+        }
+
+        private void noneCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            downsampleCheckBox.Enabled = !downsampleCheckBox.Enabled;
+            flatteringCheckBox.Enabled = !flatteringCheckBox.Enabled;
+            bitonalLabel.Enabled = !bitonalLabel.Enabled;
+            bitonalComboBox.Enabled = !bitonalComboBox.Enabled;
+
+            jpeg2KRadioButton.Enabled = !jpeg2KRadioButton.Enabled;
+            jpegRadioButton.Enabled = !jpegRadioButton.Enabled;
+
+            if (noneCheckBox.Checked == false)
+            {
+                if (jpeg2KRadioButton.Checked)
+                {
+                    jpeg2KLabel.Enabled = true;
+                    jpeg2KComboBox.Enabled = true;
+                    jpegLabel.Enabled = false;
+                    jpegComboBox.Enabled = false;
+                }
+                else
+                {
+                    jpeg2KLabel.Enabled = false;
+                    jpeg2KComboBox.Enabled = false;
+                    jpegLabel.Enabled = true;
+                    jpegComboBox.Enabled = true;
+                }
+            }
+            else
+            {
+                jpeg2KLabel.Enabled = false;
+                jpeg2KComboBox.Enabled = false;
+                jpegLabel.Enabled = false;
+                jpegComboBox.Enabled = false;
+            }
+
         }
 
         private void dontSaveMetadataCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -113,6 +166,52 @@ namespace SIPView_PDF.Forms
             modifiedLabel.Enabled = !modifiedLabel.Enabled;
             modifiedTextBox.Enabled = !modifiedTextBox.Enabled;
         }
+
+        private void applyBtn_Click(object sender, EventArgs e)
+        {
+            PDFViewClass.CompressOptions.IsDownsampleImagesEnabled = downsampleCheckBox.Checked;
+            PDFViewClass.CompressOptions.RecompressUsingJpeg2k = jpeg2KRadioButton.Checked;
+            PDFViewClass.CompressOptions.RecompressImageJbig2CompressionLevel = (ImGearJbig2CompressionLevel)bitonalComboBox.SelectedIndex;
+            PDFViewClass.CompressOptions.RecompressImageJpegCompressionLevel = (ImGearJpegCompressionLevel)jpegComboBox.SelectedIndex;
+            PDFViewClass.CompressOptions.RecompressImageJpeg2kCompressionLevel = (ImGearJpeg2kCompressionLevel)jpeg2KComboBox.SelectedIndex;
+            PDFViewClass.CompressOptions.IsFieldFlatteningEnabled = flatteringCheckBox.Checked;
+
+            if (noneCheckBox.Checked)
+                PDFViewClass.DoCompression = false;
+            else
+                PDFViewClass.DoCompression = true;
+
+            PDFViewClass.PDFDocument.SetInfo("Title", titleTextBox.Text);
+            PDFViewClass.PDFDocument.SetInfo("Author", authorTextBox.Text);
+            PDFViewClass.PDFDocument.SetInfo("Subject", subjectTextBox.Text);
+            PDFViewClass.PDFDocument.SetInfo("Keywords", keywordsTextBox.Text);
+            PDFViewClass.PDFDocument.SetInfo("Creator", creatorTextBox.Text);
+
+            PDFViewClass.CompressOptions.IsRemoveMetadataEnabled = dontSaveMetadataCheckBox.Checked;
+            PDFViewClass.CompressOptions.IsRemoveImageThumbnailEnabled = dontSaveThumbnailsCheckBox.Checked;
+
+            PDFViewClass.FileSave(PDFViewClass.DocumentPath, PDFViewClass.PDFDocument);
+
+            if (PDFradioButton.Checked)
+                PDFViewClass.DoConversion = false;
+            if (PDFA1aradioButton.Checked)
+            {
+                PDFViewClass.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1A_2005;
+                PDFViewClass.DoConversion = true;
+            }
+            if (PDFA1bradioButton.Checked)
+            {
+                PDFViewClass.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1B_2005;
+                PDFViewClass.DoConversion = true;
+            }
+            this.Close();
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         
     }
 }
