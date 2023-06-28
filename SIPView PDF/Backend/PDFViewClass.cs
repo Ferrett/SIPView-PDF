@@ -661,6 +661,7 @@ namespace SIPView_PDF
             }
         }
 
+
         public static void DisposeImGear()
         {
             ImGearPDF.Terminate();
