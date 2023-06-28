@@ -10,6 +10,5 @@ namespace SIPView_PDF
     {
         DEFAULT = 0,
         TEXT_SELECTION = 1,
-        MAGNIFIER_GLASS = 2,
     }
 }

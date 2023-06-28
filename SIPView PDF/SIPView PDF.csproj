@@ -138,6 +138,7 @@
     <Compile Include="Backend\Enums\BatchProcessesEnum.cs" />
     <Compile Include="Backend\Enums\ViewModesEnum.cs" />
     <Compile Include="Backend\PDF Features\PDFVeiwPrint.cs" />
+    <Compile Include="Backend\PDF Features\PDFViewAnnotations.cs" />
     <Compile Include="Backend\PDF Features\PDFViewKeyEvents.cs" />
     <Compile Include="Backend\PDF Features\PDFViewOCR.cs" />
     <Compile Include="Forms\BatchProcessesForm.cs">
@@ -197,6 +198,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User Controls\PDFView.resx">
       <DependentUpon>PDFView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

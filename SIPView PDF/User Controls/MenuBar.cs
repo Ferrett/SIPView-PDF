@@ -1,3 +1,4 @@
+using SIPView_PDF.Backend.PDF_Features;
 using SIPView_PDF.Forms;
 using System;
 
@@ -33,12 +34,12 @@ namespace SIPView_PDF
 
         private void BakeInBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.AnnotationBakeIn();
+            PDFViewAnnotations.AnnotationBakeIn();
         }
 
         private void SelectAllBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.SelectAllMarks();
+            PDFViewAnnotations.SelectAllMarks();
         }
 
         private void RedoBtn_Click(object sender, EventArgs e)
@@ -136,16 +137,17 @@ namespace SIPView_PDF
         private void ShowToolBarMenu_Click(object sender, EventArgs e)
         {
             PDFViewClass.ToolBarChangeVisibility();
+            MenuBarClass.ToolBarChangeCheck();
         }
 
         private void BakeInMenu_Click(object sender, EventArgs e)
         {
-            PDFViewClass.AnnotationBakeIn();
+            PDFViewAnnotations.AnnotationBakeIn();
         }
 
         private void SelectAllMenu_Click(object sender, EventArgs e)
         {
-            PDFViewClass.SelectAllMarks();
+            PDFViewAnnotations.SelectAllMarks();
         }
 
         private void UndoMenu_Click(object sender, EventArgs e)
@@ -156,13 +158,6 @@ namespace SIPView_PDF
         private void RedoMenu_Click(object sender, EventArgs e)
         {
             PDFViewClass.Redo();
-        }
-
-
-        private void MagnifierBtn_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.MagnifierChangeVisibility();
-            MenuBarClass.MagnifierChangeCheck();
         }
 
         private void PrintSettingsMenu_Click(object sender, EventArgs e)
@@ -178,7 +173,7 @@ namespace SIPView_PDF
 
         private void TextSelectionBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.TextSelectionModeChange();
+            PDFViewOCR.TextSelectionModeChange();
             MenuBarClass.TextSelectionChangeCheck();
         }
 

@@ -67,7 +67,6 @@
             this.SelectAllBtn = new System.Windows.Forms.ToolStripButton();
             this.BakeInBtn = new System.Windows.Forms.ToolStripButton();
             this.ShowToolBarBtn = new System.Windows.Forms.ToolStripButton();
-            this.MagnifierBtn = new System.Windows.Forms.ToolStripButton();
             this.TextSelectionBtn = new System.Windows.Forms.ToolStripButton();
             this.MenuStrip.SuspendLayout();
             this.ToolStrip.SuspendLayout();
@@ -102,7 +101,7 @@
             // FileOpenMenu
             // 
             this.FileOpenMenu.Name = "FileOpenMenu";
-            this.FileOpenMenu.Size = new System.Drawing.Size(180, 22);
+            this.FileOpenMenu.Size = new System.Drawing.Size(143, 22);
             this.FileOpenMenu.Text = "Open";
             this.FileOpenMenu.Click += new System.EventHandler(this.FileOpenMenu_Click);
             // 
@@ -110,7 +109,7 @@
             // 
             this.FileSaveMenu.Enabled = false;
             this.FileSaveMenu.Name = "FileSaveMenu";
-            this.FileSaveMenu.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveMenu.Size = new System.Drawing.Size(143, 22);
             this.FileSaveMenu.Text = "Save";
             this.FileSaveMenu.Click += new System.EventHandler(this.FileSaveMenu_Click);
             // 
@@ -118,14 +117,14 @@
             // 
             this.FilePrintMenu.Enabled = false;
             this.FilePrintMenu.Name = "FilePrintMenu";
-            this.FilePrintMenu.Size = new System.Drawing.Size(180, 22);
+            this.FilePrintMenu.Size = new System.Drawing.Size(143, 22);
             this.FilePrintMenu.Text = "Print";
             this.FilePrintMenu.Click += new System.EventHandler(this.FilePrintMenu_Click);
             // 
             // PrintSettingsMenu
             // 
             this.PrintSettingsMenu.Name = "PrintSettingsMenu";
-            this.PrintSettingsMenu.Size = new System.Drawing.Size(180, 22);
+            this.PrintSettingsMenu.Size = new System.Drawing.Size(143, 22);
             this.PrintSettingsMenu.Text = "Print settings";
             this.PrintSettingsMenu.Click += new System.EventHandler(this.PrintSettingsMenu_Click);
             // 
@@ -133,7 +132,7 @@
             // 
             this.PDFSettingsMenu.Enabled = false;
             this.PDFSettingsMenu.Name = "PDFSettingsMenu";
-            this.PDFSettingsMenu.Size = new System.Drawing.Size(180, 22);
+            this.PDFSettingsMenu.Size = new System.Drawing.Size(143, 22);
             this.PDFSettingsMenu.Text = "PDF settings";
             this.PDFSettingsMenu.Click += new System.EventHandler(this.pDFSettingsToolStripMenuItem_Click);
             // 
@@ -153,7 +152,7 @@
             // 
             this.PrevPageMenu.Enabled = false;
             this.PrevPageMenu.Name = "PrevPageMenu";
-            this.PrevPageMenu.Size = new System.Drawing.Size(180, 22);
+            this.PrevPageMenu.Size = new System.Drawing.Size(148, 22);
             this.PrevPageMenu.Text = "Previous page";
             this.PrevPageMenu.Click += new System.EventHandler(this.PrevPageMenu_Click);
             // 
@@ -161,7 +160,7 @@
             // 
             this.NextPageMenu.Enabled = false;
             this.NextPageMenu.Name = "NextPageMenu";
-            this.NextPageMenu.Size = new System.Drawing.Size(180, 22);
+            this.NextPageMenu.Size = new System.Drawing.Size(148, 22);
             this.NextPageMenu.Text = "Next page";
             this.NextPageMenu.Click += new System.EventHandler(this.NextPageMenu_Click);
             // 
@@ -169,7 +168,7 @@
             // 
             this.RotateRightMenu.Enabled = false;
             this.RotateRightMenu.Name = "RotateRightMenu";
-            this.RotateRightMenu.Size = new System.Drawing.Size(180, 22);
+            this.RotateRightMenu.Size = new System.Drawing.Size(148, 22);
             this.RotateRightMenu.Text = "Rotate right";
             this.RotateRightMenu.Click += new System.EventHandler(this.RotateRightMenu_Click);
             // 
@@ -177,7 +176,7 @@
             // 
             this.RotateLeftMenu.Enabled = false;
             this.RotateLeftMenu.Name = "RotateLeftMenu";
-            this.RotateLeftMenu.Size = new System.Drawing.Size(180, 22);
+            this.RotateLeftMenu.Size = new System.Drawing.Size(148, 22);
             this.RotateLeftMenu.Text = "Rotate left";
             this.RotateLeftMenu.Click += new System.EventHandler(this.RotateLeftMenu_Click);
             // 
@@ -288,7 +287,6 @@
             this.SelectAllBtn,
             this.BakeInBtn,
             this.ShowToolBarBtn,
-            this.MagnifierBtn,
             this.TextSelectionBtn});
             this.ToolStrip.Location = new System.Drawing.Point(0, 24);
             this.ToolStrip.Margin = new System.Windows.Forms.Padding(20);
@@ -465,18 +463,6 @@
             this.ShowToolBarBtn.ToolTipText = "Edit";
             this.ShowToolBarBtn.Click += new System.EventHandler(this.EditBtn_Click);
             // 
-            // MagnifierBtn
-            // 
-            this.MagnifierBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.MagnifierBtn.Enabled = false;
-            this.MagnifierBtn.Image = global::SIPView_PDF.Properties.Resources.glass;
-            this.MagnifierBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.MagnifierBtn.Name = "MagnifierBtn";
-            this.MagnifierBtn.Size = new System.Drawing.Size(23, 22);
-            this.MagnifierBtn.Text = "toolStripButton1";
-            this.MagnifierBtn.ToolTipText = "Magnifying glass";
-            this.MagnifierBtn.Click += new System.EventHandler(this.MagnifierBtn_Click);
-            // 
             // TextSelectionBtn
             // 
             this.TextSelectionBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -545,7 +531,6 @@
         private System.Windows.Forms.ToolStripButton ShowToolBarBtn;
         private System.Windows.Forms.ToolStripButton FilePrintBtn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton MagnifierBtn;
         private System.Windows.Forms.ToolStripMenuItem PrintSettingsMenu;
         private System.Windows.Forms.ToolStripMenuItem PDFSettingsMenu;
         private System.Windows.Forms.ToolStripButton TextSelectionBtn;

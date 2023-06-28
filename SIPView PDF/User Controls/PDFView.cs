@@ -22,7 +22,7 @@ namespace SIPView_PDF
             //PDFViewClass.ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
             PDFViewClass.PageView = PageView;
             PDFViewClass.ScrollBar = ScrollBar;
-            PDFViewClass.Magnifier = Magnifier;
+
             PDFViewClass.ThumbnailController = ThumbnailController;
         }
 

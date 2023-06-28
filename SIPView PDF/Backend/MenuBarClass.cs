@@ -1,4 +1,5 @@
 
+using SIPView_PDF.Backend.PDF_Features;
 using System;
 using System.Windows.Forms;
 
@@ -19,14 +20,13 @@ namespace SIPView_PDF
         private static ToolStripButton BakeInBtn;
         private static ToolStripButton ShowToolBarBtn;
 
-        private static ToolStripButton MagnifierBtn;
         private static ToolStripButton TextSelectionBtn;
 
 
         private static ToolStripMenuItem EditMenu;
 
         private static ToolStripMenuItem ToolsMenu;
-        private static ToolStripMenuItem AddImageMenu;
+
         private static ToolStripMenuItem PDFSettingsMenu;
 
 
@@ -56,7 +56,7 @@ namespace SIPView_PDF
             BakeInBtn = (ToolStripButton)toolStrip["BakeInBtn"];
             ShowToolBarBtn = (ToolStripButton)toolStrip["ShowToolBarBtn"];
 
-            MagnifierBtn = (ToolStripButton)toolStrip["MagnifierBtn"];
+          
             TextSelectionBtn = (ToolStripButton)toolStrip["TextSelectionBtn"];
 
 
@@ -64,7 +64,7 @@ namespace SIPView_PDF
             
             ToolsMenu = (ToolStripMenuItem)menuStrip["ToolsMenu"];
 
-            AddImageMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["AddImageMenu"];
+
             
             PDFSettingsMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["PDFSettingsMenu"];
             FileSaveMenu = (ToolStripMenuItem)(menuStrip["FileMenu"] as ToolStripMenuItem).DropDownItems["FileSaveMenu"];
@@ -100,7 +100,6 @@ namespace SIPView_PDF
             FilePrintBtn.Enabled = true;
             ShowToolBarBtn.Enabled = true;
 
-            MagnifierBtn.Enabled = true;
 
 
 
@@ -109,7 +108,7 @@ namespace SIPView_PDF
             RotateRightMenu.Enabled = true;
             FileSaveMenu.Enabled = true;
             FilePrintMenu.Enabled = true;
-            AddImageMenu.Enabled = true;
+
             ShowToolBarMenu.Enabled = true;
 
             FileSaveMenu.Enabled = true;
@@ -122,13 +121,12 @@ namespace SIPView_PDF
 
         public static void UpdateTextSelectionBtn()
         {
-            TextSelectionBtn.Enabled = PDFViewClass.WordsInPageCount(PDFViewClass.CurrentPageID) > 0 ? true : false;
-
+            TextSelectionBtn.Enabled = PDFViewOCR.WordsInPageCount(PDFViewClass.CurrentPageID) > 0 ? true : false;
         }
 
         public static void UpdateBakeInBtn()
         {
-            BakeInBtn.Enabled = PDFViewClass.SelectedMarksCount() == 0 ? false : true;
+            BakeInBtn.Enabled = PDFViewAnnotations.SelectedMarksCount() == 0 ? false : true;
         }
 
         public static void UpdateSelectionBtn()
@@ -157,16 +155,29 @@ namespace SIPView_PDF
         public static void ToolBarChangeCheck()
         {
             ShowToolBarBtn.Checked = !ShowToolBarBtn.Checked;
+
+            if(ShowToolBarBtn.Checked ==true)
+            {
+                
+                TextSelectionBtn.Checked = false;
+            }
+            else
+            {
+
+            }
         }
 
-        public static void MagnifierChangeCheck()
-        {
-            MagnifierBtn.Checked = !MagnifierBtn.Checked;
-        }
+       
 
-        internal static void TextSelectionChangeCheck()
+        public static void TextSelectionChangeCheck()
         {
             TextSelectionBtn.Checked = !TextSelectionBtn.Checked;
+
+            if (TextSelectionBtn.Checked == true)
+            {
+                
+                ShowToolBarBtn.Checked = false;
+            }
         }
 
     }

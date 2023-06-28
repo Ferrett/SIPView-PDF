@@ -7,6 +7,7 @@ using ImageGear.Formats;
 using ImageGear.Formats.PDF;
 using ImageGear.Processing;
 using ImageGear.Windows.Forms;
+using SIPView_PDF.Backend.PDF_Features;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -33,15 +34,15 @@ namespace SIPView_PDF
         public static Panel ThumbnailController;
         public static ScrollBar ScrollBar;
 
-        public static ImGearPDFWordFinder PDFWordFinder;
+
         public static int CurrentPageID = 0;
 
+        public static ViewModes ViewMode = ViewModes.DEFAULT;
 
 
+        public static bool DrawZoomRectangle = false;
 
-        public static bool PageIsZoming = false;
-        public static bool TextIsSelecting = false;
-        public static bool SelectionMode = false;
+
 
         public static string DocumentPath;
 
@@ -147,17 +148,10 @@ namespace SIPView_PDF
             ThumbnailBackgrounds[(int)(sender as ImGearPageView).Tag].BorderStyle = BorderStyle.FixedSingle;
         }
 
-        internal static void MagnifierChangeVisibility()
-        {
-            Magnifier.IsPopUp = !Magnifier.IsPopUp;
-            ARTForm.Page = ARTForm.Page == null ? ARTPages[CurrentPageID] : null;
-        }
-
         private static void DisplayCurrentPageMarks()
         {
             PageView.Display = new ImGearPageDisplay(PDFDocument.Pages[CurrentPageID], ARTPages[CurrentPageID]);
             ARTForm.Page = ARTPages[CurrentPageID];
-
         }
 
         public static void InitializeEvents()
@@ -176,33 +170,9 @@ namespace SIPView_PDF
             UpdatePageView();
         }
 
-        public static void Test1(object sender, MouseEventArgs e)
-        {
-            if (SelectionMode)
-            {
-                PDFViewKeyEvents.StartMousePos.X = e.X;
-                PDFViewKeyEvents.StartMousePos.Y = e.Y;
-
-                PageView.RegisterAfterDraw(
-               new ImGearPageView.AfterDraw(DrawSelector));
-            }
-        }
-
-        public static void Test2(object sender, MouseEventArgs e)
-        {
-            UpdatePageView();
-        }
-
-        public static void Test3(object sender, MouseEventArgs e)
-        {
-            PDFViewKeyEvents.CurrentMousePos.X = e.X;
-            PDFViewKeyEvents.CurrentMousePos.Y = e.Y;
-            UpdatePageView();
-        }
-
         public static void DrawSelector(System.Drawing.Graphics gr)
         {
-            if (PageIsZoming || TextIsSelecting)
+            if (DrawZoomRectangle || PDFViewOCR.TextIsSelecting)
             {
                 // Create a new pen to draw dotted lines.
 
@@ -271,22 +241,11 @@ namespace SIPView_PDF
             }
         }
 
-        private static void InitializeArtPages()
-        {
-            ARTPages.Clear();
-            for (int i = 0; i < PDFDocument.Pages.Count; i++)
-            {
-                ARTPages.Add(new ImGearARTPage());
-                ARTPages.Last().History.IsEnabled = true;
-                ARTPages.Last().History.Limit = uint.MaxValue;
-            }
-        }
-
         private static void UpdateAfterRender()
         {
             DisplayCurrentPageMarks();
             ScrollBar.Value = CurrentPageID;
-            FindWordsInPage();
+            PDFViewOCR.FindWordsInPage(); ///////////////// ?? 
             UpdatePageView();
         }
 
@@ -333,56 +292,6 @@ namespace SIPView_PDF
         {
             if (CurrentPageID < PDFDocument.Pages.Count - 1)
                 RenderPage(CurrentPageID + 1);
-        }
-
-        public static int SelectedMarksCount()
-        {
-            int selectedMarksCounter = 0;
-
-            foreach (ImGearARTMark ARTMark in ARTPages[CurrentPageID])
-            {
-                if (ARTPages[CurrentPageID].MarkIsSelected(ARTMark))
-                    selectedMarksCounter++;
-            }
-
-            return selectedMarksCounter;
-        }
-
-        public static void SelectAllMarks()
-        {
-            if (SelectedMarksCount() == ARTPages[CurrentPageID].MarkCount)
-                ARTPages[CurrentPageID].SelectMarks(false);
-            else
-                ARTPages[CurrentPageID].SelectMarks(true);
-            UpdatePageView();
-        }
-
-        public static void UpdatePageView()
-        {
-            PageView.Invalidate();
-            PageView.Update();
-        }
-
-        public static void AnnotationBakeIn()
-        {
-            PDFDocument.Pages[CurrentPageID] = ImGearART.BurnIn(PDFDocument.Pages[CurrentPageID], ARTPages[CurrentPageID], ImGearARTBurnInOptions.SELECTED, null);
-            PageView.Page = PDFDocument.Pages[CurrentPageID];
-
-            // Get burned marks ID
-            List<int> bakedMarkID = new List<int>();
-            foreach (ImGearARTMark ARTMark in ARTPages[CurrentPageID])
-            {
-                if (ARTPages[CurrentPageID].MarkIsSelected(ARTMark))
-                    bakedMarkID.Add(ARTMark.Id);
-            }
-
-            // Delete burned marks by ID
-            foreach (int ID in bakedMarkID)
-            {
-                ARTPages[CurrentPageID].MarkRemove(ID);
-            }
-
-            UpdatePageView();
         }
 
         public static void FileSave(string fileName, ImGearPDFDocument document)
@@ -475,129 +384,7 @@ namespace SIPView_PDF
             //Clipboard.SetText(openFileDialogLoad.FileName);
         }
 
-        public static int WordsInPageCount(int pageID)
-        {
-            PDFWordFinder = new ImGearPDFWordFinder(PDFDocument, ImGearPDFWordFinderVersion.LATEST_VERSION, ImGearPDFContextFlags.XY_ORDER);
-            return PDFWordFinder.AcquireWordList(pageID);
-        }
-        private static ImGearRectangle[] WordsBounds;
-        private static bool[] WordIsShowed;
-        public static void FindWordsInPage()
-        {
-            ARTPages[CurrentPageID].SetCoordType(ImGearARTCoordinatesType.DEVICE_COORD);
-            WordsBounds = new ImGearRectangle[WordsInPageCount(CurrentPageID)];
-            WordIsShowed = new bool[WordsInPageCount(CurrentPageID)];
 
-            for (int i = 0; i < WordsBounds.Length; i++)
-            {
-                WordIsShowed[i] = false;
-                WordsBounds[i] = new ImGearRectangle()
-                {
-                    Top = PDFDocument.Pages[CurrentPageID].DIB.Height - ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomRight.V),
-                    Left = ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).TopLeft.H),
-                    Bottom = PDFDocument.Pages[CurrentPageID].DIB.Height - ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).TopLeft.V),
-                    Right = ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomRight.H)
-                };
-            }
-        }
-
-        public static void CopySelectedText()
-        {
-            string text = String.Empty;
-            bool s = false;
-            for (int i = 0; i < WordsBounds.Length; i++)
-            {
-                if (WordIsShowed[i] == true)
-                {
-                    if (s == true && PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomLeft.V < PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i - 1).GetQuad(0).BottomLeft.V)
-                    {
-                        text += '\n';
-                    }
-
-                    s = true;
-                    text += PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).String + " ";
-                }
-            }
-            text.Remove(text.Length - 1);
-            Clipboard.SetText(text);
-        }
-
-        public static void SelectAllText()
-        {
-            for (int i = 0; i < WordsBounds.Length; i++)
-            {
-                if (WordIsShowed[i] == true)
-                {
-                    foreach (ImGearARTMark igARTMark in ARTPages[CurrentPageID])
-                    {
-                        if (igARTMark.UserData.Equals(i))
-                        {
-                            ARTPages[CurrentPageID].MarkRemove(igARTMark);
-                            WordIsShowed[i] = false;
-                        }
-                    }
-                }
-            }
-            for (int i = 0; i < WordsBounds.Length; i++)
-            {
-                WordIsShowed[i] = true;
-                ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad() { Red = 179, Green = 226, Blue = 255 }) { Opacity = 120, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
-            }
-
-            UpdatePageView();
-        }
-
-        public static void Test()
-        {
-            ImGearPoint[] array = {new ImGearPoint(PDFViewKeyEvents.StartMousePos.X, PDFViewKeyEvents.StartMousePos.Y),
-                new ImGearPoint(PDFViewKeyEvents.CurrentMousePos.X,PDFViewKeyEvents.CurrentMousePos.Y) };
-
-
-            if (array[0].X > array[1].X)
-            {
-                int tmp = array[0].X;
-                array[0].X = array[1].X;
-                array[1].X = tmp;
-            }
-
-            if (array[0].Y > array[1].Y)
-            {
-                int tmp = array[0].Y;
-                array[0].Y = array[1].Y;
-                array[1].Y = tmp;
-            }
-            ARTPages[CurrentPageID].ConvertCoordinates(PageView, PageView.Display, ImGearCoordConvModes.DEVICE_TO_IMAGE, array);
-
-
-
-            for (int i = 0; i < WordsBounds.Length; i++)
-            {
-                if (new ImGearRectangle() { Left = array[0].X, Top = array[0].Y, Right = array[1].X, Bottom = array[1].Y }.Contains(new ImGearPoint(WordsBounds[i].Left, WordsBounds[i].Top)) &&
-                    new ImGearRectangle() { Left = array[0].X, Top = array[0].Y, Right = array[1].X, Bottom = array[1].Y }.Contains(new ImGearPoint(WordsBounds[i].Right, WordsBounds[i].Bottom)))
-                {
-                    if (WordIsShowed[i] == false)
-                    {
-                        WordIsShowed[i] = true;
-                        ARTPages[CurrentPageID].AddMark(new ImGearARTRectangle(WordsBounds[i], new ImGearRGBQuad() { Red = 179, Green = 226, Blue = 255 }) { Opacity = 120, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
-                    }
-                }
-                else
-                {
-                    if (WordIsShowed[i] == true)
-                    {
-                        foreach (ImGearARTMark igARTMark in ARTPages[CurrentPageID])
-                        {
-                            if (igARTMark.UserData.Equals(i))
-                            {
-                                ARTPages[CurrentPageID].MarkRemove(igARTMark);
-                                WordIsShowed[i] = false;
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
 
         public static void FileLoad(string fileName)
         {
@@ -607,13 +394,13 @@ namespace SIPView_PDF
                 {
                     // Load the entire the document.
                     PDFDocument = (ImGearPDFDocument)ImGearFileFormats.LoadDocument(inputStream);
-                    PDFWordFinder = new ImGearPDFWordFinder(PDFDocument, ImGearPDFWordFinderVersion.LATEST_VERSION, ImGearPDFContextFlags.XY_ORDER);
+                    PDFViewOCR.PDFWordFinder = new ImGearPDFWordFinder(PDFDocument, ImGearPDFWordFinderVersion.LATEST_VERSION, ImGearPDFContextFlags.XY_ORDER);
 
                     DocumentPath = fileName;
                     ARTPages.Clear();
 
                     InitializeScrollBar();
-                    InitializeArtPages();
+                    PDFViewAnnotations.InitializeArtPages();
                     InitializeThumbnails();
 
                     OnDocumentChanged(null);
@@ -649,16 +436,10 @@ namespace SIPView_PDF
             UpdateAfterRender();
         }
 
-
-
-        public static void TextSelectionModeChange()
+        public static void UpdatePageView()
         {
-            SelectionMode = !SelectionMode;
-
-            if (SelectionMode)
-            {
-                PageView.Cursor = Cursors.IBeam;
-            }
+            PageView.Invalidate();
+            PageView.Update();
         }
 
         public static void DisposeImGear()

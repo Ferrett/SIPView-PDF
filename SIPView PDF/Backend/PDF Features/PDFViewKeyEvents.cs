@@ -18,6 +18,12 @@ namespace SIPView_PDF
         public static ImGearPoint StartMousePos;
         public static ImGearPoint CurrentMousePos;
 
+        public static void UpdateMousePos(object sender, MouseEventArgs e)
+        {
+            CurrentMousePos.X = e.X;
+            CurrentMousePos.Y = e.Y;
+        }
+
         public static void PageView_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.ControlKey)
@@ -86,14 +92,14 @@ namespace SIPView_PDF
                 CtrlKeyPressed = true;
             }
 
-            if (CtrlKeyPressed == true && PDFViewClass.SelectionMode == true && e.KeyCode == Keys.A)
+            if (PDFViewClass.ViewMode == ViewModes.TEXT_SELECTION && CtrlKeyPressed == true &&  e.KeyCode == Keys.A)
             {
-                PDFViewClass.SelectAllText();
+                PDFViewOCR.SelectAllText();
             }
 
-            if (CtrlKeyPressed == true && PDFViewClass.SelectionMode == true && e.KeyCode == Keys.C)
+            if (PDFViewClass.ViewMode == ViewModes.TEXT_SELECTION && CtrlKeyPressed == true &&  e.KeyCode == Keys.C)
             {
-                PDFViewClass.CopySelectedText();
+                PDFViewOCR.CopySelectedText();
             }
         }
 
@@ -104,12 +110,12 @@ namespace SIPView_PDF
 
         public static void PageView_MouseDown(object sender, MouseEventArgs e)
         {
-            if (PDFViewClass.SelectionMode)
+            if (PDFViewClass.ViewMode == ViewModes.TEXT_SELECTION)
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    PDFViewClass.Test1(sender, e);
-                    PDFViewClass.TextIsSelecting = true;
+                    PDFViewOCR.StartTextSelecting(sender, e);
+                    PDFViewOCR.TextIsSelecting = true;
                     PDFViewClass.PageView.Cursor = Cursors.IBeam;
                 }
             }
@@ -119,12 +125,12 @@ namespace SIPView_PDF
 
         public static void PageView_MouseUp(object sender, MouseEventArgs e)
         {
-            if (PDFViewClass.SelectionMode)
+            if (PDFViewClass.ViewMode == ViewModes.TEXT_SELECTION)
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    PDFViewClass.Test2(sender, e);
-                    PDFViewClass.TextIsSelecting = false;
+                    PDFViewClass.UpdatePageView();
+                    PDFViewOCR.TextIsSelecting = false;
                 }
             }
             else
@@ -133,13 +139,13 @@ namespace SIPView_PDF
 
         public static void PageView_MouseMove(object sender, MouseEventArgs e)
         {
-            if (PDFViewClass.SelectionMode)
+            if (PDFViewClass.ViewMode == ViewModes.TEXT_SELECTION)
             {
-                if (PDFViewClass.TextIsSelecting)
+                if (PDFViewOCR.TextIsSelecting)
                 {
-                    PDFViewClass.Test3(sender, e);
+                    UpdateMousePos(sender, e);
                     PDFViewClass.PageView.Cursor = Cursors.IBeam;
-                    PDFViewClass.Test();
+                    PDFViewOCR.UpdateSelectedWords();
                 }
             }
             else
@@ -148,15 +154,15 @@ namespace SIPView_PDF
 
         public static void ARTForm_MouseLeftButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            PDFViewClass.Test1(sender, e.EventData);
+            PDFViewOCR.StartTextSelecting(sender, e.EventData);
         }
 
         public static void ARTForm_MouseRightButtonUp(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            if (PDFViewClass.PageIsZoming)
+            if (PDFViewClass.DrawZoomRectangle)
             {
                 PDFViewClass.PageView.RegisterAfterDraw(null);
-                PDFViewClass.PageIsZoming = false;
+                PDFViewClass.DrawZoomRectangle = false;
 
                 CurrentMousePos.X = e.EventData.X;
                 CurrentMousePos.Y = e.EventData.Y;
@@ -177,7 +183,7 @@ namespace SIPView_PDF
             if (e.Mark != null)
                 return;
 
-            PDFViewClass.PageIsZoming = true;
+            PDFViewClass.DrawZoomRectangle = true;
 
             StartMousePos.X = e.EventData.X;
             StartMousePos.Y = e.EventData.Y;
@@ -188,12 +194,13 @@ namespace SIPView_PDF
         }
         public static void ARTForm_MouseMoved(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            PDFViewClass.Test3(sender, e.EventData);
+            UpdateMousePos(sender, e.EventData);
+            PDFViewClass.UpdatePageView();
         }
 
         public static void ARTForm_MouseLeftButtonUp(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            PDFViewClass.Test2(sender, e.EventData);
+            PDFViewClass.UpdatePageView();
         }
     }
 }
