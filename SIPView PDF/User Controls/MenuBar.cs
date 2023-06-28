@@ -1,5 +1,6 @@
-﻿using SIPView_PDF.Forms;
+using SIPView_PDF.Forms;
 using System;
+
 using System.Windows.Forms;
 
 namespace SIPView_PDF
@@ -25,7 +26,9 @@ namespace SIPView_PDF
         private void EditBtn_Click(object sender, EventArgs e)
         {
             PDFViewClass.ToolBarChangeVisibility();
+
             MenuBarClass.ToolBarChangeCheck();
+
         }
 
         private void BakeInBtn_Click(object sender, EventArgs e)
@@ -155,6 +158,7 @@ namespace SIPView_PDF
             PDFViewClass.Redo();
         }
 
+
         private void MagnifierBtn_Click(object sender, EventArgs e)
         {
             PDFViewClass.MagnifierChangeVisibility();
@@ -177,5 +181,6 @@ namespace SIPView_PDF
             PDFViewClass.TextSelectionModeChange();
             MenuBarClass.TextSelectionChangeCheck();
         }
+
     }
 }
