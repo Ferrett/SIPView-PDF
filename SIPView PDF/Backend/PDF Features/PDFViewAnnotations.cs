@@ -12,55 +12,55 @@ namespace SIPView_PDF.Backend.PDF_Features
     {
         public static void InitializeArtPages()
         {
-            PDFViewClass.ARTPages.Clear();
-            for (int i = 0; i < PDFViewClass.PDFDocument.Pages.Count; i++)
+            PDFManager.Documents[PDFManager.SelectedTabID].ARTPages.Clear();
+            for (int i = 0; i < PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count; i++)
             {
-                PDFViewClass.ARTPages.Add(new ImGearARTPage());
-                PDFViewClass.ARTPages.Last().History.IsEnabled = true;
-                PDFViewClass.ARTPages.Last().History.Limit = uint.MaxValue;
+                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages.Add(new ImGearARTPage());
+                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages.Last().History.IsEnabled = true;
+                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages.Last().History.Limit = uint.MaxValue;
             }
         }
 
         public static void SelectAllMarks()
         {
-            if (SelectedMarksCount() == PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].MarkCount)
-                PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].SelectMarks(false);
+            if (SelectedMarksCount() == PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkCount)
+                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].SelectMarks(false);
             else
-                PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].SelectMarks(true);
-            PDFViewClass.UpdatePageView();
+                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].SelectMarks(true);
+            PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
         }
 
 
 
         public static void AnnotationBakeIn()
         {
-            PDFViewClass.PDFDocument.Pages[PDFViewClass.CurrentPageID] = ImGearART.BurnIn(PDFViewClass.PDFDocument.Pages[PDFViewClass.CurrentPageID], PDFViewClass.ARTPages[PDFViewClass.CurrentPageID], ImGearARTBurnInOptions.SELECTED, null);
-            PDFViewClass.PageView.Page = PDFViewClass.PDFDocument.Pages[PDFViewClass.CurrentPageID];
+            PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages[PDFManager.Documents[PDFManager.SelectedTabID].PageID] = ImGearART.BurnIn(PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages[PDFManager.Documents[PDFManager.SelectedTabID].PageID], PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID], ImGearARTBurnInOptions.SELECTED, null);
+            PDFManager.Documents[PDFManager.SelectedTabID].PageView.Page = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages[PDFManager.Documents[PDFManager.SelectedTabID].PageID];
 
             // Get burned marks ID
             List<int> bakedMarkID = new List<int>();
-            foreach (ImGearARTMark ARTMark in PDFViewClass.ARTPages[PDFViewClass.CurrentPageID])
+            foreach (ImGearARTMark ARTMark in PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID])
             {
-                if (PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].MarkIsSelected(ARTMark))
+                if (PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkIsSelected(ARTMark))
                     bakedMarkID.Add(ARTMark.Id);
             }
 
             // Delete burned marks by ID
             foreach (int ID in bakedMarkID)
             {
-                PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].MarkRemove(ID);
+                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkRemove(ID);
             }
 
-            PDFViewClass.UpdatePageView();
+            PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
         }
 
         public static int SelectedMarksCount()
         {
             int selectedMarksCounter = 0;
 
-            foreach (ImGearARTMark ARTMark in PDFViewClass.ARTPages[PDFViewClass.CurrentPageID])
+            foreach (ImGearARTMark ARTMark in PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID])
             {
-                if (PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].MarkIsSelected(ARTMark))
+                if (PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkIsSelected(ARTMark))
                     selectedMarksCounter++;
             }
 

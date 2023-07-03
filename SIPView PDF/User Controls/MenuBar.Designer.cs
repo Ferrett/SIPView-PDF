@@ -103,7 +103,7 @@
             this.FileOpenMenu.Name = "FileOpenMenu";
             this.FileOpenMenu.Size = new System.Drawing.Size(143, 22);
             this.FileOpenMenu.Text = "Open";
-            this.FileOpenMenu.Click += new System.EventHandler(this.FileOpenMenu_Click);
+            this.FileOpenMenu.Click += new System.EventHandler(this.FileOpenBtn_Click);
             // 
             // FileSaveMenu
             // 
@@ -111,7 +111,7 @@
             this.FileSaveMenu.Name = "FileSaveMenu";
             this.FileSaveMenu.Size = new System.Drawing.Size(143, 22);
             this.FileSaveMenu.Text = "Save";
-            this.FileSaveMenu.Click += new System.EventHandler(this.FileSaveMenu_Click);
+            this.FileSaveMenu.Click += new System.EventHandler(this.FileSaveBtn_Click);
             // 
             // FilePrintMenu
             // 
@@ -119,7 +119,7 @@
             this.FilePrintMenu.Name = "FilePrintMenu";
             this.FilePrintMenu.Size = new System.Drawing.Size(143, 22);
             this.FilePrintMenu.Text = "Print";
-            this.FilePrintMenu.Click += new System.EventHandler(this.FilePrintMenu_Click);
+            this.FilePrintMenu.Click += new System.EventHandler(this.FilePrintBtn_Click);
             // 
             // PrintSettingsMenu
             // 
@@ -154,7 +154,7 @@
             this.PrevPageMenu.Name = "PrevPageMenu";
             this.PrevPageMenu.Size = new System.Drawing.Size(148, 22);
             this.PrevPageMenu.Text = "Previous page";
-            this.PrevPageMenu.Click += new System.EventHandler(this.PrevPageMenu_Click);
+            this.PrevPageMenu.Click += new System.EventHandler(this.PrevPageBtn_Click);
             // 
             // NextPageMenu
             // 
@@ -162,7 +162,7 @@
             this.NextPageMenu.Name = "NextPageMenu";
             this.NextPageMenu.Size = new System.Drawing.Size(148, 22);
             this.NextPageMenu.Text = "Next page";
-            this.NextPageMenu.Click += new System.EventHandler(this.NextPageMenu_Click);
+            this.NextPageMenu.Click += new System.EventHandler(this.NextPageBtn_Click);
             // 
             // RotateRightMenu
             // 
@@ -170,7 +170,7 @@
             this.RotateRightMenu.Name = "RotateRightMenu";
             this.RotateRightMenu.Size = new System.Drawing.Size(148, 22);
             this.RotateRightMenu.Text = "Rotate right";
-            this.RotateRightMenu.Click += new System.EventHandler(this.RotateRightMenu_Click);
+            this.RotateRightMenu.Click += new System.EventHandler(this.RotateRightBtn_Click);
             // 
             // RotateLeftMenu
             // 
@@ -178,7 +178,7 @@
             this.RotateLeftMenu.Name = "RotateLeftMenu";
             this.RotateLeftMenu.Size = new System.Drawing.Size(148, 22);
             this.RotateLeftMenu.Text = "Rotate left";
-            this.RotateLeftMenu.Click += new System.EventHandler(this.RotateLeftMenu_Click);
+            this.RotateLeftMenu.Click += new System.EventHandler(this.RotateLeftBtn_Click);
             // 
             // EditMenu
             // 
@@ -199,7 +199,7 @@
             this.UndoMenu.Name = "UndoMenu";
             this.UndoMenu.Size = new System.Drawing.Size(144, 22);
             this.UndoMenu.Text = "Undo";
-            this.UndoMenu.Click += new System.EventHandler(this.UndoMenu_Click);
+            this.UndoMenu.Click += new System.EventHandler(this.UndoBtn_Click);
             // 
             // RedoMenu
             // 
@@ -207,7 +207,7 @@
             this.RedoMenu.Name = "RedoMenu";
             this.RedoMenu.Size = new System.Drawing.Size(144, 22);
             this.RedoMenu.Text = "Redo";
-            this.RedoMenu.Click += new System.EventHandler(this.RedoMenu_Click);
+            this.RedoMenu.Click += new System.EventHandler(this.RedoBtn_Click);
             // 
             // SelectAllMenu
             // 
@@ -215,7 +215,7 @@
             this.SelectAllMenu.Name = "SelectAllMenu";
             this.SelectAllMenu.Size = new System.Drawing.Size(144, 22);
             this.SelectAllMenu.Text = "Select all";
-            this.SelectAllMenu.Click += new System.EventHandler(this.SelectAllMenu_Click);
+            this.SelectAllMenu.Click += new System.EventHandler(this.SelectAllBtn_Click);
             // 
             // BakeInMenu
             // 
@@ -223,7 +223,7 @@
             this.BakeInMenu.Name = "BakeInMenu";
             this.BakeInMenu.Size = new System.Drawing.Size(144, 22);
             this.BakeInMenu.Text = "Bake in";
-            this.BakeInMenu.Click += new System.EventHandler(this.BakeInMenu_Click);
+            this.BakeInMenu.Click += new System.EventHandler(this.BakeInBtn_Click);
             // 
             // ShowToolBarMenu
             // 
@@ -231,7 +231,7 @@
             this.ShowToolBarMenu.Name = "ShowToolBarMenu";
             this.ShowToolBarMenu.Size = new System.Drawing.Size(144, 22);
             this.ShowToolBarMenu.Text = "Show toolbar";
-            this.ShowToolBarMenu.Click += new System.EventHandler(this.ShowToolBarMenu_Click);
+            this.ShowToolBarMenu.Click += new System.EventHandler(this.EditBtn_Click);
             // 
             // BatchProcessesMenu
             // 

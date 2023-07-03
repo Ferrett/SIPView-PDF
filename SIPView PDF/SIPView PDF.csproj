@@ -141,6 +141,8 @@
     <Compile Include="Backend\PDF Features\PDFViewAnnotations.cs" />
     <Compile Include="Backend\PDF Features\PDFViewKeyEvents.cs" />
     <Compile Include="Backend\PDF Features\PDFViewOCR.cs" />
+    <Compile Include="Backend\PDF Features\PDFViewSaveLoad.cs" />
+    <Compile Include="Backend\PDFManager.cs" />
     <Compile Include="Forms\BatchProcessesForm.cs">
       <SubType>Form</SubType>
     </Compile>

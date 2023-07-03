@@ -26,24 +26,25 @@ namespace SIPView_PDF
             // Set the page range to 1 page.
             PrintDialog.AllowSomePages = true;
             PrintDialog.PrinterSettings.MinimumPage = 1;
-            PrintDialog.PrinterSettings.MaximumPage = PDFViewClass.PDFDocument.Pages.Count;
+            PrintDialog.PrinterSettings.MaximumPage = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count;
             PrintDialog.PrinterSettings.FromPage = 1;
-            PrintDialog.PrinterSettings.ToPage = PDFViewClass.PDFDocument.Pages.Count;
+            PrintDialog.PrinterSettings.ToPage = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count;
 
             if (DialogResult.OK == PrintDialog.ShowDialog())
             {
 
-                PrintDocument.DocumentName = PDFViewClass.DocumentPath;
+                PrintDocument.DocumentName = PDFManager.Documents[PDFManager.SelectedTabID].DocumentPath;
 
 
                 // Define a PrintPage event handler and start printing.
                 PrintDocument.PrintPage += new PrintPageEventHandler(HandlePrinting);
+                //PrintDocument.PrintPage += new PrintPageEventHandler(HandlePrinting(PDFViewClass,sender,args));
                 for (int j = 0; j < PrintDialog.PrinterSettings.Copies; j++)
                 {
                     for (int i = 0; i < PrintDialog.PrinterSettings.ToPage; i++)
                     {
-                        PDFViewClass.RenderPage(i);
-                        PDFViewClass.UpdatePageView();
+                        PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(i);
+                        PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
                         PrintDocument.Print();
                     }
                 }
@@ -53,11 +54,11 @@ namespace SIPView_PDF
         static void HandlePrinting(object sender, PrintPageEventArgs args)
         {
             // Clone the current Display for use as a printing display.
-            ImGearPageDisplay igPageDisplayPrinting = PDFViewClass.PageView.Display.Clone();
-            igPageDisplayPrinting.Page = PDFViewClass.PageView.Display.Page;
+            ImGearPageDisplay igPageDisplayPrinting = PDFManager.Documents[PDFManager.SelectedTabID].PageView.Display.Clone();
+            igPageDisplayPrinting.Page = PDFManager.Documents[PDFManager.SelectedTabID].PageView.Display.Page;
 
             // Get the current Zoom settings and disabled fixed zoom.
-            ImGearZoomInfo igZoomInfo = igPageDisplayPrinting.GetZoomInfo(PDFViewClass.PageView);
+            ImGearZoomInfo igZoomInfo = igPageDisplayPrinting.GetZoomInfo(PDFManager.Documents[PDFManager.SelectedTabID].PageView);
             igZoomInfo.Horizontal.Fixed = igZoomInfo.Vertical.Fixed = false;
             igPageDisplayPrinting.UpdateZoomFrom(igZoomInfo);
 

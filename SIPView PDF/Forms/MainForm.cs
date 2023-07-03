@@ -13,10 +13,15 @@ namespace SIPView_PDF
         {
             InitializeComponent();
 
-            PDFViewClass.DocumentChanged += DocumentUpdated;
-            PDFViewClass.PageChanged += PageViewUpdated;
-        }
+            PDFManager.DocumentChanged += DocumentUpdated;
+            PDFManager.PageChanged += PageViewUpdated;
 
+            PDFManager.ARTPage_MarkUpdate += ARTPage_MarkUpdate;
+            PDFManager.ARTPage_MarkSelectionChanged += ARTPage_MarkSelectionChanged;
+            PDFManager.ARTPage_HistoryChanged += ARTPage_HistoryChanged;
+
+            PDFManager.InitializeImGear();
+        }
 
         protected override void WndProc(ref Message m)
         {
@@ -28,7 +33,7 @@ namespace SIPView_PDF
 
         private void DocumentUpdated(object sender, EventArgs e)
         {
-            InitArtPageEvents();
+            PDFManager.Documents[PDFManager.SelectedTabID].InitArtPageEvents();
             MenuBarClass.DocumentOpened();
         }
 
@@ -37,35 +42,24 @@ namespace SIPView_PDF
             MenuBarClass.PageChanged();
         }
 
-        public void InitArtPageEvents()
-        {
-            for (int i = 0; i < PDFViewClass.ARTPages.Count; i++)
-            {
-                PDFViewClass.ARTPages[i].MarkAdded += ARTPage_MarkUpdate;
-                PDFViewClass.ARTPages[i].MarkRemoved += ARTPage_MarkUpdate;
-                PDFViewClass.ARTPages[i].MarkSelectionChanged += ARTPage_MarkSelectionChanged;
-                PDFViewClass.ARTPages[i].History.HistoryChanged += ARTPage_HistoryChanged;
-            }
-        }
-
-        private void ARTPage_HistoryChanged(object sender, ImGearARTHistoryEventArgs e)
+        private void ARTPage_HistoryChanged(object sender, EventArgs e)
         {
             MenuBarClass.UpdateHistoryBtns();
         }
 
-        private void ARTPage_MarkSelectionChanged(object sender, ImGearARTMarkEventArgs e)
+        private void ARTPage_MarkSelectionChanged(object sender, EventArgs e)
         {
             MenuBarClass.UpdateBakeInBtn();
         }
 
-        private void ARTPage_MarkUpdate(object sender, ImGearARTMarkEventArgs e)
+        private void ARTPage_MarkUpdate(object sender, EventArgs e)
         {
             MenuBarClass.UpdateSelectionBtn();
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            PDFViewClass.DisposeImGear();
+            PDFManager.DisposeImGear();
         }
     }
 }

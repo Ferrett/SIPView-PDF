@@ -121,7 +121,7 @@ namespace SIPView_PDF
 
         public static void UpdateTextSelectionBtn()
         {
-            TextSelectionBtn.Enabled = PDFViewOCR.WordsInPageCount(PDFViewClass.CurrentPageID) > 0 ? true : false;
+            TextSelectionBtn.Enabled = PDFViewOCR.WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID) > 0 ? true : false;
         }
 
         public static void UpdateBakeInBtn()
@@ -131,24 +131,24 @@ namespace SIPView_PDF
 
         public static void UpdateSelectionBtn()
         {
-            SelectAllBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].MarkCount == 0 ? false : true;
+            SelectAllBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkCount == 0 ? false : true;
         }
 
         public static void UpdatePageBtns()
         {
-            PrevPageBtn.Enabled = PDFViewClass.CurrentPageID == 0 ? false : true;
+            PrevPageBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == 0 ? false : true;
 
-            PrevPageMenu.Enabled = PDFViewClass.CurrentPageID == 0 ? false : true;
+            PrevPageMenu.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == 0 ? false : true;
 
-            NextPageBtn.Enabled = PDFViewClass.CurrentPageID == PDFViewClass.PDFDocument.Pages.Count-1 ? false : true;
-            NextPageBtn.Enabled = PDFViewClass.CurrentPageID == PDFViewClass.PDFDocument.Pages.Count-1 ? false : true;
+            NextPageBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count-1 ? false : true;
+            NextPageBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count-1 ? false : true;
 
         }
 
         public static void UpdateHistoryBtns()
         {
-            UndoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].History.UndoCount == 0 ? false : true;
-            RedoBtn.Enabled = PDFViewClass.ARTPages[PDFViewClass.CurrentPageID].History.RedoCount == 0 ? false : true;
+            UndoBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].History.UndoCount == 0 ? false : true;
+            RedoBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].History.RedoCount == 0 ? false : true;
         }
 
 

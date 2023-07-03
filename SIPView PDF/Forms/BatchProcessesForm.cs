@@ -236,7 +236,7 @@ namespace SIPView_PDF
 
                         // Save new PDF document to file.
 
-                        PDFViewClass.FileSave(outputPath, igTargetDocument);
+                        PDFViewSaveLoad.FileSave(outputPath, igTargetDocument);
                     }
                     Invoke(new Action(() => ProgressBar.Value++));
 
@@ -284,7 +284,7 @@ namespace SIPView_PDF
 
             string filename = targetFolderTextBox.Text + "\\" + Path.GetFileName(sourseFolderTextBox.Text) + ".pdf";
 
-            PDFViewClass.FileSave(filename, igResultDocument);
+            PDFViewSaveLoad.FileSave(filename, igResultDocument);
 
             FinishProgressBar();
             currentProcessLabel.Text = "Done!";
@@ -313,7 +313,7 @@ namespace SIPView_PDF
 
                 ImGearPDFDocument tmp = new ImGearPDFDocument();
                 tmp.Pages.Add(page);
-                PDFViewClass.FileSave(filename, tmp);
+                PDFViewSaveLoad.FileSave(filename, tmp);
             }
             // If file can't be converted to PDF, it triggers exeption.
             catch (Exception) { }

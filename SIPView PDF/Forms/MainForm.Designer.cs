@@ -40,10 +40,7 @@ namespace SIPView_PDF
             // 
             // MenuBar
             // 
-
-            this.MenuBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-
+            this.MenuBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.MenuBar.Location = new System.Drawing.Point(0, 0);
             this.MenuBar.Name = "MenuBar";
             this.MenuBar.Size = new System.Drawing.Size(1184, 53);
@@ -51,14 +48,10 @@ namespace SIPView_PDF
             // 
             // PDFView
             // 
-
-            this.PDFView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PDFView.Location = new System.Drawing.Point(0, 55);
+            this.PDFView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PDFView.Location = new System.Drawing.Point(0, 53);
             this.PDFView.Name = "PDFView";
-            this.PDFView.Size = new System.Drawing.Size(1184, 661);
-
+            this.PDFView.Size = new System.Drawing.Size(1184, 660);
             this.PDFView.TabIndex = 0;
             // 
             // MainForm
@@ -66,12 +59,10 @@ namespace SIPView_PDF
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 713);
-            this.Controls.Add(this.MenuBar);
             this.Controls.Add(this.PDFView);
+            this.Controls.Add(this.MenuBar);
             this.Name = "MainForm";
-
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-
             this.Text = "SIPView PDF";
             this.ResumeLayout(false);
 

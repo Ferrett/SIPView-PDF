@@ -20,15 +20,15 @@ namespace SIPView_PDF.Forms
         {
             InitializeComponent();
 
-            if (PDFViewClass.DoCompression)
+            if (PDFManager.DoCompression)
             {
                 noneCheckBox.Checked = false;
-                downsampleCheckBox.Checked = PDFViewClass.CompressOptions.IsDownsampleImagesEnabled;
-                jpeg2KRadioButton.Checked = PDFViewClass.CompressOptions.RecompressUsingJpeg2k;
-                bitonalComboBox.SelectedIndex = (int)PDFViewClass.CompressOptions.RecompressImageJbig2CompressionLevel;
-                jpegComboBox.SelectedIndex = (int)PDFViewClass.CompressOptions.RecompressImageJpegCompressionLevel;
-                jpeg2KComboBox.SelectedIndex = (int)PDFViewClass.CompressOptions.RecompressImageJpeg2kCompressionLevel;
-                flatteringCheckBox.Checked = PDFViewClass.CompressOptions.IsFieldFlatteningEnabled;
+                downsampleCheckBox.Checked = PDFManager.CompressOptions.IsDownsampleImagesEnabled;
+                jpeg2KRadioButton.Checked = PDFManager.CompressOptions.RecompressUsingJpeg2k;
+                bitonalComboBox.SelectedIndex = (int)PDFManager.CompressOptions.RecompressImageJbig2CompressionLevel;
+                jpegComboBox.SelectedIndex = (int)PDFManager.CompressOptions.RecompressImageJpegCompressionLevel;
+                jpeg2KComboBox.SelectedIndex = (int)PDFManager.CompressOptions.RecompressImageJpeg2kCompressionLevel;
+                flatteringCheckBox.Checked = PDFManager.CompressOptions.IsFieldFlatteningEnabled;
             }
             else
             {
@@ -37,19 +37,19 @@ namespace SIPView_PDF.Forms
                 jpeg2KComboBox.SelectedIndex = 0;
             }
 
-            titleTextBox.Text = PDFViewClass.PDFDocument.GetInfo("Title");
-            subjectTextBox.Text = PDFViewClass.PDFDocument.GetInfo("Subject");
-            creatorTextBox.Text = PDFViewClass.PDFDocument.GetInfo("Creator");
-            createdTextBox.Text = File.GetCreationTime(PDFViewClass.DocumentPath).ToString();
-            authorTextBox.Text = PDFViewClass.PDFDocument.GetInfo("Author");
-            keywordsTextBox.Text = PDFViewClass.PDFDocument.GetInfo("Keywords");
-            producerTextBox.Text = PDFViewClass.PDFDocument.GetInfo("Producer");
-            modifiedTextBox.Text = File.GetLastWriteTime(PDFViewClass.DocumentPath).ToString();
+            titleTextBox.Text = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.GetInfo("Title");
+            subjectTextBox.Text = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.GetInfo("Subject");
+            creatorTextBox.Text = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.GetInfo("Creator");
+            createdTextBox.Text = File.GetCreationTime(PDFManager.Documents[PDFManager.SelectedTabID].DocumentPath).ToString();
+            authorTextBox.Text = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.GetInfo("Author");
+            keywordsTextBox.Text = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.GetInfo("Keywords");
+            producerTextBox.Text = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.GetInfo("Producer");
+            modifiedTextBox.Text = File.GetLastWriteTime(PDFManager.Documents[PDFManager.SelectedTabID].DocumentPath).ToString();
 
-            dontSaveMetadataCheckBox.Checked = PDFViewClass.CompressOptions.IsRemoveMetadataEnabled;
-            dontSaveThumbnailsCheckBox.Checked = PDFViewClass.CompressOptions.IsRemoveImageThumbnailEnabled;
+            dontSaveMetadataCheckBox.Checked = PDFManager.CompressOptions.IsRemoveMetadataEnabled;
+            dontSaveThumbnailsCheckBox.Checked = PDFManager.CompressOptions.IsRemoveImageThumbnailEnabled;
 
-            if (PDFViewClass.CompressOptions.IsRemoveMetadataEnabled)
+            if (PDFManager.CompressOptions.IsRemoveMetadataEnabled)
             {
                 dontSaveMetadataCheckBox.Checked = true;
                 titleLabel.Enabled = false;
@@ -70,11 +70,11 @@ namespace SIPView_PDF.Forms
                 modifiedTextBox.Enabled = false;
             }
 
-            if (PDFViewClass.DoConversion == false)
+            if (PDFManager.DoConversion == false)
                 PDFradioButton.Checked = true;
-            else if(PDFViewClass.PreflightProfile==ImGearPDFPreflightProfile.PDFA_1A_2005)
+            else if(PDFManager.PreflightProfile==ImGearPDFPreflightProfile.PDFA_1A_2005)
                 PDFA1aradioButton.Checked = true;
-            else if (PDFViewClass.PreflightProfile == ImGearPDFPreflightProfile.PDFA_1B_2005)
+            else if (PDFManager.PreflightProfile == ImGearPDFPreflightProfile.PDFA_1B_2005)
                 PDFA1bradioButton.Checked = true;
         }
 
@@ -169,40 +169,40 @@ namespace SIPView_PDF.Forms
 
         private void applyBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.CompressOptions.IsDownsampleImagesEnabled = downsampleCheckBox.Checked;
-            PDFViewClass.CompressOptions.RecompressUsingJpeg2k = jpeg2KRadioButton.Checked;
-            PDFViewClass.CompressOptions.RecompressImageJbig2CompressionLevel = (ImGearJbig2CompressionLevel)bitonalComboBox.SelectedIndex;
-            PDFViewClass.CompressOptions.RecompressImageJpegCompressionLevel = (ImGearJpegCompressionLevel)jpegComboBox.SelectedIndex;
-            PDFViewClass.CompressOptions.RecompressImageJpeg2kCompressionLevel = (ImGearJpeg2kCompressionLevel)jpeg2KComboBox.SelectedIndex;
-            PDFViewClass.CompressOptions.IsFieldFlatteningEnabled = flatteringCheckBox.Checked;
+            PDFManager.CompressOptions.IsDownsampleImagesEnabled = downsampleCheckBox.Checked;
+            PDFManager.CompressOptions.RecompressUsingJpeg2k = jpeg2KRadioButton.Checked;
+            PDFManager.CompressOptions.RecompressImageJbig2CompressionLevel = (ImGearJbig2CompressionLevel)bitonalComboBox.SelectedIndex;
+            PDFManager.CompressOptions.RecompressImageJpegCompressionLevel = (ImGearJpegCompressionLevel)jpegComboBox.SelectedIndex;
+            PDFManager.CompressOptions.RecompressImageJpeg2kCompressionLevel = (ImGearJpeg2kCompressionLevel)jpeg2KComboBox.SelectedIndex;
+            PDFManager.CompressOptions.IsFieldFlatteningEnabled = flatteringCheckBox.Checked;
 
             if (noneCheckBox.Checked)
-                PDFViewClass.DoCompression = false;
+                PDFManager.DoCompression = false;
             else
-                PDFViewClass.DoCompression = true;
+                PDFManager.DoCompression = true;
 
-            PDFViewClass.PDFDocument.SetInfo("Title", titleTextBox.Text);
-            PDFViewClass.PDFDocument.SetInfo("Author", authorTextBox.Text);
-            PDFViewClass.PDFDocument.SetInfo("Subject", subjectTextBox.Text);
-            PDFViewClass.PDFDocument.SetInfo("Keywords", keywordsTextBox.Text);
-            PDFViewClass.PDFDocument.SetInfo("Creator", creatorTextBox.Text);
+            PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.SetInfo("Title", titleTextBox.Text);
+            PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.SetInfo("Author", authorTextBox.Text);
+            PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.SetInfo("Subject", subjectTextBox.Text);
+            PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.SetInfo("Keywords", keywordsTextBox.Text);
+            PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.SetInfo("Creator", creatorTextBox.Text);
 
-            PDFViewClass.CompressOptions.IsRemoveMetadataEnabled = dontSaveMetadataCheckBox.Checked;
-            PDFViewClass.CompressOptions.IsRemoveImageThumbnailEnabled = dontSaveThumbnailsCheckBox.Checked;
+            PDFManager.CompressOptions.IsRemoveMetadataEnabled = dontSaveMetadataCheckBox.Checked;
+            PDFManager.CompressOptions.IsRemoveImageThumbnailEnabled = dontSaveThumbnailsCheckBox.Checked;
 
-            PDFViewClass.FileSave(PDFViewClass.DocumentPath, PDFViewClass.PDFDocument);
+            PDFViewSaveLoad.FileSave(PDFManager.Documents[PDFManager.SelectedTabID].DocumentPath, PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument);
 
             if (PDFradioButton.Checked)
-                PDFViewClass.DoConversion = false;
+                PDFManager.DoConversion = false;
             if (PDFA1aradioButton.Checked)
             {
-                PDFViewClass.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1A_2005;
-                PDFViewClass.DoConversion = true;
+                PDFManager.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1A_2005;
+                PDFManager.DoConversion = true;
             }
             if (PDFA1bradioButton.Checked)
             {
-                PDFViewClass.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1B_2005;
-                PDFViewClass.DoConversion = true;
+                PDFManager.PreflightProfile = ImGearPDFPreflightProfile.PDFA_1B_2005;
+                PDFManager.DoConversion = true;
             }
             this.Close();
         }

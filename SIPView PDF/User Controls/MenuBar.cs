@@ -16,20 +16,18 @@ namespace SIPView_PDF
 
         private void FileOpenBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.FileLoad();
+            PDFViewSaveLoad.FileLoad();
         }
 
         private void FileSaveBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.FileSave();
+            PDFViewSaveLoad.FileSave();
         }
 
         private void EditBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.ToolBarChangeVisibility();
-
+            PDFManager.Documents[PDFManager.SelectedTabID].ToolBarChangeVisibility();
             MenuBarClass.ToolBarChangeCheck();
-
         }
 
         private void BakeInBtn_Click(object sender, EventArgs e)
@@ -44,36 +42,36 @@ namespace SIPView_PDF
 
         private void RedoBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.Redo();
+            PDFManager.Documents[PDFManager.SelectedTabID].Redo();
             MenuBarClass.UpdateHistoryBtns();
         }
 
         private void UndoBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.Undo();
+            PDFManager.Documents[PDFManager.SelectedTabID].Undo();
             MenuBarClass.UpdateHistoryBtns();
         }
 
         private void PrevPageBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.PrevPage();
+            PDFManager.Documents[PDFManager.SelectedTabID].PrevPage();
             MenuBarClass.UpdatePageBtns();
         }
 
         private void NextPageBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.NextPage();
+            PDFManager.Documents[PDFManager.SelectedTabID].NextPage();
             MenuBarClass.UpdatePageBtns();
         }
 
         private void RotateRightBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.RotateRight();
+            PDFManager.Documents[PDFManager.SelectedTabID].RotateRight();
         }
 
         private void RotateLeftBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.RotateLeft();
+            PDFManager.Documents[PDFManager.SelectedTabID].RotateLeft();
         }
 
         private void AllFilesToPDFsMenu_Click(object sender, EventArgs e)
@@ -97,67 +95,6 @@ namespace SIPView_PDF
         private void FilePrintBtn_Click(object sender, EventArgs e)
         {
             PDFVeiwPrint.FilePrint();
-        }
-
-        private void FileOpenMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.FileLoad();
-        }
-
-        private void FileSaveMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.FileSave();
-        }
-
-        private void FilePrintMenu_Click(object sender, EventArgs e)
-        {
-            PDFVeiwPrint.FilePrint();
-        }
-
-        private void PrevPageMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.PrevPage();
-        }
-
-        private void NextPageMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.NextPage();
-        }
-
-        private void RotateRightMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.RotateRight();
-        }
-
-        private void RotateLeftMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.RotateLeft();
-        }
-
-        private void ShowToolBarMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.ToolBarChangeVisibility();
-            MenuBarClass.ToolBarChangeCheck();
-        }
-
-        private void BakeInMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewAnnotations.AnnotationBakeIn();
-        }
-
-        private void SelectAllMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewAnnotations.SelectAllMarks();
-        }
-
-        private void UndoMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.Undo();
-        }
-
-        private void RedoMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.Redo();
         }
 
         private void PrintSettingsMenu_Click(object sender, EventArgs e)
