@@ -114,5 +114,9 @@ namespace SIPView_PDF
             MenuBarClass.TextSelectionChangeCheck();
         }
 
+        private void CloseTabMenu_Click(object sender, EventArgs e)
+        {
+            PDFManager.CloseTab(PDFManager.SelectedTabID);
+        }
     }
 }

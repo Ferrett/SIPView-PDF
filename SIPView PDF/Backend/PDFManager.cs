@@ -20,13 +20,11 @@ namespace SIPView_PDF
     {
         public static event EventHandler PageChanged;
         public static event EventHandler DocumentChanged;
+        public static event EventHandler TabChanged;
+
         public static event EventHandler ARTPage_MarkUpdate;
         public static event EventHandler ARTPage_MarkSelectionChanged;
         public static event EventHandler ARTPage_HistoryChanged;
-
-        public static int SelectedTabID = 0;
-
-        public static List<PDFViewClass> Documents = new List<PDFViewClass>();
 
         public static ImGearCompressOptions CompressOptions = new ImGearCompressOptions() { IsRemoveImageThumbnailEnabled = false };
         public static bool DoCompression = false;
@@ -34,19 +32,30 @@ namespace SIPView_PDF
         public static ImGearPDFPreflightProfile PreflightProfile;
         public static bool DoConversion = false;
 
+        public static int SelectedTabID = -1;
         public static ViewModes ViewMode = ViewModes.DEFAULT;
 
+        public static List<PDFViewClass> Documents = new List<PDFViewClass>();
         public static TabControl TabControl;
+        public static TabPage NewTabPage;
 
-        public static TabPage tabPage;
-
-        /// <summary>
-        /// /////////////  ПЕРЕДАТЬ СЮДА КОНТРОЛЫ ИЗ ОКНА PDFView, разоброаться с мусором в MainForm
-        /// </summary>
+        public static void InitializeImGear()
+        {
+            ImGearCommonFormats.Initialize();
+            ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePDFFormat());
+            ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePSFormat());
+            ImGearPDF.Initialize();
+        }
 
         public static void AddPageView()
         {
-            tabPage = new TabPage();
+            if (TabControl.SelectedIndex == -1)
+                OnTabChanged(null);
+
+            SelectedTabID++;
+
+            #region Controls
+            NewTabPage = new TabPage();
 
             ImGearPageView PageView = new ImGearPageView();
 
@@ -87,33 +96,60 @@ namespace SIPView_PDF
             ScrollBar.Visible = true;
             ScrollBar.ValueChanged += new EventHandler(PDFViewKeyEvents.ScrollBarScrolled);
 
-            tabPage.Controls.Add(PageView);
-            tabPage.Controls.Add(ScrollBar);
+            NewTabPage.Controls.Add(PageView);
+            NewTabPage.Controls.Add(ScrollBar);
+            #endregion
 
-           
             Documents.Add(new PDFViewClass(PageView, ScrollBar));
         }
 
-        public static void AddTabPage()
+        public static void AddTab()
         {
-            tabPage.Text = Path.GetFileName(Documents[SelectedTabID].DocumentPath);
-            TabControl.TabPages.Add(tabPage);
+            NewTabPage.Text = Path.GetFileName(Documents[SelectedTabID].DocumentPath);
+            TabControl.TabPages.Add(NewTabPage);
+            TabControl.SelectedTab = TabControl.TabPages[TabControl.TabPages.Count - 1];  
         }
 
-        public static void TabChanged()
+        public static void CloseTab(int tabID)
+        {
+            Documents.RemoveAt(tabID);
+            TabControl.TabPages.RemoveAt(tabID);
+            SelectedTabID = TabControl.SelectedIndex;
+
+            if (TabControl.TabPages.Count != 0)
+                TabControl.SelectedTab = TabControl.TabPages[TabControl.TabPages.Count - 1];
+        }
+
+        public static void SelectedTabChanged()
         {
             SelectedTabID = TabControl.SelectedIndex;
+            OnTabChanged(null);
         }
 
-        public static void InitializeImGear()
+        public static void TabControl_MouseClick(object sender,MouseEventArgs e)
         {
-            ImGearCommonFormats.Initialize();
-            ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePDFFormat());
-            ImGearFileFormats.Filters.Insert(0, ImGearPDF.CreatePSFormat());
-            ImGearPDF.Initialize();
+            if (e.Button == MouseButtons.Middle)
+            {
+                TabControl tabControl = (TabControl)sender;
+
+                for (int i = 0; i < tabControl.TabCount; i++)
+                {
+                    Rectangle tabRect = tabControl.GetTabRect(i);
+                    if (tabRect.Contains(e.Location))
+                    {
+                        CloseTab(i);
+                    }
+                }
+            }
         }
 
-        #region EVENTS
+        #region EVENT_HANDLERS
+
+        public static void OnTabChanged(EventArgs e)
+        {
+            if (TabChanged != null)
+                TabChanged(null, e);
+        }
         public static void OnARTPage_MarkUpdate(EventArgs e)
         {
             if (ARTPage_MarkUpdate != null)

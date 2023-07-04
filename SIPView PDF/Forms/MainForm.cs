@@ -15,6 +15,7 @@ namespace SIPView_PDF
 
             PDFManager.DocumentChanged += DocumentUpdated;
             PDFManager.PageChanged += PageViewUpdated;
+            PDFManager.TabChanged += TabChanged;
 
             PDFManager.ARTPage_MarkUpdate += ARTPage_MarkUpdate;
             PDFManager.ARTPage_MarkSelectionChanged += ARTPage_MarkSelectionChanged;
@@ -40,6 +41,11 @@ namespace SIPView_PDF
         private void PageViewUpdated(object sender, EventArgs e)
         {
             MenuBarClass.PageChanged();
+        }
+
+        private void TabChanged(object sender, EventArgs e)
+        {
+            MenuBarClass.TabChanged();
         }
 
         private void ARTPage_HistoryChanged(object sender, EventArgs e)

@@ -13,7 +13,7 @@ namespace SIPView_PDF
             InitializeComponent();
             InitializeClassControls();
         }
-
+       
         private void InitializeClassControls()
         {
             PDFManager.TabControl = TabControl;
@@ -21,7 +21,12 @@ namespace SIPView_PDF
 
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PDFManager.TabChanged();
+            PDFManager.SelectedTabChanged();
+        }
+
+        private void TabControl_MouseClick(object sender, MouseEventArgs e)
+        {
+            PDFManager.TabControl_MouseClick(sender, e);
         }
     }
 }

@@ -152,7 +152,7 @@ namespace SIPView_PDF
         {
             DisplayCurrentPageMarks();
 
-            //ScrollBar.Value = PageID;
+            ScrollBar.Value = PageID;
             PDFViewOCR.FindWordsInPage(); ///////////////// ?? 
             UpdatePageView();
         }

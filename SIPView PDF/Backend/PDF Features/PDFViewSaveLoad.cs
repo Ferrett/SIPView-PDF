@@ -120,7 +120,7 @@ namespace SIPView_PDF
                     PDFManager.OnDocumentChanged(null);
                     PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(0);
 
-                    PDFManager.AddTabPage();
+                    PDFManager.AddTab();
                 }
                 catch (ImGearException ex)
                 {
