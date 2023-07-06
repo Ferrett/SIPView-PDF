@@ -17,6 +17,7 @@ namespace SIPView_PDF
         private void InitializeClassControls()
         {
             PDFManager.TabControl = TabControl;
+            PDFManager.Pan = Pan;
         }
 
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)

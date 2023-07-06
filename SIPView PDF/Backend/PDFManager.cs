@@ -37,6 +37,7 @@ namespace SIPView_PDF
 
         public static List<PDFViewClass> Documents = new List<PDFViewClass>();
         public static TabControl TabControl;
+        public static ImGearPan Pan;
         public static TabPage NewTabPage;
 
         public static void InitializeImGear()
@@ -50,7 +51,9 @@ namespace SIPView_PDF
         public static void AddPageView()
         {
             if (TabControl.SelectedIndex == -1)
-                OnTabChanged(null);
+            {
+               OnTabChanged(null);
+            }
 
             SelectedTabID++;
 
@@ -81,9 +84,7 @@ namespace SIPView_PDF
             PageView.MouseDown += new MouseEventHandler(PDFViewKeyEvents.PageView_MouseDown);
             PageView.MouseUp += new MouseEventHandler(PDFViewKeyEvents.PageView_MouseUp);
             PageView.MouseMove += new MouseEventHandler(PDFViewKeyEvents.PageView_MouseMove);
-
             PageView.MouseWheel += new MouseEventHandler(PDFViewKeyEvents.WheelScrolled);
-           
 
             ScrollBar ScrollBar = new VScrollBar();
             ScrollBar.Dock = DockStyle.Right;
@@ -101,13 +102,20 @@ namespace SIPView_PDF
             #endregion
 
             Documents.Add(new PDFViewClass(PageView, ScrollBar));
+            
         }
 
         public static void AddTab()
         {
             NewTabPage.Text = Path.GetFileName(Documents[SelectedTabID].DocumentPath);
             TabControl.TabPages.Add(NewTabPage);
-            TabControl.SelectedTab = TabControl.TabPages[TabControl.TabPages.Count - 1];  
+            TabControl.SelectedTab = TabControl.TabPages[TabControl.TabPages.Count - 1];
+
+            if (TabControl.TabPages.Count == 1)
+            {
+                Documents[SelectedTabID].PageView.Focus();
+                Pan.SourceView = Documents[SelectedTabID].PageView;
+            }
         }
 
         public static void CloseTab(int tabID)
@@ -117,12 +125,20 @@ namespace SIPView_PDF
             SelectedTabID = TabControl.SelectedIndex;
 
             if (TabControl.TabPages.Count != 0)
+            {
                 TabControl.SelectedTab = TabControl.TabPages[TabControl.TabPages.Count - 1];
+            }
         }
 
         public static void SelectedTabChanged()
         {
             SelectedTabID = TabControl.SelectedIndex;
+
+            if (TabControl.TabPages.Count != 0)
+            {
+                Documents[SelectedTabID].PageView.Focus();
+                Pan.SourceView = Documents[SelectedTabID].PageView;
+            }
             OnTabChanged(null);
         }
 

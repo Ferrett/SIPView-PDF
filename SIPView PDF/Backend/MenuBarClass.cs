@@ -102,29 +102,45 @@ namespace SIPView_PDF
         {
             if(PDFManager.Documents.Count  > 0)
             {
-
+                PageChanged();
             }
-            
+            else
+            {
+                RotateLeftBtn.Enabled = false;
+                RotateRightBtn.Enabled = false;
+                FileSaveBtn.Enabled = false;
+                FilePrintBtn.Enabled = false;
+                ShowToolBarBtn.Enabled = false;
+                TextSelectionBtn.Enabled = false;
+
+                RotateLeftMenu.Enabled = false;
+                RotateRightMenu.Enabled = false;
+                FileSaveMenu.Enabled = false;
+                FilePrintMenu.Enabled = false;
+                ShowToolBarMenu.Enabled = false;
+                TextSelectionMenu.Enabled = false;
+
+                ToolsMenu.Enabled = false;
+                EditMenu.Enabled = false;
+            }
         }
 
         public static void DocumentOpened()
         {
             RotateLeftBtn.Enabled = true;
             RotateRightBtn.Enabled = true;
+            FileSaveBtn.Enabled = true;
             FilePrintBtn.Enabled = true;
             ShowToolBarBtn.Enabled = true;
+            TextSelectionBtn.Enabled = true;
 
             RotateLeftMenu.Enabled = true;
             RotateRightMenu.Enabled = true;
             FileSaveMenu.Enabled = true;
             FilePrintMenu.Enabled = true;
-
             ShowToolBarMenu.Enabled = true;
+            TextSelectionMenu.Enabled = true;
 
-            FileSaveMenu.Enabled = true;
-            FilePrintMenu.Enabled = true;
-
-            PDFSettingsMenu.Enabled = true;
             ToolsMenu.Enabled = true;
             EditMenu.Enabled = true;
         }
@@ -132,16 +148,19 @@ namespace SIPView_PDF
         public static void UpdateTextSelectionBtn()
         {
             TextSelectionBtn.Enabled = PDFViewOCR.WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID) > 0 ? true : false;
+            TextSelectionMenu.Enabled = PDFViewOCR.WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID) > 0 ? true : false;
         }
 
         public static void UpdateBakeInBtn()
         {
             BakeInBtn.Enabled = PDFViewAnnotations.SelectedMarksCount() == 0 ? false : true;
+            BakeInMenu.Enabled = PDFViewAnnotations.SelectedMarksCount() == 0 ? false : true;
         }
 
         public static void UpdateSelectionBtn()
         {
             SelectAllBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkCount == 0 ? false : true;
+            SelectAllMenu.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkCount == 0 ? false : true;
         }
 
         public static void UpdatePageBtns()
@@ -168,13 +187,8 @@ namespace SIPView_PDF
             ShowToolBarBtn.Checked = !ShowToolBarBtn.Checked;
 
             if(ShowToolBarBtn.Checked ==true)
-            {
-                
+            {   
                 TextSelectionBtn.Checked = false;
-            }
-            else
-            {
-
             }
         }
 
@@ -183,8 +197,7 @@ namespace SIPView_PDF
             TextSelectionBtn.Checked = !TextSelectionBtn.Checked;
 
             if (TextSelectionBtn.Checked == true)
-            {
-                
+            {   
                 ShowToolBarBtn.Checked = false;
             }
         }

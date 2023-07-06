@@ -44,7 +44,6 @@ namespace SIPView_PDF
             // 
             // TabControl
             // 
-            this.TabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TabControl.Location = new System.Drawing.Point(0, 0);
             this.TabControl.Margin = new System.Windows.Forms.Padding(0);
@@ -52,7 +51,6 @@ namespace SIPView_PDF
             this.TabControl.SelectedIndex = 0;
             this.TabControl.Size = new System.Drawing.Size(1000, 542);
             this.TabControl.TabIndex = 4;
-            this.TabControl.TabStop = false;
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.TabControl_SelectedIndexChanged);
             this.TabControl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TabControl_MouseClick);
             // 
