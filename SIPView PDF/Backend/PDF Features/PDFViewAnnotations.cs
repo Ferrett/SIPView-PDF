@@ -1,15 +1,26 @@
 ﻿using ImageGear.ART;
+using ImageGear.Display;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SIPView_PDF.Backend.PDF_Features
 {
     public static class PDFViewAnnotations
     {
+
+
+        public static void DisplayCurrentPageMarks()
+        {
+            PDFManager.Documents[PDFManager.SelectedTabID].PageView.Display = new ImGearPageDisplay(PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages[PDFManager.Documents[PDFManager.SelectedTabID].PageID], PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID]);
+            PDFManager.Documents[PDFManager.SelectedTabID].ARTForm.Page = PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID];
+            
+        }
+
         public static void InitializeArtPages()
         {
             PDFManager.Documents[PDFManager.SelectedTabID].ARTPages.Clear();

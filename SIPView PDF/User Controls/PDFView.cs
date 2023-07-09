@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using ImageGear.ART.Forms;
 using ImageGear.Evaluation;
 using ImageGear.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SIPView_PDF
 {

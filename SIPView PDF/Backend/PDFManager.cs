@@ -69,12 +69,11 @@ namespace SIPView_PDF
             PageView.Display = null;
             PageView.HorizontalArrowIncerment = 1;
 
-            PageView.Name = "PageView";
             PageView.NotifyPageDown = null;
             PageView.NotifyPageUp = null;
             PageView.Page = null;
 
-            PageView.TabIndex = 1;
+            PageView.TabIndex = 2;
             PageView.UseConfiguredScrollbarIncrements = false;
             PageView.VerticalArrowIncerment = 1;
 
@@ -90,18 +89,81 @@ namespace SIPView_PDF
             ScrollBar.Dock = DockStyle.Right;
             ScrollBar.LargeChange = 1;
 
-            ScrollBar.Name = "ScrollBar";
-
-
             ScrollBar.TabIndex = 0;
             ScrollBar.Visible = true;
             ScrollBar.ValueChanged += new EventHandler(PDFViewKeyEvents.ScrollBarScrolled);
 
+            Panel OCRPanel = new Panel();
+            OCRPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            OCRPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            OCRPanel.Name = "OCRPanel";
+            OCRPanel.Size = new System.Drawing.Size(325, 54);
+            OCRPanel.Location = new System.Drawing.Point(NewTabPage.Width-OCRPanel.Width, 0);
+            OCRPanel.TabIndex = 0;
+            OCRPanel.Visible = false;
+
+            TextBox OCRTextBox = new TextBox();
+            OCRTextBox.Location = new System.Drawing.Point(15, 17);
+            OCRTextBox.Name = "OCRTextBox";
+            OCRTextBox.Size = new System.Drawing.Size(131, 20);
+            OCRTextBox.TabIndex = 0;
+            
+            Label OCRLabel = new Label();
+            OCRLabel.AutoSize = true;
+            OCRLabel.Location = new System.Drawing.Point(157, 20);
+            OCRLabel.Name = "OCRLabel";
+            OCRLabel.Size = new System.Drawing.Size(24, 13);
+            OCRLabel.TabIndex = 1;
+            OCRLabel.Text = "0/0";
+
+            Button OCRSearchBtn = new Button();
+            OCRSearchBtn.Location = new System.Drawing.Point(188, 12);
+            OCRSearchBtn.Margin = new System.Windows.Forms.Padding(0);
+            OCRSearchBtn.Name = "OCRSearchBtn";
+            OCRSearchBtn.Size = new System.Drawing.Size(27, 27);
+            OCRSearchBtn.TabIndex = 2;
+            OCRSearchBtn.Text = "S";
+            OCRSearchBtn.UseVisualStyleBackColor = true;
+
+            Button OCRPrevBtn = new Button();
+            OCRPrevBtn.Location = new System.Drawing.Point(226, 12);
+            OCRPrevBtn.Margin = new System.Windows.Forms.Padding(0);
+            OCRPrevBtn.Name = "OCRPrevBtn";
+            OCRPrevBtn.Size = new System.Drawing.Size(27, 27);
+            OCRPrevBtn.TabIndex = 2;
+            OCRPrevBtn.Text = "<";
+            OCRPrevBtn.UseVisualStyleBackColor = true;
+
+            Button OCRNextBtn = new Button();
+            OCRNextBtn.Location = new System.Drawing.Point(252, 12);
+            OCRNextBtn.Margin = new System.Windows.Forms.Padding(0);
+            OCRNextBtn.Name = "OCRNextBtn";
+            OCRNextBtn.Size = new System.Drawing.Size(27, 27);
+            OCRNextBtn.TabIndex = 3;
+            OCRNextBtn.Text = ">";
+            OCRNextBtn.UseVisualStyleBackColor = true;
+
+            Button OCRCloseBtn = new Button();
+            OCRCloseBtn.Location = new System.Drawing.Point(290, 12);
+            OCRCloseBtn.Name = "OCRCloseBtn";
+            OCRCloseBtn.Size = new System.Drawing.Size(27, 27);
+            OCRCloseBtn.TabIndex = 4;
+            OCRCloseBtn.Text = "X";
+            OCRCloseBtn.UseVisualStyleBackColor = true;
+
+            OCRPanel.Controls.Add(OCRCloseBtn);
+            OCRPanel.Controls.Add(OCRNextBtn);
+            OCRPanel.Controls.Add(OCRPrevBtn);
+            OCRPanel.Controls.Add(OCRLabel);
+            OCRPanel.Controls.Add(OCRTextBox);
+            OCRPanel.Controls.Add(OCRSearchBtn);
+
+            NewTabPage.Controls.Add(OCRPanel);
             NewTabPage.Controls.Add(PageView);
             NewTabPage.Controls.Add(ScrollBar);
             #endregion
 
-            Documents.Add(new PDFViewClass(PageView, ScrollBar));
+            Documents.Add(new PDFViewClass(PageView, ScrollBar, OCRPanel));
             
         }
 

@@ -22,6 +22,7 @@ namespace SIPView_PDF
         {
             CurrentMousePos.X = e.X;
             CurrentMousePos.Y = e.Y;
+            PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
         }
 
         public static void WheelScrolled(object sender, MouseEventArgs e)
@@ -87,9 +88,17 @@ namespace SIPView_PDF
                 PDFManager.Documents[PDFManager.SelectedTabID].PageView.Display.UpdateZoomFrom(new ImGearZoomInfo(1, 1, false, false));
                 PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
             }
-            else if (e.KeyCode == Keys.ControlKey)
+
+            if (e.KeyCode == Keys.ControlKey)
             {
                 CtrlKeyPressed = true;
+            }
+
+            if (CtrlKeyPressed == true && e.KeyCode == Keys.F)
+            {
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRPanel.Visible = true;
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Focus();
+
             }
 
             if (PDFManager.ViewMode == ViewModes.TEXT_SELECTION && CtrlKeyPressed == true && e.KeyCode == Keys.A)

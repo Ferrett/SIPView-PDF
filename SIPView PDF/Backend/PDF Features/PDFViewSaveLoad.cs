@@ -100,9 +100,9 @@ namespace SIPView_PDF
 
         public static void FileLoad(string fileName)
         {
-            using (FileStream inputStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+            try
             {
-                try
+                using (FileStream inputStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                 {
                     PDFManager.AddPageView();
 
@@ -122,11 +122,11 @@ namespace SIPView_PDF
 
                     PDFManager.AddTab();
                 }
-                catch (ImGearException ex)
-                {
-                    // Perform error handling.
-                    MessageBox.Show(ex.Message);
-                }
+            }
+            catch (ImGearException ex)
+            {
+                // Perform error handling.
+                MessageBox.Show(ex.Message);
             }
         }
     }

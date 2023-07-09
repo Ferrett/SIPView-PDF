@@ -26,10 +26,18 @@ namespace SIPView_PDF
         public List<ImGearARTPage> ARTPages = new List<ImGearARTPage>();
         public ImGearPDFDocument PDFDocument = null;
 
-        public ImGearARTForms ARTForm;
+
 
         public ImGearPageView PageView;
         public ScrollBar ScrollBar;
+
+        public Panel OCRPanel;
+        public TextBox OCRTextBox;
+        public Label OCRLabel;
+        public Button OCRSearchBtn;
+        public Button OCRPrevBtn;
+        public Button OCRNextBtn;
+        public Button OCRCloseBtn;
 
         public int PageID = 0;
 
@@ -37,17 +45,61 @@ namespace SIPView_PDF
 
         public string DocumentPath;
 
-        public PDFViewClass(ImGearPageView PageView, ScrollBar ScrollBar)
+        public ImGearARTForms ARTForm;
+        public PDFViewClass(ImGearPageView PageView, ScrollBar ScrollBar, Panel OCRPanel)
         {
             this.PageView = PageView; 
             this.ScrollBar = ScrollBar; 
+            this.OCRPanel = OCRPanel;
 
             ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
-            
 
+            OCRTextBox = OCRPanel.Controls["OCRTextBox"] as TextBox;
+            OCRSearchBtn = OCRPanel.Controls["OCRSearchBtn"] as Button;
+            OCRPrevBtn = OCRPanel.Controls["OCRPrevBtn"] as Button;
+            OCRNextBtn = OCRPanel.Controls["OCRNextBtn"] as Button;
+            OCRCloseBtn = OCRPanel.Controls["OCRCloseBtn"] as Button;
+            OCRLabel = OCRPanel.Controls["OCRLabel"] as Label;
+            OCRCloseBtn.GotFocus += OCRCloseBtn_GotFocus;
+           
+            InitOCREvents();
             InitArtPageEvents();
             InitializeArtFormEvents();
             InitializeToolBar();
+        }
+
+        private void OCRCloseBtn_GotFocus(object sender, EventArgs e)
+        {
+            PageView.Focus();
+        }
+
+        public void InitOCREvents()
+        {
+            OCRSearchBtn.Click += OCRSearchBtn_Click;
+            OCRPrevBtn.Click += OCRPrevBtn_Click;
+            OCRNextBtn.Click += OCRNextBtn_Click;
+            OCRCloseBtn.Click += OCRCloseBtn_Click;
+        }
+
+        private void OCRCloseBtn_Click(object sender, EventArgs e)
+        {
+            PDFViewOCR.CloseOCR();
+            OCRPanel.Visible=false;
+        }
+
+        private void OCRNextBtn_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OCRPrevBtn_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OCRSearchBtn_Click(object sender, EventArgs e)
+        {
+            PDFViewOCR.WordSearch();
         }
 
         public void InitializeToolBar()
@@ -61,6 +113,27 @@ namespace SIPView_PDF
             ARTForm.ToolBar.ShowInTaskbar = true;
         }
 
+        public void InitializeArtFormEvents()
+        {
+            ARTForm.MouseRightButtonDown += PDFViewKeyEvents.ARTForm_MouseRightButtonDown;
+            ARTForm.MouseLeftButtonDown += PDFViewKeyEvents.ARTForm_MouseLeftButtonDown;
+            ARTForm.MouseLeftButtonUp += PDFViewKeyEvents.ARTForm_MouseLeftButtonUp;
+            ARTForm.MouseRightButtonUp += PDFViewKeyEvents.ARTForm_MouseRightButtonUp;
+            ARTForm.MouseMoved += PDFViewKeyEvents.ARTForm_MouseMoved;
+
+            ARTForm.MarkCreated += ARTForm_MarkCreated;
+        }
+        private void ARTForm_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
+        {
+            UpdatePageView();
+        }
+        public void ToolBarChangeVisibility()
+        {
+            if (ARTForm.ToolBar.Visible)
+                ARTForm.ToolBar.Close();
+            else
+                ARTForm.ToolBar.Show();
+        }
         public void InitArtPageEvents()
         {
             for (int i = 0; i < ARTPages.Count; i++)
@@ -88,27 +161,8 @@ namespace SIPView_PDF
         }
 
        
-        private void DisplayCurrentPageMarks()
-        {
-            PageView.Display = new ImGearPageDisplay(PDFDocument.Pages[PageID], ARTPages[PageID]);
-            ARTForm.Page = ARTPages[PageID];
-        }
 
-        public void InitializeArtFormEvents()
-        {
-            ARTForm.MouseRightButtonDown += PDFViewKeyEvents.ARTForm_MouseRightButtonDown;
-            ARTForm.MouseLeftButtonDown += PDFViewKeyEvents.ARTForm_MouseLeftButtonDown;
-            ARTForm.MouseLeftButtonUp += PDFViewKeyEvents.ARTForm_MouseLeftButtonUp;
-            ARTForm.MouseRightButtonUp += PDFViewKeyEvents.ARTForm_MouseRightButtonUp;
-            ARTForm.MouseMoved += PDFViewKeyEvents.ARTForm_MouseMoved;
-
-            ARTForm.MarkCreated += ARTForm_MarkCreated;
-        }
-
-        private void ARTForm_MarkCreated(object sender, ImGearARTFormsMarkCreatedEventArgs e)
-        {
-            UpdatePageView();
-        }
+       
 
         public void DrawSelector(System.Drawing.Graphics gr)
         {
@@ -150,20 +204,14 @@ namespace SIPView_PDF
 
         private void UpdateAfterRender()
         {
-            DisplayCurrentPageMarks();
+            PDFViewAnnotations.DisplayCurrentPageMarks();
 
             ScrollBar.Value = PageID;
             PDFViewOCR.FindWordsInPage(); ///////////////// ?? 
             UpdatePageView();
         }
 
-        public void ToolBarChangeVisibility()
-        {
-            if (ARTForm.ToolBar.Visible)
-                ARTForm.ToolBar.Close();
-            else
-                ARTForm.ToolBar.Show();
-        }
+       
 
         public void RotateLeft()
         {

@@ -51,9 +51,6 @@ namespace SIPView_PDF
             ProgressBar.Style = ProgressBarStyle.Continuous;
         }
 
-
-
-
         private void sourseFolderBtn_Click(object sender, EventArgs e)
         {
             using (var fbd = new FolderBrowserDialog())
@@ -67,7 +64,6 @@ namespace SIPView_PDF
             }
         }
 
-
         private void targetFolderBtn_Click(object sender, EventArgs e)
         {
             using (var fbd = new FolderBrowserDialog())
@@ -80,9 +76,6 @@ namespace SIPView_PDF
                 }
             }
         }
-
-
-
 
         private async void startBtn_Click(object sender, EventArgs e)
         {
@@ -190,7 +183,6 @@ namespace SIPView_PDF
 
         }
 
-
         private void SplitMultipagePDFs(string file)
         {
             ImGearPDF.Initialize();
@@ -291,7 +283,6 @@ namespace SIPView_PDF
 
         }
 
-
         private void AllFilesToPDFs(string file)
         {
             ImGearPDF.Initialize();
@@ -323,7 +314,6 @@ namespace SIPView_PDF
             ImGearPDF.Terminate();
         }
 
-
         private void FinishProgressBar()
         {
             ProgressBar.Maximum = 101;
@@ -337,7 +327,6 @@ namespace SIPView_PDF
             ProgressBar.Value = ProgressBar.Maximum;
             ProgressBar.Value = a;
         }
-
 
         private void exitBtn_Click(object sender, EventArgs e)
         {
