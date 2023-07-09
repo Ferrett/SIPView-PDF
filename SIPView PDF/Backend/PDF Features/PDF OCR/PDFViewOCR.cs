@@ -20,31 +20,33 @@ namespace SIPView_PDF
         public static bool DrawTextSelecting = false;
         private static ImGearRectangle[] SelectedWordsBounds;
         private static bool[] WordsIsSelected;
-        private static List<string> OCRWords;
-        private static Dictionary<int, List<ImGearRectangle>> OCRWordsBounds;
+
+
+        private static List<OCRWord> OCRWords;
 
         public static bool TextIsSearched = false;
         public static int HighlightedOCRWord;
         public static void WordSearch()
         {
+            if (string.IsNullOrEmpty(PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Text))
+                return;
+
             HighlightedOCRWord = 0;
             TextIsSearched = true;
-            OCRWords = new List<string>();
-            OCRWordsBounds = new Dictionary<int, List<ImGearRectangle>>();
 
+            OCRWords = new List<OCRWord>();
 
             for (int i = 0; i < PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count; i++)
             {
                 PDFWordFinder = new ImGearPDFWordFinder(PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument, ImGearPDFWordFinderVersion.LATEST_VERSION, ImGearPDFContextFlags.XY_ORDER);
                 PDFWordFinder.AcquireWordList(i);
 
-                List<ImGearRectangle> foundTextBounds = new List<ImGearRectangle>();
+
                 for (int j = 0; j < PDFWordFinder.AcquireWordList(i); j++)
                 {
-                   
+
                     if (PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).String.ToLower().Contains(PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Text.ToLower()))
                     {
-                        OCRWords.Add(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).String);
 
                         int firstid, lastid, lenchar;
 
@@ -52,28 +54,92 @@ namespace SIPView_PDF
                         lastid = PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).String.Length - (firstid + PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Text.ToLower().Length);
                         lenchar = (ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).GetQuad(0).BottomRight.H) - ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).GetQuad(0).TopLeft.H)) / PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).String.ToLower().Length;
 
-                        foundTextBounds.Add(new ImGearRectangle()
+                        ImGearRectangle foundTextBounds = new ImGearRectangle()
                         {
                             Top = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].DIB.Height - ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).GetQuad(0).BottomRight.V),
                             Bottom = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].DIB.Height - ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).GetQuad(0).TopLeft.V),
                             Left = ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).GetQuad(0).TopLeft.H) + firstid * lenchar,
                             Right = ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).GetQuad(0).BottomRight.H) - lastid * lenchar
-                        });  
+                        };
+
+                        OCRWords.Add(new OCRWord { ID = OCRWords.Count, PageID = i, Bounds = foundTextBounds, Text = PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).String });
                     }
                 }
-                OCRWordsBounds.Add(i, foundTextBounds);
+
             }
 
-            foreach (var item in OCRWordsBounds[PDFManager.Documents[PDFManager.SelectedTabID].PageID])
+            if (OCRWords[0].PageID != PDFManager.Documents[PDFManager.SelectedTabID].PageID)
+                PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(OCRWords[0].PageID);
+
+            DrawHighlightOnCurrentPage();
+        }
+
+        public static void DeleteHighlightOnCurrentPage()
+        {
+            List<int> removedMarkID = new List<int>();
+            foreach (ImGearARTMark ARTMark in PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID])
             {
-                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(item, new ImGearRGBQuad() { Red = 255, Green = 140, Blue = 0 }) { Opacity = 120, UserData = -1 }, ImGearARTCoordinatesType.IMAGE_COORD);
+                if (ARTMark.UserData.ToString().Equals("OCR"))
+                    removedMarkID.Add(ARTMark.Id);
             }
 
+            foreach (int ID in removedMarkID)
+            {
+                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkRemove(ID);
+            }
+
+        }
+        public static void DrawHighlightOnCurrentPage()
+        {
+            DeleteHighlightOnCurrentPage();
+            for (int i = 0; i < OCRWords.Count; i++)
+            {
+                if (OCRWords[i].PageID == PDFManager.Documents[PDFManager.SelectedTabID].PageID)
+                {
+                    if (OCRWords[i].ID == HighlightedOCRWord)
+                        PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(OCRWords[i].Bounds, OCRColors.OCRHighlightColor) { Opacity = OCRColors.OCRHighlightOpacity, UserData = $"OCR" }, ImGearARTCoordinatesType.IMAGE_COORD);
+                    else
+                        PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(OCRWords[i].Bounds, OCRColors.OCRWordColor) { Opacity = OCRColors.OCRWordOpacity, UserData = $"OCR" }, ImGearARTCoordinatesType.IMAGE_COORD);
+                }
+            }
+            UpdateOCRLabel();
             PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
+        }
+        public static void HighlightPrevWord()
+        {
+            if (HighlightedOCRWord > 0)
+            {
+                HighlightedOCRWord--;
+
+                if (OCRWords[HighlightedOCRWord].PageID != PDFManager.Documents[PDFManager.SelectedTabID].PageID)
+                    PDFManager.Documents[PDFManager.SelectedTabID].PrevPage();
+
+                DrawHighlightOnCurrentPage();
+            }
+        }
+
+        public static void HighlightNextWord()
+        {
+            if (HighlightedOCRWord+1 < OCRWords.Count)
+            {
+                HighlightedOCRWord++;
+
+
+                if(OCRWords[HighlightedOCRWord].PageID!= PDFManager.Documents[PDFManager.SelectedTabID].PageID)
+                    PDFManager.Documents[PDFManager.SelectedTabID].NextPage();
+
+                DrawHighlightOnCurrentPage();
+            }
+        }
+
+        public static void UpdateOCRLabel()
+        {
+            PDFManager.Documents[PDFManager.SelectedTabID].OCRLabel.Text = $"{HighlightedOCRWord + 1}/{OCRWords.Count}";
         }
 
         public static void CloseOCR()
         {
+            DeleteHighlightOnCurrentPage();
             TextIsSearched = false;
         }
 
@@ -141,7 +207,7 @@ namespace SIPView_PDF
             for (int i = 0; i < SelectedWordsBounds.Length; i++)
             {
                 WordsIsSelected[i] = true;
-                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(SelectedWordsBounds[i], new ImGearRGBQuad() { Red = 179, Green = 226, Blue = 255 }) { Opacity = 120, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
+                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(SelectedWordsBounds[i], OCRColors.TextSelectionColor) { Opacity = OCRColors.TextSelectionOpacity, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
             }
 
             PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
@@ -178,7 +244,7 @@ namespace SIPView_PDF
                     if (WordsIsSelected[i] == false)
                     {
                         WordsIsSelected[i] = true;
-                        PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(SelectedWordsBounds[i], new ImGearRGBQuad() { Red = 179, Green = 226, Blue = 255 }) { Opacity = 120, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
+                        PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(SelectedWordsBounds[i], OCRColors.TextSelectionColor) { Opacity = OCRColors.TextSelectionOpacity, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
                     }
                 }
                 else

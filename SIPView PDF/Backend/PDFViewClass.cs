@@ -60,14 +60,16 @@ namespace SIPView_PDF
             OCRNextBtn = OCRPanel.Controls["OCRNextBtn"] as Button;
             OCRCloseBtn = OCRPanel.Controls["OCRCloseBtn"] as Button;
             OCRLabel = OCRPanel.Controls["OCRLabel"] as Label;
-            OCRCloseBtn.GotFocus += OCRCloseBtn_GotFocus;
-           
+            
+
+
             InitOCREvents();
             InitArtPageEvents();
             InitializeArtFormEvents();
             InitializeToolBar();
         }
 
+       
         private void OCRCloseBtn_GotFocus(object sender, EventArgs e)
         {
             PageView.Focus();
@@ -75,6 +77,8 @@ namespace SIPView_PDF
 
         public void InitOCREvents()
         {
+            OCRCloseBtn.GotFocus += OCRCloseBtn_GotFocus;
+
             OCRSearchBtn.Click += OCRSearchBtn_Click;
             OCRPrevBtn.Click += OCRPrevBtn_Click;
             OCRNextBtn.Click += OCRNextBtn_Click;
@@ -87,14 +91,14 @@ namespace SIPView_PDF
             OCRPanel.Visible=false;
         }
 
-        private void OCRNextBtn_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void OCRPrevBtn_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            PDFViewOCR.HighlightPrevWord();
+        }
+
+        private void OCRNextBtn_Click(object sender, EventArgs e)
+        {
+            PDFViewOCR.HighlightNextWord();
         }
 
         private void OCRSearchBtn_Click(object sender, EventArgs e)

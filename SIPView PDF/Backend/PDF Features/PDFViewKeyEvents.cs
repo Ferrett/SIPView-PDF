@@ -98,7 +98,8 @@ namespace SIPView_PDF
             {
                 PDFManager.Documents[PDFManager.SelectedTabID].OCRPanel.Visible = true;
                 PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Focus();
-
+                CtrlKeyPressed = false;
+                PDFViewOCR.WordSearch();
             }
 
             if (PDFManager.ViewMode == ViewModes.TEXT_SELECTION && CtrlKeyPressed == true && e.KeyCode == Keys.A)

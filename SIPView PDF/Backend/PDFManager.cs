@@ -98,7 +98,7 @@ namespace SIPView_PDF
             OCRPanel.BackColor = System.Drawing.Color.WhiteSmoke;
             OCRPanel.Name = "OCRPanel";
             OCRPanel.Size = new System.Drawing.Size(325, 54);
-            OCRPanel.Location = new System.Drawing.Point(NewTabPage.Width-OCRPanel.Width, 0);
+            OCRPanel.Location = new System.Drawing.Point(NewTabPage.Width-OCRPanel.Width - ScrollBar.Width, 0);
             OCRPanel.TabIndex = 0;
             OCRPanel.Visible = false;
 
@@ -117,36 +117,36 @@ namespace SIPView_PDF
             OCRLabel.Text = "0/0";
 
             Button OCRSearchBtn = new Button();
-            OCRSearchBtn.Location = new System.Drawing.Point(188, 12);
+            OCRSearchBtn.Location = new System.Drawing.Point(197, 14);
             OCRSearchBtn.Margin = new System.Windows.Forms.Padding(0);
             OCRSearchBtn.Name = "OCRSearchBtn";
-            OCRSearchBtn.Size = new System.Drawing.Size(27, 27);
+            OCRSearchBtn.Size = new System.Drawing.Size(24, 24);
             OCRSearchBtn.TabIndex = 2;
             OCRSearchBtn.Text = "S";
             OCRSearchBtn.UseVisualStyleBackColor = true;
 
             Button OCRPrevBtn = new Button();
-            OCRPrevBtn.Location = new System.Drawing.Point(226, 12);
+            OCRPrevBtn.Location = new System.Drawing.Point(234, 14);
             OCRPrevBtn.Margin = new System.Windows.Forms.Padding(0);
             OCRPrevBtn.Name = "OCRPrevBtn";
-            OCRPrevBtn.Size = new System.Drawing.Size(27, 27);
+            OCRPrevBtn.Size = new System.Drawing.Size(24, 24);
             OCRPrevBtn.TabIndex = 2;
             OCRPrevBtn.Text = "<";
             OCRPrevBtn.UseVisualStyleBackColor = true;
 
             Button OCRNextBtn = new Button();
-            OCRNextBtn.Location = new System.Drawing.Point(252, 12);
+            OCRNextBtn.Location = new System.Drawing.Point(260, 14);
             OCRNextBtn.Margin = new System.Windows.Forms.Padding(0);
             OCRNextBtn.Name = "OCRNextBtn";
-            OCRNextBtn.Size = new System.Drawing.Size(27, 27);
+            OCRNextBtn.Size = new System.Drawing.Size(24, 24);
             OCRNextBtn.TabIndex = 3;
             OCRNextBtn.Text = ">";
             OCRNextBtn.UseVisualStyleBackColor = true;
 
             Button OCRCloseBtn = new Button();
-            OCRCloseBtn.Location = new System.Drawing.Point(290, 12);
+            OCRCloseBtn.Location = new System.Drawing.Point(295, 14);
             OCRCloseBtn.Name = "OCRCloseBtn";
-            OCRCloseBtn.Size = new System.Drawing.Size(27, 27);
+            OCRCloseBtn.Size = new System.Drawing.Size(24, 24);
             OCRCloseBtn.TabIndex = 4;
             OCRCloseBtn.Text = "X";
             OCRCloseBtn.UseVisualStyleBackColor = true;

@@ -137,10 +137,12 @@
   <ItemGroup>
     <Compile Include="Backend\Enums\BatchProcessesEnum.cs" />
     <Compile Include="Backend\Enums\ViewModesEnum.cs" />
+    <Compile Include="Backend\PDF Features\PDF OCR\OCRColors.cs" />
+    <Compile Include="Backend\PDF Features\PDF OCR\OCRWord.cs" />
     <Compile Include="Backend\PDF Features\PDFVeiwPrint.cs" />
     <Compile Include="Backend\PDF Features\PDFViewAnnotations.cs" />
     <Compile Include="Backend\PDF Features\PDFViewKeyEvents.cs" />
-    <Compile Include="Backend\PDF Features\PDFViewOCR.cs" />
+    <Compile Include="Backend\PDF Features\PDF OCR\PDFViewOCR.cs" />
     <Compile Include="Backend\PDF Features\PDFViewSaveLoad.cs" />
     <Compile Include="Backend\PDFManager.cs" />
     <Compile Include="Forms\BatchProcessesForm.cs">
