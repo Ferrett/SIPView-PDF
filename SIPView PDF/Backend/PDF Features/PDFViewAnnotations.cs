@@ -34,10 +34,12 @@ namespace SIPView_PDF.Backend.PDF_Features
 
         public static void SelectAllMarks()
         {
+
             if (SelectedMarksCount() == PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkCount)
                 PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].SelectMarks(false);
             else
                 PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].SelectMarks(true);
+
             PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
         }
 
@@ -71,7 +73,8 @@ namespace SIPView_PDF.Backend.PDF_Features
 
             foreach (ImGearARTMark ARTMark in PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID])
             {
-                if (PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkIsSelected(ARTMark))
+                if ((ARTMark.UserData!=null && (ARTMark.UserData.ToString().Equals("TXT")|| ARTMark.UserData.ToString().Equals("OCR"))) 
+                    || PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkIsSelected(ARTMark))
                     selectedMarksCounter++;
             }
 

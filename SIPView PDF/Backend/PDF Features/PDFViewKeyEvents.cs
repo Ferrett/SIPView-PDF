@@ -104,12 +104,12 @@ namespace SIPView_PDF
 
             if (PDFManager.ViewMode == ViewModes.TEXT_SELECTION && CtrlKeyPressed == true && e.KeyCode == Keys.A)
             {
-                PDFViewOCR.SelectAllText();
+                PDFViewTextSelecting.SelectAllText();
             }
 
             if (PDFManager.ViewMode == ViewModes.TEXT_SELECTION && CtrlKeyPressed == true && e.KeyCode == Keys.C)
             {
-                PDFViewOCR.CopySelectedText();
+                PDFViewTextSelecting.CopySelectedText();
             }
         }
 
@@ -124,8 +124,8 @@ namespace SIPView_PDF
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    PDFViewOCR.StartTextSelecting(sender, e);
-                    PDFViewOCR.TextIsSelecting = true;
+                    PDFViewTextSelecting.StartTextSelecting(sender, e);
+                    PDFViewTextSelecting.TextIsSelecting = true;
                     PDFManager.Documents[PDFManager.SelectedTabID].PageView.Cursor = Cursors.IBeam;
                 }
             }
@@ -140,7 +140,7 @@ namespace SIPView_PDF
                 if (e.Button == MouseButtons.Left)
                 {
                     PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
-                    PDFViewOCR.TextIsSelecting = false;
+                    PDFViewTextSelecting.TextIsSelecting = false;
                 }
             }
             else
@@ -151,11 +151,11 @@ namespace SIPView_PDF
         {
             if (PDFManager.ViewMode == ViewModes.TEXT_SELECTION)
             {
-                if (PDFViewOCR.TextIsSelecting)
+                if (PDFViewTextSelecting.TextIsSelecting)
                 {
                     UpdateMousePos(sender, e);
                     PDFManager.Documents[PDFManager.SelectedTabID].PageView.Cursor = Cursors.IBeam;
-                    PDFViewOCR.UpdateSelectedWords();
+                    PDFViewTextSelecting.UpdateSelectedWords();
                 }
             }
             else
@@ -164,7 +164,7 @@ namespace SIPView_PDF
 
         public static void ARTForm_MouseLeftButtonDown(object sender, ImGearARTFormsMouseEventArgs e)
         {
-            PDFViewOCR.StartTextSelecting(sender, e.EventData);
+            PDFViewTextSelecting.StartTextSelecting(sender, e.EventData);
         }
 
         public static void ARTForm_MouseRightButtonUp(object sender, ImGearARTFormsMouseEventArgs e)

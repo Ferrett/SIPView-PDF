@@ -164,10 +164,9 @@ namespace SIPView_PDF
 
             foreach (ImGearARTMark item in page)
             {
-                if (item.UserData.Equals("OCR"))
+                if (item.UserData != null && (item.UserData.Equals("OCR") || item.UserData.Equals("TXT")))
                 {
-                    page.SelectMarks(false);
-                    return;
+                    page.MarkSelect(item.Id, false);
                 }
             }
 
@@ -185,7 +184,7 @@ namespace SIPView_PDF
 
         public void DrawSelector(System.Drawing.Graphics gr)
         {
-            if (DrawZoomRectangle || PDFViewOCR.TextIsSelecting)
+            if (DrawZoomRectangle || PDFViewTextSelecting.TextIsSelecting)
             {
                 // Create a new pen to draw dotted lines.
 
@@ -227,7 +226,7 @@ namespace SIPView_PDF
 
             ScrollBar.Value = PageID;
 
-            PDFViewOCR.FindWordsInPage(); ///////////////// ?? 
+            PDFViewTextSelecting.FindWordsInPage(); ///////////////// ?? 
 
             if (PDFViewOCR.TextIsSearched)
                 PDFViewOCR.DrawHighlightOnCurrentPage();

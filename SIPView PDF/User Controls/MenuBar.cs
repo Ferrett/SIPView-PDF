@@ -110,7 +110,7 @@ namespace SIPView_PDF
 
         private void TextSelectionBtn_Click(object sender, EventArgs e)
         {
-            PDFViewOCR.TextSelectionModeChange();
+            PDFViewTextSelecting.TextSelectionModeChange();
             MenuBarClass.TextSelectionChangeCheck();
         }
 

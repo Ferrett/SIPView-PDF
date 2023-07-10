@@ -1,7 +1,9 @@
 
+using ImageGear.ART;
 using SIPView_PDF.Backend.PDF_Features;
 using System;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace SIPView_PDF
@@ -100,7 +102,7 @@ namespace SIPView_PDF
 
         public static void TabChanged()
         {
-            if(PDFManager.Documents.Count  > 0)
+            if (PDFManager.Documents.Count > 0)
             {
                 PageChanged();
             }
@@ -147,8 +149,8 @@ namespace SIPView_PDF
 
         public static void UpdateTextSelectionBtn()
         {
-            TextSelectionBtn.Enabled = PDFViewOCR.WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID) > 0 ? true : false;
-            TextSelectionMenu.Enabled = PDFViewOCR.WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID) > 0 ? true : false;
+            TextSelectionBtn.Enabled = PDFViewTextSelecting.WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID) > 0 ? true : false;
+            TextSelectionMenu.Enabled = PDFViewTextSelecting.WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID) > 0 ? true : false;
         }
 
         public static void UpdateBakeInBtn()
@@ -159,8 +161,26 @@ namespace SIPView_PDF
 
         public static void UpdateSelectionBtn()
         {
-            SelectAllBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkCount == 0 ? false : true;
-            SelectAllMenu.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkCount == 0 ? false : true;
+            int i = 0;
+            foreach (ImGearARTMark item in PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID])
+            {
+                if (item.UserData != null && (item.UserData.Equals("OCR") || item.UserData.Equals("TXT")))
+                {
+                    i++;
+                }
+            }
+
+            if (i == PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkCount)
+            {
+                SelectAllBtn.Enabled = false;
+                SelectAllMenu.Enabled = false;
+            }
+            else
+            {
+                SelectAllBtn.Enabled = true;
+                SelectAllMenu.Enabled = true;
+            }
+
         }
 
         public static void UpdatePageBtns()
@@ -168,8 +188,8 @@ namespace SIPView_PDF
             PrevPageBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == 0 ? false : true;
             PrevPageMenu.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == 0 ? false : true;
 
-            NextPageBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count-1 ? false : true;
-            NextPageMenu.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count-1 ? false : true;
+            NextPageBtn.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count - 1 ? false : true;
+            NextPageMenu.Enabled = PDFManager.Documents[PDFManager.SelectedTabID].PageID == PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count - 1 ? false : true;
         }
 
         public static void UpdateHistoryBtns()
@@ -186,8 +206,8 @@ namespace SIPView_PDF
         {
             ShowToolBarBtn.Checked = !ShowToolBarBtn.Checked;
 
-            if(ShowToolBarBtn.Checked ==true)
-            {   
+            if (ShowToolBarBtn.Checked == true)
+            {
                 TextSelectionBtn.Checked = false;
             }
         }
@@ -197,7 +217,7 @@ namespace SIPView_PDF
             TextSelectionBtn.Checked = !TextSelectionBtn.Checked;
 
             if (TextSelectionBtn.Checked == true)
-            {   
+            {
                 ShowToolBarBtn.Checked = false;
             }
         }

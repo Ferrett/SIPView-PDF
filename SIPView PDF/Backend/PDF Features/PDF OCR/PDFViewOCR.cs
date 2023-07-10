@@ -17,19 +17,15 @@ namespace SIPView_PDF
     public static class PDFViewOCR
     {
         public static ImGearPDFWordFinder PDFWordFinder;
-        public static bool TextIsSelecting = false;
-        private static ImGearRectangle[] SelectedWordsBounds;
-        private static bool[] WordsIsSelected;
-
 
         private static List<OCRWord> OCRWords;
-
         public static bool TextIsSearched = false;
-        public static int HighlightedOCRWord;
+        public static int HighlightedOCRWordID;
+
         public static void WordSearch()
         {
             OCRWords = new List<OCRWord>();
-            HighlightedOCRWord = 0;
+            HighlightedOCRWordID = 0;
             TextIsSearched = true;
 
             if (string.IsNullOrEmpty(PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Text))
@@ -102,7 +98,7 @@ namespace SIPView_PDF
                 List<int> removedMarkID = new List<int>();
                 foreach (ImGearARTMark ARTMark in ARTPage)
                 {
-                    if (ARTMark.UserData.ToString().Equals("OCR"))
+                    if (ARTMark.UserData != null && ARTMark.UserData.ToString().Equals("OCR"))
                         removedMarkID.Add(ARTMark.Id);
                 }
 
@@ -118,7 +114,7 @@ namespace SIPView_PDF
             List<int> removedMarkID = new List<int>();
             foreach (ImGearARTMark ARTMark in PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID])
             {
-                if (ARTMark.UserData.ToString().Equals("OCR"))
+                if (ARTMark.UserData != null && ARTMark.UserData.ToString().Equals("OCR"))
                     removedMarkID.Add(ARTMark.Id);
             }
 
@@ -135,7 +131,7 @@ namespace SIPView_PDF
             {
                 if (OCRWords[i].PageID == PDFManager.Documents[PDFManager.SelectedTabID].PageID)
                 {
-                    if (OCRWords[i].ID == HighlightedOCRWord)
+                    if (OCRWords[i].ID == HighlightedOCRWordID)
                         PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(OCRWords[i].Bounds, OCRColors.OCRHighlightColor) { Opacity = OCRColors.OCRHighlightOpacity, UserData = $"OCR" }, ImGearARTCoordinatesType.IMAGE_COORD);
                     else
                         PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(OCRWords[i].Bounds, OCRColors.OCRWordColor) { Opacity = OCRColors.OCRWordOpacity, UserData = $"OCR" }, ImGearARTCoordinatesType.IMAGE_COORD);
@@ -146,18 +142,18 @@ namespace SIPView_PDF
         }
         public static void HighlightPrevWord()
         {
-            if (HighlightedOCRWord > 0)
+            if (HighlightedOCRWordID > 0)
             {
                 PDFManager.Documents[PDFManager.SelectedTabID].OCRNextBtn.Enabled = true;
-                HighlightedOCRWord--;
+                HighlightedOCRWordID--;
 
                 DrawHighlightOnCurrentPage();
 
-                if (OCRWords[HighlightedOCRWord].PageID !=  PDFManager.Documents[PDFManager.SelectedTabID].PageID)
-                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(OCRWords[HighlightedOCRWord].PageID);
+                if (OCRWords[HighlightedOCRWordID].PageID !=  PDFManager.Documents[PDFManager.SelectedTabID].PageID)
+                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(OCRWords[HighlightedOCRWordID].PageID);
             }
 
-            if (HighlightedOCRWord <= 0)
+            if (HighlightedOCRWordID <= 0)
                 PDFManager.Documents[PDFManager.SelectedTabID].OCRPrevBtn.Enabled = false;
             else
                 PDFManager.Documents[PDFManager.SelectedTabID].OCRPrevBtn.Enabled = true;
@@ -165,18 +161,18 @@ namespace SIPView_PDF
 
         public static void HighlightNextWord()
         {
-            if (HighlightedOCRWord + 1 < OCRWords.Count)
+            if (HighlightedOCRWordID + 1 < OCRWords.Count)
             {
                 PDFManager.Documents[PDFManager.SelectedTabID].OCRPrevBtn.Enabled = true;
-                HighlightedOCRWord++;
+                HighlightedOCRWordID++;
 
                 DrawHighlightOnCurrentPage();
 
-                if (OCRWords[HighlightedOCRWord].PageID != PDFManager.Documents[PDFManager.SelectedTabID].PageID)
-                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(OCRWords[HighlightedOCRWord].PageID);
+                if (OCRWords[HighlightedOCRWordID].PageID != PDFManager.Documents[PDFManager.SelectedTabID].PageID)
+                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(OCRWords[HighlightedOCRWordID].PageID);
             }
 
-            if(HighlightedOCRWord + 1 >= OCRWords.Count)
+            if(HighlightedOCRWordID + 1 >= OCRWords.Count)
                 PDFManager.Documents[PDFManager.SelectedTabID].OCRNextBtn.Enabled = false;
             else
                 PDFManager.Documents[PDFManager.SelectedTabID].OCRNextBtn.Enabled = true;
@@ -184,7 +180,7 @@ namespace SIPView_PDF
 
         public static void UpdateOCRLabel()
         {
-            PDFManager.Documents[PDFManager.SelectedTabID].OCRLabel.Text = $"{HighlightedOCRWord + (OCRWords.Count == 0 ? 0 : 1)}/{OCRWords.Count}";
+            PDFManager.Documents[PDFManager.SelectedTabID].OCRLabel.Text = $"{HighlightedOCRWordID + (OCRWords.Count == 0 ? 0 : 1)}/{OCRWords.Count}";
         }
 
         public static void CloseOCR()
@@ -193,153 +189,7 @@ namespace SIPView_PDF
             TextIsSearched = false;
         }
 
-        public static int WordsInPageCount(int pageID)
-        {
-            PDFWordFinder = new ImGearPDFWordFinder(PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument, ImGearPDFWordFinderVersion.LATEST_VERSION, ImGearPDFContextFlags.XY_ORDER);
-            return PDFWordFinder.AcquireWordList(pageID);
-        }
-
-        //   ПЕРЕНЕСТИ ВЫДЕЛЕННОЕ СЛОВО В ОТДЕЛЬНЫЙ КЛАСС
-        public static void FindWordsInPage()
-        {
-            PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].SetCoordType(ImGearARTCoordinatesType.DEVICE_COORD);
-            SelectedWordsBounds = new ImGearRectangle[WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID)];
-            WordsIsSelected = new bool[WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID)];
-
-            for (int i = 0; i < SelectedWordsBounds.Length; i++)
-            {
-                WordsIsSelected[i] = false;
-                SelectedWordsBounds[i] = new ImGearRectangle()
-                {
-                    Top = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].DIB.Height - ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomRight.V),
-                    Left = ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).TopLeft.H),
-                    Bottom = PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].DIB.Height - ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).TopLeft.V),
-                    Right = ImGearPDF.FixedRoundToInt(PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomRight.H)
-                };
-            }
-        }
-
-        public static void CopySelectedText()
-        {
-            string text = String.Empty;
-            bool s = false;
-            for (int i = 0; i < SelectedWordsBounds.Length; i++)
-            {
-                if (WordsIsSelected[i] == true)
-                {
-                    if (s == true && PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).GetQuad(0).BottomLeft.V < PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i - 1).GetQuad(0).BottomLeft.V)
-                    {
-                        text += '\n';
-                    }
-
-                    s = true;
-                    text += PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).String + " ";
-                }
-            }
-            text.Remove(text.Length - 1);
-            Clipboard.SetText(text);
-        }
-
-        public static void SelectAllText()
-        {
-            for (int i = 0; i < SelectedWordsBounds.Length; i++)
-            {
-                if (WordsIsSelected[i] == true)
-                {
-                    foreach (ImGearARTMark igARTMark in PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID])
-                    {
-                        if (igARTMark.UserData.Equals(i))
-                        {
-                            PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkRemove(igARTMark);
-                            WordsIsSelected[i] = false;
-                        }
-                    }
-                }
-            }
-            for (int i = 0; i < SelectedWordsBounds.Length; i++)
-            {
-                WordsIsSelected[i] = true;
-                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(SelectedWordsBounds[i], OCRColors.TextSelectionColor) { Opacity = OCRColors.TextSelectionOpacity, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
-            }
-
-            PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
-        }
-
-        public static void UpdateSelectedWords()
-        {
-            ImGearPoint[] MousePos = {new ImGearPoint(PDFViewKeyEvents.StartMousePos.X, PDFViewKeyEvents.StartMousePos.Y),
-                new ImGearPoint(PDFViewKeyEvents.CurrentMousePos.X,PDFViewKeyEvents.CurrentMousePos.Y) };
-
-
-            if (MousePos[0].X > MousePos[1].X)
-            {
-                int tmp = MousePos[0].X;
-                MousePos[0].X = MousePos[1].X;
-                MousePos[1].X = tmp;
-            }
-
-            if (MousePos[0].Y > MousePos[1].Y)
-            {
-                int tmp = MousePos[0].Y;
-                MousePos[0].Y = MousePos[1].Y;
-                MousePos[1].Y = tmp;
-            }
-            PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].ConvertCoordinates(PDFManager.Documents[PDFManager.SelectedTabID].PageView, PDFManager.Documents[PDFManager.SelectedTabID].PageView.Display, ImGearCoordConvModes.DEVICE_TO_IMAGE, MousePos);
-
-
-
-            for (int i = 0; i < SelectedWordsBounds.Length; i++)
-            {
-                if (new ImGearRectangle() { Left = MousePos[0].X, Top = MousePos[0].Y, Right = MousePos[1].X, Bottom = MousePos[1].Y }.Contains(new ImGearPoint(SelectedWordsBounds[i].Left, SelectedWordsBounds[i].Top)) &&
-                    new ImGearRectangle() { Left = MousePos[0].X, Top = MousePos[0].Y, Right = MousePos[1].X, Bottom = MousePos[1].Y }.Contains(new ImGearPoint(SelectedWordsBounds[i].Right, SelectedWordsBounds[i].Bottom)))
-                {
-                    if (WordsIsSelected[i] == false)
-                    {
-                        WordsIsSelected[i] = true;
-                        PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].AddMark(new ImGearARTRectangle(SelectedWordsBounds[i], OCRColors.TextSelectionColor) { Opacity = OCRColors.TextSelectionOpacity, UserData = i }, ImGearARTCoordinatesType.IMAGE_COORD);
-                    }
-                }
-                else
-                {
-                    if (WordsIsSelected[i] == true)
-                    {
-                        foreach (ImGearARTMark igARTMark in PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID])
-                        {
-                            if (igARTMark.UserData.Equals(i))
-                            {
-                                PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkRemove(igARTMark);
-                                WordsIsSelected[i] = false;
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-        public static void TextSelectionModeChange()
-        {
-            if (PDFManager.ViewMode != ViewModes.TEXT_SELECTION)
-            {
-                PDFManager.ViewMode = ViewModes.TEXT_SELECTION;
-                PDFManager.Documents[PDFManager.SelectedTabID].PageView.Cursor = Cursors.IBeam;
-            }
-            else
-            {
-                PDFManager.ViewMode = ViewModes.DEFAULT;
-            }
-
-        }
-        public static void StartTextSelecting(object sender, MouseEventArgs e)
-        {
-            if (PDFManager.ViewMode == ViewModes.TEXT_SELECTION)
-            {
-                PDFViewKeyEvents.StartMousePos.X = e.X;
-                PDFViewKeyEvents.StartMousePos.Y = e.Y;
-
-                PDFManager.Documents[PDFManager.SelectedTabID].PageView.RegisterAfterDraw(
-               new ImGearPageView.AfterDraw(PDFManager.Documents[PDFManager.SelectedTabID].DrawSelector));
-            }
-        }
+       
 
     }
 }
