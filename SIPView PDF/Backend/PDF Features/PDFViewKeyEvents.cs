@@ -125,7 +125,7 @@ namespace SIPView_PDF
                 if (e.Button == MouseButtons.Left)
                 {
                     PDFViewOCR.StartTextSelecting(sender, e);
-                    PDFViewOCR.DrawTextSelecting = true;
+                    PDFViewOCR.TextIsSelecting = true;
                     PDFManager.Documents[PDFManager.SelectedTabID].PageView.Cursor = Cursors.IBeam;
                 }
             }
@@ -140,7 +140,7 @@ namespace SIPView_PDF
                 if (e.Button == MouseButtons.Left)
                 {
                     PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
-                    PDFViewOCR.DrawTextSelecting = false;
+                    PDFViewOCR.TextIsSelecting = false;
                 }
             }
             else
@@ -151,7 +151,7 @@ namespace SIPView_PDF
         {
             if (PDFManager.ViewMode == ViewModes.TEXT_SELECTION)
             {
-                if (PDFViewOCR.DrawTextSelecting)
+                if (PDFViewOCR.TextIsSelecting)
                 {
                     UpdateMousePos(sender, e);
                     PDFManager.Documents[PDFManager.SelectedTabID].PageView.Cursor = Cursors.IBeam;

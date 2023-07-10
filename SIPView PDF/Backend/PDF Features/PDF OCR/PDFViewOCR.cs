@@ -17,7 +17,7 @@ namespace SIPView_PDF
     public static class PDFViewOCR
     {
         public static ImGearPDFWordFinder PDFWordFinder;
-        public static bool DrawTextSelecting = false;
+        public static bool TextIsSelecting = false;
         private static ImGearRectangle[] SelectedWordsBounds;
         private static bool[] WordsIsSelected;
 
@@ -28,13 +28,19 @@ namespace SIPView_PDF
         public static int HighlightedOCRWord;
         public static void WordSearch()
         {
-            if (string.IsNullOrEmpty(PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Text))
-                return;
-
+            OCRWords = new List<OCRWord>();
             HighlightedOCRWord = 0;
             TextIsSearched = true;
 
-            OCRWords = new List<OCRWord>();
+            if (string.IsNullOrEmpty(PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Text))
+            {
+                DeleteHighlightOnCurrentPage();
+                UpdateOCRLabel();
+                PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRNextBtn.Enabled = false;
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRPrevBtn.Enabled = false;
+                return;
+            }
 
             for (int i = 0; i < PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument.Pages.Count; i++)
             {
@@ -45,7 +51,7 @@ namespace SIPView_PDF
                 for (int j = 0; j < PDFWordFinder.AcquireWordList(i); j++)
                 {
 
-                    if (PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, j).String.ToLower().Contains(PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Text.ToLower()))
+                    if (PDFWordFinder.GetWord(ImGearPDFContextFlags.XY_ORDER, j).String.ToLower().Contains(PDFManager.Documents[PDFManager.SelectedTabID].OCRTextBox.Text.ToLower()))
                     {
 
                         int firstid, lastid, lenchar;
@@ -68,10 +74,43 @@ namespace SIPView_PDF
 
             }
 
-            if (OCRWords[0].PageID != PDFManager.Documents[PDFManager.SelectedTabID].PageID)
-                PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(OCRWords[0].PageID);
+
+
+            if (OCRWords.Count > 0)
+            {
+                if (OCRWords[0].PageID != PDFManager.Documents[PDFManager.SelectedTabID].PageID)
+                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(OCRWords[0].PageID);
+
+                if (OCRWords.Count > 1)
+                {
+                    PDFManager.Documents[PDFManager.SelectedTabID].OCRNextBtn.Enabled = true;
+                }
+            }
+            else
+            {
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRNextBtn.Enabled = false;
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRPrevBtn.Enabled = false;
+            }
 
             DrawHighlightOnCurrentPage();
+        }
+
+        public static void DeleteAllHighlight()
+        {
+            foreach (ImGearARTPage ARTPage in PDFManager.Documents[PDFManager.SelectedTabID].ARTPages)
+            {
+                List<int> removedMarkID = new List<int>();
+                foreach (ImGearARTMark ARTMark in ARTPage)
+                {
+                    if (ARTMark.UserData.ToString().Equals("OCR"))
+                        removedMarkID.Add(ARTMark.Id);
+                }
+
+                foreach (int ID in removedMarkID)
+                {
+                    ARTPage.MarkRemove(ID);
+                }
+            }
         }
 
         public static void DeleteHighlightOnCurrentPage()
@@ -87,7 +126,7 @@ namespace SIPView_PDF
             {
                 PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].MarkRemove(ID);
             }
-
+            
         }
         public static void DrawHighlightOnCurrentPage()
         {
@@ -109,37 +148,48 @@ namespace SIPView_PDF
         {
             if (HighlightedOCRWord > 0)
             {
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRNextBtn.Enabled = true;
                 HighlightedOCRWord--;
 
-                if (OCRWords[HighlightedOCRWord].PageID != PDFManager.Documents[PDFManager.SelectedTabID].PageID)
-                    PDFManager.Documents[PDFManager.SelectedTabID].PrevPage();
-
                 DrawHighlightOnCurrentPage();
+
+                if (OCRWords[HighlightedOCRWord].PageID !=  PDFManager.Documents[PDFManager.SelectedTabID].PageID)
+                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(OCRWords[HighlightedOCRWord].PageID);
             }
+
+            if (HighlightedOCRWord <= 0)
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRPrevBtn.Enabled = false;
+            else
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRPrevBtn.Enabled = true;
         }
 
         public static void HighlightNextWord()
         {
-            if (HighlightedOCRWord+1 < OCRWords.Count)
+            if (HighlightedOCRWord + 1 < OCRWords.Count)
             {
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRPrevBtn.Enabled = true;
                 HighlightedOCRWord++;
 
-
-                if(OCRWords[HighlightedOCRWord].PageID!= PDFManager.Documents[PDFManager.SelectedTabID].PageID)
-                    PDFManager.Documents[PDFManager.SelectedTabID].NextPage();
-
                 DrawHighlightOnCurrentPage();
+
+                if (OCRWords[HighlightedOCRWord].PageID != PDFManager.Documents[PDFManager.SelectedTabID].PageID)
+                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(OCRWords[HighlightedOCRWord].PageID);
             }
+
+            if(HighlightedOCRWord + 1 >= OCRWords.Count)
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRNextBtn.Enabled = false;
+            else
+                PDFManager.Documents[PDFManager.SelectedTabID].OCRNextBtn.Enabled = true;
         }
 
         public static void UpdateOCRLabel()
         {
-            PDFManager.Documents[PDFManager.SelectedTabID].OCRLabel.Text = $"{HighlightedOCRWord + 1}/{OCRWords.Count}";
+            PDFManager.Documents[PDFManager.SelectedTabID].OCRLabel.Text = $"{HighlightedOCRWord + (OCRWords.Count == 0 ? 0 : 1)}/{OCRWords.Count}";
         }
 
         public static void CloseOCR()
         {
-            DeleteHighlightOnCurrentPage();
+            DeleteAllHighlight();
             TextIsSearched = false;
         }
 
@@ -148,6 +198,8 @@ namespace SIPView_PDF
             PDFWordFinder = new ImGearPDFWordFinder(PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument, ImGearPDFWordFinderVersion.LATEST_VERSION, ImGearPDFContextFlags.XY_ORDER);
             return PDFWordFinder.AcquireWordList(pageID);
         }
+
+        //   ПЕРЕНЕСТИ ВЫДЕЛЕННОЕ СЛОВО В ОТДЕЛЬНЫЙ КЛАСС
         public static void FindWordsInPage()
         {
             PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].SetCoordType(ImGearARTCoordinatesType.DEVICE_COORD);

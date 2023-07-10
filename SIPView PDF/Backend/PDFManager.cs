@@ -132,6 +132,7 @@ namespace SIPView_PDF
             OCRPrevBtn.Size = new System.Drawing.Size(24, 24);
             OCRPrevBtn.TabIndex = 2;
             OCRPrevBtn.Text = "<";
+            OCRPrevBtn.Enabled = false;
             OCRPrevBtn.UseVisualStyleBackColor = true;
 
             Button OCRNextBtn = new Button();
@@ -141,6 +142,7 @@ namespace SIPView_PDF
             OCRNextBtn.Size = new System.Drawing.Size(24, 24);
             OCRNextBtn.TabIndex = 3;
             OCRNextBtn.Text = ">";
+            OCRNextBtn.Enabled = false;
             OCRNextBtn.UseVisualStyleBackColor = true;
 
             Button OCRCloseBtn = new Button();

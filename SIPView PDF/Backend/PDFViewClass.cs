@@ -60,7 +60,7 @@ namespace SIPView_PDF
             OCRNextBtn = OCRPanel.Controls["OCRNextBtn"] as Button;
             OCRCloseBtn = OCRPanel.Controls["OCRCloseBtn"] as Button;
             OCRLabel = OCRPanel.Controls["OCRLabel"] as Label;
-            
+
 
 
             InitOCREvents();
@@ -69,7 +69,6 @@ namespace SIPView_PDF
             InitializeToolBar();
         }
 
-       
         private void OCRCloseBtn_GotFocus(object sender, EventArgs e)
         {
             PageView.Focus();
@@ -78,11 +77,16 @@ namespace SIPView_PDF
         public void InitOCREvents()
         {
             OCRCloseBtn.GotFocus += OCRCloseBtn_GotFocus;
-
+            OCRTextBox.TextChanged += OCRTextBox_TextChanged;
             OCRSearchBtn.Click += OCRSearchBtn_Click;
             OCRPrevBtn.Click += OCRPrevBtn_Click;
             OCRNextBtn.Click += OCRNextBtn_Click;
             OCRCloseBtn.Click += OCRCloseBtn_Click;
+        }
+
+        private void OCRTextBox_TextChanged(object sender, EventArgs e)
+        {
+            PDFViewOCR.WordSearch();
         }
 
         private void OCRCloseBtn_Click(object sender, EventArgs e)
@@ -156,6 +160,17 @@ namespace SIPView_PDF
 
         private void ARTPage_MarkSelectionChanged(object sender, ImGearARTMarkEventArgs e)
         {
+            ImGearARTPage page = sender as ImGearARTPage;
+
+            foreach (ImGearARTMark item in page)
+            {
+                if (item.UserData.Equals("OCR"))
+                {
+                    page.SelectMarks(false);
+                    return;
+                }
+            }
+
             PDFManager.OnARTPage_MarkSelectionChanged(null);
         }
 
@@ -170,7 +185,7 @@ namespace SIPView_PDF
 
         public void DrawSelector(System.Drawing.Graphics gr)
         {
-            if (DrawZoomRectangle || PDFViewOCR.DrawTextSelecting)
+            if (DrawZoomRectangle || PDFViewOCR.TextIsSelecting)
             {
                 // Create a new pen to draw dotted lines.
 
@@ -211,7 +226,12 @@ namespace SIPView_PDF
             PDFViewAnnotations.DisplayCurrentPageMarks();
 
             ScrollBar.Value = PageID;
+
             PDFViewOCR.FindWordsInPage(); ///////////////// ?? 
+
+            if (PDFViewOCR.TextIsSearched)
+                PDFViewOCR.DrawHighlightOnCurrentPage();
+
             UpdatePageView();
         }
 
@@ -260,6 +280,8 @@ namespace SIPView_PDF
         {
             PageID = pageID;
 
+           
+
             try
             {
                 PageView.Page = PDFDocument.Pages[PageID];
@@ -274,7 +296,7 @@ namespace SIPView_PDF
                 MessageBox.Show(ex.Message);
             }
 
-            //UpdateThumbnailSelection(PageID);
+           
             PDFManager.OnPageChanged(null);
             UpdateAfterRender();
         }
@@ -284,7 +306,5 @@ namespace SIPView_PDF
             PageView.Invalidate();
             PageView.Update();
         }
-
-       
     }
 }
