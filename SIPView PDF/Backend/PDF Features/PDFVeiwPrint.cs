@@ -72,10 +72,19 @@ namespace SIPView_PDF
             args.HasMorePages = false;
         }
 
-        public static void ShowPrintMenu()
+        public static void ShowPrinterSettingsMenu()
+        {
+            //if (DialogResult.OK == PrintDialog.ShowDialog())
+            //{
+            //    PrintDialog
+            //}
+        }
+
+        public static void ShowPageSetupMenu()
         {
             if (PageSetupDialog.PageSettings == null)
                 PageSettings.Margins = new Margins(4, 4, 4, 4);
+
             PageSetupDialog.EnableMetric = true;
             PageSetupDialog.PageSettings = PageSettings;
             PageSetupDialog.ShowDialog();

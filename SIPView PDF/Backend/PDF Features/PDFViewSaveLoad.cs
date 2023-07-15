@@ -104,7 +104,7 @@ namespace SIPView_PDF
             {
                 using (FileStream inputStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                 {
-                    PDFManager.AddPageView();
+                    PDFManager.CreatePDFView();
 
                     // Load the entire the document.
                     PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument = (ImGearPDFDocument)ImGearFileFormats.LoadDocument(inputStream);
@@ -113,14 +113,14 @@ namespace SIPView_PDF
                     PDFManager.Documents[PDFManager.SelectedTabID].DocumentPath = fileName;
                     PDFManager.Documents[PDFManager.SelectedTabID].ARTPages.Clear();
 
-                    PDFManager.Documents[PDFManager.SelectedTabID].InitializeScrollBar();
                     PDFViewAnnotations.InitializeArtPages();
                     //InitializeThumbnails();
 
                     PDFManager.OnDocumentChanged(null);
-                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(0);
 
                     PDFManager.AddTab();
+                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(0);
+                    PDFManager.Documents[PDFManager.SelectedTabID].InitializeScrollBar();
                 }
             }
             catch (ImGearException ex)

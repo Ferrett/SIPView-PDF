@@ -1,7 +1,8 @@
+using ImageGear.Formats.PDF.Forms;
 using SIPView_PDF.Backend.PDF_Features;
 using SIPView_PDF.Forms;
 using System;
-
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SIPView_PDF
@@ -99,7 +100,8 @@ namespace SIPView_PDF
 
         private void PrintSettingsMenu_Click(object sender, EventArgs e)
         {
-            PDFVeiwPrint.ShowPrintMenu();
+            PDFVeiwPrint.ShowPrinterSettingsMenu();
+            PDFVeiwPrint.ShowPageSetupMenu();
         }
 
         private void pDFSettingsToolStripMenuItem_Click(object sender, EventArgs e)

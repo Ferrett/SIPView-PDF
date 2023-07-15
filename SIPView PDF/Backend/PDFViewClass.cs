@@ -7,6 +7,7 @@ using ImageGear.Formats;
 using ImageGear.Formats.PDF;
 using ImageGear.Processing;
 using ImageGear.Windows.Forms;
+using Newtonsoft.Json.Linq;
 using SIPView_PDF.Backend.PDF_Features;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 
@@ -25,9 +27,8 @@ namespace SIPView_PDF
     {
         public List<ImGearARTPage> ARTPages = new List<ImGearARTPage>();
         public ImGearPDFDocument PDFDocument = null;
-
-
-
+        public ImGearARTForms ARTForm;
+       
         public ImGearPageView PageView;
         public ScrollBar ScrollBar;
 
@@ -39,17 +40,16 @@ namespace SIPView_PDF
         public Button OCRNextBtn;
         public Button OCRCloseBtn;
 
-        public int PageID = 0;
+        public Panel ThumbnailPanel;
+        public List<Thumbnail> Thumbnails;
 
         public bool DrawZoomRectangle = false;
-
         public string DocumentPath;
+        public int PageID = 0;
 
-        public ImGearARTForms ARTForm;
-        public PDFViewClass(ImGearPageView PageView, ScrollBar ScrollBar, Panel OCRPanel)
+        public PDFViewClass(ImGearPageView PageView, Panel OCRPanel)
         {
             this.PageView = PageView; 
-            this.ScrollBar = ScrollBar; 
             this.OCRPanel = OCRPanel;
 
             ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
@@ -61,12 +61,98 @@ namespace SIPView_PDF
             OCRCloseBtn = OCRPanel.Controls["OCRCloseBtn"] as Button;
             OCRLabel = OCRPanel.Controls["OCRLabel"] as Label;
 
-
-
             InitOCREvents();
             InitArtPageEvents();
             InitializeArtFormEvents();
             InitializeToolBar();
+
+        }
+
+        private void UpdateThumbnailSelection()
+        {
+            if (PDFDocument.Pages.Count <= 1)
+                return;
+
+            Thumbnails.Where(x => x.IsSelected == true).First().Deselect();
+            Thumbnails[PageID].Select();
+        }
+
+        private void InitializeThumbnails()
+        {
+            Thumbnails = new List<Thumbnail>();
+
+            for (int i = 0; i < PDFDocument.Pages.Count; i++)
+            {
+                Thumbnails.Add(new Thumbnail
+                {
+                    IsSelected=false,
+                    Image = new ImGearPageView()
+                    {
+                        Page = PDFDocument.Pages[i],
+                        Location = new Point(20, 20 + 140 * i),
+                        Width = 100,
+                        Height = 100,
+                        Tag=i
+                    },
+                    Background = new Panel()
+                    {
+                        Location = new Point(14, 14 + 140 * i),
+                        Width = 112,
+                        Height = 112,
+                        BackColor = Color.Transparent,
+                        Visible = true,
+                        Tag = i
+                    },
+                    Label = new Label
+                    {
+                        Text = $"Page {i + 1}",
+                        Location = new Point(46, 130 + 140 * i),
+                        Tag = i
+                    }
+                });
+
+                Thumbnails.Last().Image.Display.Background.Color.Red = ThumbnailPanel.BackColor.R;
+                Thumbnails.Last().Image.Display.Background.Color.Green = ThumbnailPanel.BackColor.G;
+                Thumbnails.Last().Image.Display.Background.Color.Blue = ThumbnailPanel.BackColor.B;
+
+                Thumbnails.Last().Image.MouseEnter += PDFViewClass_MouseEnter;
+                Thumbnails.Last().Image.MouseLeave += PDFViewClass_MouseLeave;
+                Thumbnails.Last().Image.Click += PDFViewClass_Click;
+
+                ThumbnailPanel.Controls.Add(Thumbnails.Last().Label);
+                ThumbnailPanel.Controls.Add(Thumbnails.Last().Background);
+                ThumbnailPanel.Controls.Add(Thumbnails.Last().Image);
+                Thumbnails.Last().Image.BringToFront();
+            }
+            Thumbnails.First().Select();
+        }
+
+        private  void PDFViewClass_Click(object sender, EventArgs e)
+        {
+            RenderPage((int)(sender as ImGearPageView).Tag);
+        }
+
+        private  void PDFViewClass_MouseLeave(object sender, EventArgs e)
+        {
+            Thumbnails[(int)(sender as ImGearPageView).Tag].Background.BorderStyle = BorderStyle.None;
+        }
+
+        private  void PDFViewClass_MouseEnter(object sender, EventArgs e)
+        {
+            Thumbnails[(int)(sender as ImGearPageView).Tag].Background.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        public void AddMultupageControls(ScrollBar ScrollBar, Panel ThumbnailPanel)
+        {
+            this.ScrollBar = ScrollBar;
+            this.ThumbnailPanel = ThumbnailPanel;
+            this.ThumbnailPanel.HandleCreated += ThumbnailPanel_HandleCreated;
+            InitializeThumbnails();
+        }
+
+        private void ThumbnailPanel_HandleCreated(object sender, EventArgs e)
+        {
+            (sender as Panel).Visible = true;
         }
 
         private void OCRCloseBtn_GotFocus(object sender, EventArgs e)
@@ -214,19 +300,19 @@ namespace SIPView_PDF
                 ScrollBar.Visible = true;
                 ScrollBar.Maximum = PDFDocument.Pages.Count - 1;
             }
-            else
-            {
-                ScrollBar.Visible = false;
-            }
         }
 
         private void UpdateAfterRender()
         {
             PDFViewAnnotations.DisplayCurrentPageMarks();
 
-            ScrollBar.Value = PageID;
+            if (PDFDocument.Pages.Count > 1)
+            {
+                ScrollBar.Value = PageID;
+                UpdateThumbnailSelection();
+            }
 
-            PDFViewTextSelecting.FindWordsInPage(); ///////////////// ?? 
+            PDFViewTextSelecting.FindWordsInPage(); 
 
             if (PDFViewOCR.TextIsSearched)
                 PDFViewOCR.DrawHighlightOnCurrentPage();
@@ -279,18 +365,17 @@ namespace SIPView_PDF
         {
             PageID = pageID;
 
-           
-
             try
             {
                 PageView.Page = PDFDocument.Pages[PageID];
-               
+                //PageView.Display.ARTPage = ARTPages[PageID];
+
                 PageView.Display.Background.Color.Red
                     = PageView.Display.Background.Color.Green
                     = PageView.Display.Background.Color.Blue = 96;
 
             }
-            catch (ImGearException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

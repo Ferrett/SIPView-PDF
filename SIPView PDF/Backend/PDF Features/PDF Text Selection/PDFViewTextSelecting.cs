@@ -16,6 +16,7 @@ namespace SIPView_PDF
     {
         public static ImGearPDFWordFinder PDFWordFinder;
         public static bool TextIsSelecting = false;
+        static int WordsInPage = 0;
 
         private static List<TextSelectionWord> TextSelectionWords;
 
@@ -23,7 +24,8 @@ namespace SIPView_PDF
         public static int WordsInPageCount(int pageID)
         {
             PDFWordFinder = new ImGearPDFWordFinder(PDFManager.Documents[PDFManager.SelectedTabID].PDFDocument, ImGearPDFWordFinderVersion.LATEST_VERSION, ImGearPDFContextFlags.XY_ORDER);
-            return PDFWordFinder.AcquireWordList(pageID);
+            WordsInPage = PDFWordFinder.AcquireWordList(pageID);
+            return WordsInPage;
         }
 
         public static void FindWordsInPage()
@@ -31,7 +33,7 @@ namespace SIPView_PDF
             PDFManager.Documents[PDFManager.SelectedTabID].ARTPages[PDFManager.Documents[PDFManager.SelectedTabID].PageID].SetCoordType(ImGearARTCoordinatesType.DEVICE_COORD);
             TextSelectionWords = new List<TextSelectionWord>();
 
-            for (int i = 0; i < WordsInPageCount(PDFManager.Documents[PDFManager.SelectedTabID].PageID); i++)
+            for (int i = 0; i < WordsInPage; i++)
             {
                 ImGearRectangle bounds = new ImGearRectangle()
                 {
@@ -62,8 +64,12 @@ namespace SIPView_PDF
                     text += PDFWordFinder.GetWord(ImGearPDFContextFlags.PDF_ORDER, i).String + " ";
                 }
             }
-            text.Remove(text.Length - 1);
-            Clipboard.SetText(text);
+
+            if (text != string.Empty)
+            {
+                text.Remove(text.Length - 1);
+                Clipboard.SetText(text);
+            }
         }
 
         public static void SelectAllText()

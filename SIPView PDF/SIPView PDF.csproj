@@ -125,6 +125,9 @@
     <Reference Include="ImageGear24.Windows.Forms, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
       <HintPath>..\packages\Accusoft.ImageGear.WinForms.24.14.0\lib\net20\ImageGear24.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -140,6 +143,7 @@
     <Compile Include="Backend\PDF Features\PDF OCR\OCRColors.cs" />
     <Compile Include="Backend\PDF Features\PDF OCR\OCRWord.cs" />
     <Compile Include="Backend\PDF Features\PDF Text Selection\TextSelectionWord.cs" />
+    <Compile Include="Backend\PDF Features\PDF Thumbnails\Thumbnail.cs" />
     <Compile Include="Backend\PDF Features\PDFVeiwPrint.cs" />
     <Compile Include="Backend\PDF Features\PDFViewAnnotations.cs" />
     <Compile Include="Backend\PDF Features\PDFViewKeyEvents.cs" />

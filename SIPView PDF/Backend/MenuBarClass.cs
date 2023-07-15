@@ -10,6 +10,7 @@ namespace SIPView_PDF
 {
     public static class MenuBarClass
     {
+
         private static ToolStripButton RotateLeftBtn;
         private static ToolStripButton RotateRightBtn;
         private static ToolStripButton PrevPageBtn;
