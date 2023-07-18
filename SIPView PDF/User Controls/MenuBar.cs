@@ -100,7 +100,6 @@ namespace SIPView_PDF
 
         private void PrintSettingsMenu_Click(object sender, EventArgs e)
         {
-            PDFVeiwPrint.ShowPrinterSettingsMenu();
             PDFVeiwPrint.ShowPageSetupMenu();
         }
 

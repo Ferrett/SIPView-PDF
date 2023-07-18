@@ -38,16 +38,15 @@ namespace SIPView_PDF
 
                 // Define a PrintPage event handler and start printing.
                 PrintDocument.PrintPage += new PrintPageEventHandler(HandlePrinting);
-                //PrintDocument.PrintPage += new PrintPageEventHandler(HandlePrinting(PDFViewClass,sender,args));
-                for (int j = 0; j < PrintDialog.PrinterSettings.Copies; j++)
+
+
+                for (int i = 0; i < PrintDialog.PrinterSettings.ToPage; i++)
                 {
-                    for (int i = 0; i < PrintDialog.PrinterSettings.ToPage; i++)
-                    {
-                        PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(i);
-                        PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
-                        PrintDocument.Print();
-                    }
+                    PDFManager.Documents[PDFManager.SelectedTabID].RenderPage(i);
+                    PDFManager.Documents[PDFManager.SelectedTabID].UpdatePageView();
+                    PrintDocument.Print();
                 }
+
             }
         }
 
@@ -67,17 +66,6 @@ namespace SIPView_PDF
 
             // Print to the Graphics device chosen from the PrintDialog.
             igPageDisplayPrinting.Print(args.Graphics);
-
-            // Let the PrintDialog know there are no more pages.
-            args.HasMorePages = false;
-        }
-
-        public static void ShowPrinterSettingsMenu()
-        {
-            //if (DialogResult.OK == PrintDialog.ShowDialog())
-            //{
-            //    PrintDialog
-            //}
         }
 
         public static void ShowPageSetupMenu()

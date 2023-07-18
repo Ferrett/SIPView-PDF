@@ -66,7 +66,7 @@ namespace SIPView_PDF
         public static Panel CreateThumbnailPanel()
         {
             Panel ThumbnailPanel = new Panel()
-            { Visible=false,
+            { 
                 AutoScroll = true,
                 Dock = DockStyle.Left,
                 Location = new Point(0, 0),
@@ -236,6 +236,7 @@ namespace SIPView_PDF
 
         public static void SelectedTabChanged()
         {
+
             SelectedTabID = TabControl.SelectedIndex;
 
             if (TabControl.TabPages.Count != 0)
@@ -244,6 +245,7 @@ namespace SIPView_PDF
                 Pan.SourceView = Documents[SelectedTabID].PageView;
             }
             OnTabChanged(null);
+
         }
 
         public static void TabControl_MouseClick(object sender, MouseEventArgs e)

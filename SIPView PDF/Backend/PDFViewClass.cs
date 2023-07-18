@@ -146,13 +146,7 @@ namespace SIPView_PDF
         {
             this.ScrollBar = ScrollBar;
             this.ThumbnailPanel = ThumbnailPanel;
-            this.ThumbnailPanel.HandleCreated += ThumbnailPanel_HandleCreated;
             InitializeThumbnails();
-        }
-
-        private void ThumbnailPanel_HandleCreated(object sender, EventArgs e)
-        {
-            (sender as Panel).Visible = true;
         }
 
         private void OCRCloseBtn_GotFocus(object sender, EventArgs e)

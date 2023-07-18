@@ -20,14 +20,12 @@ namespace SIPView_PDF
         {
             IsSelected = true;
             Background.BackColor = Color.Cyan;
-            //Background.Visible = true;
         }
 
         public void Deselect()
         {
             IsSelected = false;
             Background.BackColor = Color.Transparent;
-            //Background.Visible = false;
         }
     }
 }
