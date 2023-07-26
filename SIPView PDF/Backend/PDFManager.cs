@@ -59,24 +59,26 @@ namespace SIPView_PDF
 
             NewTabPage = new TabPage();
 
-            Documents.Add(new PDFViewClass(CreatePageView(), CreateOCRPanel()));
-            NewTabPage.Controls.Add(Documents.Last().OCRPanel);
-            NewTabPage.Controls.Add(Documents.Last().PageView);
-        }
-        public static Panel CreateThumbnailPanel()
-        {
-            Panel ThumbnailPanel = new Panel()
-            { 
-                AutoScroll = true,
-                Dock = DockStyle.Left,
-                Location = new Point(0, 0),
-                Name = "ThumbnailController",
-                Size = new Size(155, 678),
-                TabIndex = 3
-            };
+            Documents.Add(new PDFViewClass(CreateSplitContainer(),CreatePageView(), CreateOCRPanel()));
 
-            return ThumbnailPanel;
+            NewTabPage.Controls.Add(Documents.Last().SplitContainer);
         }
+
+        public static SplitContainer CreateSplitContainer()
+        {
+            SplitContainer splitContainer = new SplitContainer
+            {
+                Dock = DockStyle.Fill,
+                Orientation = Orientation.Vertical,
+                Panel1MinSize = 0,
+                IsSplitterFixed = true,
+            };
+            splitContainer.SplitterDistance = 0;
+            
+            return splitContainer;
+        }
+
+        
         public static Panel CreateOCRPanel()
         {
             Panel OCRPanel = new Panel()
@@ -205,9 +207,7 @@ namespace SIPView_PDF
         public static void AddTab()
         {
             if (Documents[SelectedTabID].PDFDocument.Pages.Count > 1) {
-                Documents[SelectedTabID].AddMultupageControls(CreateScrollBar(), CreateThumbnailPanel());
-                NewTabPage.Controls.Add(Documents.Last().ScrollBar);
-                NewTabPage.Controls.Add(Documents.Last().ThumbnailPanel);
+                Documents[SelectedTabID].AddMultupageControls(CreateScrollBar());
             }
 
             NewTabPage.Text = Path.GetFileName(Documents[SelectedTabID].DocumentPath);

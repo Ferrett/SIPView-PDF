@@ -26,6 +26,9 @@ namespace SIPView_PDF
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
+
+            // Thumbnail size ajustment
+            // Add a close button on tab
         }
     }
 }

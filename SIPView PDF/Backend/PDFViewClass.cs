@@ -30,6 +30,7 @@ namespace SIPView_PDF
         public ImGearARTForms ARTForm;
        
         public ImGearPageView PageView;
+        public SplitContainer SplitContainer;
         public ScrollBar ScrollBar;
 
         public Panel OCRPanel;
@@ -40,17 +41,21 @@ namespace SIPView_PDF
         public Button OCRNextBtn;
         public Button OCRCloseBtn;
 
-        public Panel ThumbnailPanel;
+        //public Panel ThumbnailPanel;
         public List<Thumbnail> Thumbnails;
 
         public bool DrawZoomRectangle = false;
         public string DocumentPath;
         public int PageID = 0;
 
-        public PDFViewClass(ImGearPageView PageView, Panel OCRPanel)
+        public PDFViewClass(SplitContainer splitContainer, ImGearPageView PageView, Panel OCRPanel)
         {
             this.PageView = PageView; 
             this.OCRPanel = OCRPanel;
+            this.SplitContainer = splitContainer;
+
+            splitContainer.Panel2.Controls.Add(this.OCRPanel);
+            splitContainer.Panel2.Controls.Add(this.PageView);
 
             ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
 
@@ -90,15 +95,13 @@ namespace SIPView_PDF
                     {
                         Page = PDFDocument.Pages[i],
                         Location = new Point(20, 20 + 140 * i),
-                        Width = 100,
-                        Height = 100,
+                        Size = new Size(100,100),
                         Tag=i
                     },
                     Background = new Panel()
                     {
                         Location = new Point(14, 14 + 140 * i),
-                        Width = 112,
-                        Height = 112,
+                        Size = new Size(112, 112),
                         BackColor = Color.Transparent,
                         Visible = true,
                         Tag = i
@@ -111,17 +114,17 @@ namespace SIPView_PDF
                     }
                 });
 
-                Thumbnails.Last().Image.Display.Background.Color.Red = ThumbnailPanel.BackColor.R;
-                Thumbnails.Last().Image.Display.Background.Color.Green = ThumbnailPanel.BackColor.G;
-                Thumbnails.Last().Image.Display.Background.Color.Blue = ThumbnailPanel.BackColor.B;
+                Thumbnails.Last().Image.Display.Background.Color.Red = SplitContainer.Panel1.BackColor.R;
+                Thumbnails.Last().Image.Display.Background.Color.Green = SplitContainer.Panel1.BackColor.G;
+                Thumbnails.Last().Image.Display.Background.Color.Blue = SplitContainer.Panel1.BackColor.B;
 
                 Thumbnails.Last().Image.MouseEnter += PDFViewClass_MouseEnter;
                 Thumbnails.Last().Image.MouseLeave += PDFViewClass_MouseLeave;
                 Thumbnails.Last().Image.Click += PDFViewClass_Click;
 
-                ThumbnailPanel.Controls.Add(Thumbnails.Last().Label);
-                ThumbnailPanel.Controls.Add(Thumbnails.Last().Background);
-                ThumbnailPanel.Controls.Add(Thumbnails.Last().Image);
+                SplitContainer.Panel1.Controls.Add(Thumbnails.Last().Label);
+                SplitContainer.Panel1.Controls.Add(Thumbnails.Last().Background);
+                SplitContainer.Panel1.Controls.Add(Thumbnails.Last().Image);
                 Thumbnails.Last().Image.BringToFront();
             }
             Thumbnails.First().Select();
@@ -142,12 +145,50 @@ namespace SIPView_PDF
             Thumbnails[(int)(sender as ImGearPageView).Tag].Background.BorderStyle = BorderStyle.FixedSingle;
         }
 
-        public void AddMultupageControls(ScrollBar ScrollBar, Panel ThumbnailPanel)
+        public void AddMultupageControls(ScrollBar ScrollBar)
         {
             this.ScrollBar = ScrollBar;
-            this.ThumbnailPanel = ThumbnailPanel;
+
             InitializeThumbnails();
+
+            SplitContainer.SplitterMoved += SplitContainer_SplitterMoved;
+            SplitContainer.IsSplitterFixed = false;
+            
+            SplitContainer.Panel2.Controls.Add(ScrollBar);
+            SplitContainer.SplitterDistance = 30;
+            
         }
+
+        private void SplitContainer_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            // Set the maximum width for the right panel
+            int maxRightPanelWidth = SplitContainer.Width/5; // Set your desired maximum width here
+            var a = SplitContainer.SplitterDistance;
+            // Check if the new position of the splitter exceeds the maximum width
+            if (e.SplitX > maxRightPanelWidth)
+            {
+
+                SplitContainer.SplitterDistance = maxRightPanelWidth;
+                // Cancel the event to prevent the splitter from moving beyond the maximum width
+            }
+                CenterControlInPanel();
+        }
+
+        private void CenterControlInPanel()
+        {
+            for (int i = 0; i < Thumbnails.Count; i++)
+            {
+                Thumbnails[i].Image.Size = new Size((100 * SplitContainer.SplitterDistance) / 180, (100 * SplitContainer.SplitterDistance) / 180);
+                Thumbnails[i].Background.Size = new Size((112 * SplitContainer.SplitterDistance) / 180, (112 * SplitContainer.SplitterDistance) / 180);
+
+                Thumbnails[i].Image.Location = new Point((SplitContainer.Panel1.Width / 2) - Thumbnails[i].Image.Width / 2,  ((20+(170*i)) * SplitContainer.SplitterDistance) / 180);
+                Thumbnails[i].Background.Location = new Point((SplitContainer.Panel1.Width / 2) - Thumbnails[i].Background.Width / 2, ((14 + (170 * i)) * SplitContainer.SplitterDistance) / 180);
+                Thumbnails[i].Label.Location = new Point((SplitContainer.Panel1.Width / 2) - Thumbnails[i].Label.Width / 4, ((140 + (170 * i)) * SplitContainer.SplitterDistance) / 180);
+            }
+           
+        }
+
+       
 
         private void OCRCloseBtn_GotFocus(object sender, EventArgs e)
         {
@@ -258,10 +299,6 @@ namespace SIPView_PDF
             PDFManager.OnARTPage_MarkUpdate(null);
         }
 
-       
-
-       
-
         public void DrawSelector(System.Drawing.Graphics gr)
         {
             if (DrawZoomRectangle || PDFViewTextSelecting.TextIsSelecting)
@@ -314,8 +351,6 @@ namespace SIPView_PDF
             UpdatePageView();
         }
 
-       
-
         public void RotateLeft()
         {
             ImGearProcessing.Rotate(PageView.Page, ImGearRotationValues.VALUE_270);
@@ -352,8 +387,6 @@ namespace SIPView_PDF
             if (PageID < PDFDocument.Pages.Count - 1)
                 RenderPage(PageID + 1);
         }
-
-
 
         public void RenderPage(int pageID)
         {
