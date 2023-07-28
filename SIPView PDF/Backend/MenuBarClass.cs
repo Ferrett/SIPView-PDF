@@ -105,7 +105,7 @@ namespace SIPView_PDF
         {
             if (PDFManager.Documents.Count > 0)
             {
-                PageChanged();
+                PageChanged(); 
             }
             else
             {
@@ -115,6 +115,9 @@ namespace SIPView_PDF
                 FilePrintBtn.Enabled = false;
                 ShowToolBarBtn.Enabled = false;
                 TextSelectionBtn.Enabled = false;
+                CloseTabMenu.Enabled = false;
+                NextPageBtn.Enabled = false;
+                PrevPageBtn.Enabled = false;
 
                 RotateLeftMenu.Enabled = false;
                 RotateRightMenu.Enabled = false;
@@ -136,6 +139,7 @@ namespace SIPView_PDF
             FilePrintBtn.Enabled = true;
             ShowToolBarBtn.Enabled = true;
             TextSelectionBtn.Enabled = true;
+            CloseTabMenu.Enabled = true;
 
             RotateLeftMenu.Enabled = true;
             RotateRightMenu.Enabled = true;

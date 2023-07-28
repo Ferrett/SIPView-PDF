@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace SIPView_PDF
 {
@@ -45,12 +46,15 @@ namespace SIPView_PDF
             // TabControl
             // 
             this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.TabControl.Location = new System.Drawing.Point(0, 0);
             this.TabControl.Margin = new System.Windows.Forms.Padding(0);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.Size = new System.Drawing.Size(1000, 542);
             this.TabControl.TabIndex = 4;
+            this.TabControl.TabStop = false;
+            this.TabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.TabControl_DrawItem);
             this.TabControl.SelectedIndexChanged += new System.EventHandler(this.TabControl_SelectedIndexChanged);
             this.TabControl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TabControl_MouseClick);
             // 
@@ -62,6 +66,7 @@ namespace SIPView_PDF
             this.DoubleBuffered = true;
             this.Name = "PDFView";
             this.Size = new System.Drawing.Size(1000, 542);
+            this.Load += new System.EventHandler(this.PDFView_Load);
             this.ResumeLayout(false);
 
         }

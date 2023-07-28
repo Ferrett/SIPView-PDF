@@ -3,6 +3,7 @@ using ImageGear.Core;
 using ImageGear.Formats;
 using ImageGear.Formats.PDF;
 using ImageGear.Windows.Forms;
+using SIPView_PDF.Backend;
 using SIPView_PDF.Backend.PDF_Features;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace SIPView_PDF
 
             NewTabPage = new TabPage();
 
-            Documents.Add(new PDFViewClass(CreateSplitContainer(),CreatePageView(), CreateOCRPanel()));
+            Documents.Add(new PDFViewClass(CreateSplitContainer(), CreatePageView(), CreateOCRPanel()));
 
             NewTabPage.Controls.Add(Documents.Last().SplitContainer);
         }
@@ -74,11 +75,11 @@ namespace SIPView_PDF
                 IsSplitterFixed = true,
             };
             splitContainer.SplitterDistance = 0;
-            
+
             return splitContainer;
         }
 
-        
+
         public static Panel CreateOCRPanel()
         {
             Panel OCRPanel = new Panel()
@@ -144,7 +145,7 @@ namespace SIPView_PDF
                 Enabled = false,
                 UseVisualStyleBackColor = true
             };
-           
+
             Button OCRCloseBtn = new Button()
             {
                 Location = new Point(295, 14),
@@ -154,7 +155,7 @@ namespace SIPView_PDF
                 Text = "X",
                 UseVisualStyleBackColor = true
             };
-            
+
             OCRPanel.Controls.Add(OCRCloseBtn);
             OCRPanel.Controls.Add(OCRNextBtn);
             OCRPanel.Controls.Add(OCRPrevBtn);
@@ -166,7 +167,8 @@ namespace SIPView_PDF
         }
         public static ScrollBar CreateScrollBar()
         {
-            ScrollBar ScrollBar = new VScrollBar() {
+            ScrollBar ScrollBar = new VScrollBar()
+            {
                 Dock = DockStyle.Right,
                 LargeChange = 1,
                 TabIndex = 0,
@@ -206,7 +208,8 @@ namespace SIPView_PDF
 
         public static void AddTab()
         {
-            if (Documents[SelectedTabID].PDFDocument.Pages.Count > 1) {
+            if (Documents[SelectedTabID].PDFDocument.Pages.Count > 1)
+            {
                 Documents[SelectedTabID].AddMultupageControls(CreateScrollBar());
             }
 
@@ -248,12 +251,34 @@ namespace SIPView_PDF
 
         }
 
+        public static Point _imageLocation;
+        public static Point _imgHitArea = new Point(20, 4);
         public static void TabControl_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle)
-            {
+
+            //if (e.Button == MouseButtons.Middle)
+            //{
                 TabControl tabControl = (TabControl)sender;
 
+            //    for (int i = 0; i < tabControl.TabCount; i++)
+            //    {
+            //        Rectangle tabRect = tabControl.GetTabRect(i);
+            //        if (tabRect.Contains(e.Location))
+            //        {
+            //            CloseTab(i);
+            //        }
+            //    }
+            //}
+
+            Point p = e.Location;
+            int _tabWidth = TabControl.GetTabRect(TabControl.SelectedIndex).Width - _imgHitArea.X;
+            Rectangle r = TabControl.GetTabRect(TabControl.SelectedIndex);
+            r.Offset(_tabWidth, _imgHitArea.Y);
+            r.Width = 16;
+            r.Height = 16;
+
+            if (r.Contains(p))
+            {
                 for (int i = 0; i < tabControl.TabCount; i++)
                 {
                     Rectangle tabRect = tabControl.GetTabRect(i);
@@ -262,8 +287,13 @@ namespace SIPView_PDF
                         CloseTab(i);
                     }
                 }
+                //CloseTab(i);
+                //TabPage tabPage = (TabPage)TabControl.TabPages[TabControl.SelectedIndex];
+                //TabControl.TabPages.Remove(tabPage);
             }
+
         }
+
 
         #region EVENT_HANDLERS
 
@@ -311,5 +341,7 @@ namespace SIPView_PDF
                 document.PageView.Display = null;
             }
         }
+
+
     }
 }
