@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -83,7 +83,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ImageGear24.Art, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
@@ -125,27 +125,32 @@
     <Reference Include="ImageGear24.Windows.Forms, Version=24.14.0.719, Culture=neutral, PublicKeyToken=80d669b8b606a2da, processorArchitecture=MSIL">
       <HintPath>..\packages\Accusoft.ImageGear.WinForms.24.14.0\lib\net20\ImageGear24.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Drawing.Common.5.0.0\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
-
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-
-    <Compile Include="Forms\AddImagesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AddImagesForm.Designer.cs">
-      <DependentUpon>AddImagesForm.cs</DependentUpon>
-    </Compile>
-
-    <Compile Include="Backend\BatchProcessesEnum.cs" />
+    <Compile Include="Backend\Enums\BatchProcessesEnum.cs" />
+    <Compile Include="Backend\Enums\ViewModesEnum.cs" />
+    <Compile Include="Backend\PDF Features\PDF OCR\OCRColors.cs" />
+    <Compile Include="Backend\PDF Features\PDF OCR\OCRWord.cs" />
+    <Compile Include="Backend\PDF Features\PDF Text Selection\TextSelectionWord.cs" />
+    <Compile Include="Backend\PDF Features\PDF Thumbnails\Thumbnail.cs" />
+    <Compile Include="Backend\PDF Features\PDFVeiwPrint.cs" />
+    <Compile Include="Backend\PDF Features\PDFViewAnnotations.cs" />
+    <Compile Include="Backend\PDF Features\PDFViewKeyEvents.cs" />
+    <Compile Include="Backend\PDF Features\PDF OCR\PDFViewOCR.cs" />
+    <Compile Include="Backend\PDF Features\PDFViewSaveLoad.cs" />
+    <Compile Include="Backend\PDF Features\PDF Text Selection\PDFViewTextSelecting.cs" />
+    <Compile Include="Backend\PDFManager.cs" />
     <Compile Include="Forms\BatchProcessesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,13 +165,6 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-
-    <Compile Include="Forms\PDFCompressionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PDFCompressionForm.Designer.cs">
-      <DependentUpon>PDFCompressionForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\PDFSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,7 +177,6 @@
     <Compile Include="Forms\PrintSettingsForm.Designer.cs">
       <DependentUpon>PrintSettingsForm.cs</DependentUpon>
     </Compile>
-
     <Compile Include="User Controls\MenuBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -194,20 +191,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-
-    <EmbeddedResource Include="Forms\AddImagesForm.resx">
-      <DependentUpon>AddImagesForm.cs</DependentUpon>
-    </EmbeddedResource>
-
     <EmbeddedResource Include="Forms\BatchProcessesForm.resx">
       <DependentUpon>BatchProcessesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-
-    <EmbeddedResource Include="Forms\PDFCompressionForm.resx">
-      <DependentUpon>PDFCompressionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PDFSettingsForm.resx">
       <DependentUpon>PDFSettingsForm.cs</DependentUpon>
@@ -215,12 +203,12 @@
     <EmbeddedResource Include="Forms\PrintSettingsForm.resx">
       <DependentUpon>PrintSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="User Controls\MenuBar.resx">
       <DependentUpon>MenuBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Controls\PDFView.resx">
       <DependentUpon>PDFView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -242,6 +230,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="SIPView PDF_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -299,6 +288,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\closebtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close_btn.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets" Condition="Exists('..\packages\Accusoft.ImageGear.Core.24.14.0\build\Accusoft.ImageGear.Core.targets')" />

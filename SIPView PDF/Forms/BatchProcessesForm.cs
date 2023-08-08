@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace SIPView_PDF
@@ -51,9 +52,6 @@ namespace SIPView_PDF
             ProgressBar.Style = ProgressBarStyle.Continuous;
         }
 
-
-
-
         private void sourseFolderBtn_Click(object sender, EventArgs e)
         {
             using (var fbd = new FolderBrowserDialog())
@@ -67,7 +65,6 @@ namespace SIPView_PDF
             }
         }
 
-
         private void targetFolderBtn_Click(object sender, EventArgs e)
         {
             using (var fbd = new FolderBrowserDialog())
@@ -80,9 +77,6 @@ namespace SIPView_PDF
                 }
             }
         }
-
-
-
 
         private async void startBtn_Click(object sender, EventArgs e)
         {
@@ -122,7 +116,7 @@ namespace SIPView_PDF
                     }
                 case BatchProcess.ALL_FILES_TO_SINGLE_PDF:
                     {
-                        AllFilesToSiglePDF();
+                        await Task.Run(() => AllFilesToSiglePDFThreadManager());
                         break;
                     }
                 case BatchProcess.SPLIT_MULTIPAGE_PDFS:
@@ -149,8 +143,6 @@ namespace SIPView_PDF
         {
             // Allocate thread pool.
 
-
-
             List<Thread> threadList = new List<Thread>();
             for (int i = 0; i < filesInSelectedDir.Length; i++)
             {
@@ -164,10 +156,20 @@ namespace SIPView_PDF
 
             Invoke(new Action(() => this.FinishProgressBar()));
             Invoke(new Action(() => currentProcessLabel.Text = "Done!"));
+            
             //MessageBox.Show("All files are converted to PDFs", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void AllFilesToSiglePDFThreadManager()
+        {
+            Thread thread = new Thread(new ThreadStart(() => AllFilesToSiglePDF()));
 
+            thread.Start();
+            thread.Join();
+
+            Invoke(new Action(() => this.FinishProgressBar()));
+            Invoke(new Action(() => currentProcessLabel.Text = "Done!"));
+        }
 
         private void SplitMultipagePDFsThreadManager()
         {
@@ -176,13 +178,16 @@ namespace SIPView_PDF
             List<Thread> threadList = new List<Thread>();
             for (int i = 0; i < filesInSelectedDir.Length; i++)
             {
+                if (Path.GetExtension(filesInSelectedDir[i]) != "pdf")
+                    continue;
+
                 Thread thread = new Thread(new ThreadStart(() => SplitMultipagePDFs(filesInSelectedDir[i])));
                 thread.Name = i.ToString();
                 threadList.Add(thread);
                 thread.Start();
                 thread.Join();
             }
-
+            
 
             Invoke(new Action(() => this.FinishProgressBar()));
             Invoke(new Action(() => currentProcessLabel.Text = "Done!"));
@@ -190,17 +195,14 @@ namespace SIPView_PDF
 
         }
 
-
         private void SplitMultipagePDFs(string file)
         {
             ImGearPDF.Initialize();
 
-
-
-
             // Open file for reading.
             using (FileStream pdfData = new FileStream(file, FileMode.Open, FileAccess.Read))
             {
+                
                 // Read PDF document to memory.
                 using (ImGearPDFDocument igSourceDocument = ImGearFileFormats.LoadDocument(
                     pdfData, 0, (int)ImGearPDFPageRange.ALL_PAGES) as ImGearPDFDocument)
@@ -236,7 +238,7 @@ namespace SIPView_PDF
 
                         // Save new PDF document to file.
 
-                        PDFViewClass.FileSave(outputPath, igTargetDocument);
+                        PDFViewSaveLoad.FileSave(outputPath, igTargetDocument);
                     }
                     Invoke(new Action(() => ProgressBar.Value++));
 
@@ -249,15 +251,14 @@ namespace SIPView_PDF
 
         private void AllFilesToSiglePDF()
         {
+            ImGearPDF.Initialize();
             ImGearPDFDocument igResultDocument = new ImGearPDFDocument();
 
             foreach (var file in filesInSelectedDir)
             {
-
-                currentProcessLabel.Text = $"Adding: {file}                                         ";
-                this.Update();
-                UpdProgressBar();
-
+                Invoke(new Action(() => currentProcessLabel.Text = $"Adding: {file}                                         "));
+                Invoke(new Action(() => this.Update()));
+                Invoke(new Action(() => UpdProgressBar()));
 
                 try
                 {
@@ -279,18 +280,16 @@ namespace SIPView_PDF
 
                 }
                 catch (Exception) { }
-                ProgressBar.Value++;
+                Invoke(new Action(() => ProgressBar.Value++));
             }
 
             string filename = targetFolderTextBox.Text + "\\" + Path.GetFileName(sourseFolderTextBox.Text) + ".pdf";
 
-            PDFViewClass.FileSave(filename, igResultDocument);
+            PDFViewSaveLoad.FileSave(filename, igResultDocument);
+            ImGearPDF.Terminate();
 
-            FinishProgressBar();
-            currentProcessLabel.Text = "Done!";
 
         }
-
 
         private void AllFilesToPDFs(string file)
         {
@@ -313,7 +312,7 @@ namespace SIPView_PDF
 
                 ImGearPDFDocument tmp = new ImGearPDFDocument();
                 tmp.Pages.Add(page);
-                PDFViewClass.FileSave(filename, tmp);
+                PDFViewSaveLoad.FileSave(filename, tmp);
             }
             // If file can't be converted to PDF, it triggers exeption.
             catch (Exception) { }
@@ -322,7 +321,6 @@ namespace SIPView_PDF
 
             ImGearPDF.Terminate();
         }
-
 
         private void FinishProgressBar()
         {
@@ -337,7 +335,6 @@ namespace SIPView_PDF
             ProgressBar.Value = ProgressBar.Maximum;
             ProgressBar.Value = a;
         }
-
 
         private void exitBtn_Click(object sender, EventArgs e)
         {

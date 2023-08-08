@@ -1,57 +1,62 @@
-using System;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using ImageGear.ART.Forms;
-
 using ImageGear.Evaluation;
-
 using ImageGear.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SIPView_PDF
 {
     public partial class PDFView : UserControl
     {
+        Point _imageLocation = new Point(20, 4);
+        Point _imgHitArea = new Point(20, 4);
+        Image closeImage;
+
         public PDFView()
         {
             InitializeComponent();
             InitializeClassControls();
-
-            PDFViewClass.InitializeImGear();
-            PDFViewClass.InitializeToolBar();
-
         }
-
+       
         private void InitializeClassControls()
         {
-            PDFViewClass.ARTForm = new ImGearARTForms(PageView, ImGearARTToolBarModes.ART30);
-            PDFViewClass.PageView = PageView;
-            PDFViewClass.ScrollBar = ScrollBar;
-            PDFViewClass.StatusStrip = StatusStrip;
+            PDFManager.TabControl = TabControl;
+            PDFManager.Pan = Pan;
 
-            PDFViewClass.Magnifier = Magnifier;
-            PDFViewClass.ThumbnailController = ThumbnailController;
-
+            PDFManager._imageLocation = _imageLocation;
+            PDFManager._imgHitArea = _imgHitArea;
         }
 
-        private void PDFView_MouseWheel(object sender, MouseEventArgs e)
+        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PDFViewClass.WheelScrolled(sender,e);
+            PDFManager.SelectedTabChanged();
         }
 
-        private void PageView_KeyDown(object sender, KeyEventArgs e)
+        private void TabControl_MouseClick(object sender, MouseEventArgs e)
         {
-            PDFViewClass.KeyDown(sender,e);
+            PDFManager.TabControl_MouseClick(sender, e);
         }
 
-        private void ScrollBar_ValueChanged(object sender, EventArgs e)
+        private void PDFView_Load(object sender, EventArgs e)
         {
-
-           PDFViewClass.ScrollBarScrolled();
-
+            closeImage = Properties.Resources.close_btn;
+            TabControl.Padding = new Point(20, 4);
         }
 
-        private void PageView_KeyUp(object sender, KeyEventArgs e)
+        private void TabControl_DrawItem(object sender, DrawItemEventArgs e)
         {
-            PDFViewClass.PageView_KeyUp(sender, e);
+            Image img = new Bitmap(closeImage);
+  
+            Rectangle r = this.TabControl.GetTabRect(e.Index);
+            r.Offset(2, 2);
+            Brush TitleBrush = new SolidBrush(Color.Black);
+            Font f = this.Font;
+            string title = this.TabControl.TabPages[e.Index].Text;
+            
+            e.Graphics.DrawString(title, f, TitleBrush, new PointF(r.X, r.Y));
+            e.Graphics.DrawImage(img, new Point(r.X + (this.TabControl.GetTabRect(e.Index).Width - _imageLocation.X), _imageLocation.Y));
         }
     }
 }

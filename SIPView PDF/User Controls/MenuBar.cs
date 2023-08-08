@@ -1,6 +1,8 @@
+using ImageGear.Formats.PDF.Forms;
+using SIPView_PDF.Backend.PDF_Features;
 using SIPView_PDF.Forms;
 using System;
-
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SIPView_PDF
@@ -15,64 +17,62 @@ namespace SIPView_PDF
 
         private void FileOpenBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.FileLoad();
+            PDFViewSaveLoad.FileLoad();
         }
 
         private void FileSaveBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.FileSave();
+            PDFViewSaveLoad.FileSave();
         }
 
         private void EditBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.ToolBarChangeVisibility();
-
+            PDFManager.Documents[PDFManager.SelectedTabID].ToolBarChangeVisibility();
             MenuBarClass.ToolBarChangeCheck();
-
         }
 
         private void BakeInBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.AnnotationBakeIn();
+            PDFViewAnnotations.AnnotationBakeIn();
         }
 
         private void SelectAllBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.SelectAllMarks();
+            PDFViewAnnotations.SelectAllMarks();
         }
 
         private void RedoBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.Redo();
+            PDFManager.Documents[PDFManager.SelectedTabID].Redo();
             MenuBarClass.UpdateHistoryBtns();
         }
 
         private void UndoBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.Undo();
+            PDFManager.Documents[PDFManager.SelectedTabID].Undo();
             MenuBarClass.UpdateHistoryBtns();
         }
 
         private void PrevPageBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.PrevPage();
+            PDFManager.Documents[PDFManager.SelectedTabID].PrevPage();
             MenuBarClass.UpdatePageBtns();
         }
 
         private void NextPageBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.NextPage();
+            PDFManager.Documents[PDFManager.SelectedTabID].NextPage();
             MenuBarClass.UpdatePageBtns();
         }
 
         private void RotateRightBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.RotateRight();
+            PDFManager.Documents[PDFManager.SelectedTabID].RotateRight();
         }
 
         private void RotateLeftBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.RotateLeft();
+            PDFManager.Documents[PDFManager.SelectedTabID].RotateLeft();
         }
 
         private void AllFilesToPDFsMenu_Click(object sender, EventArgs e)
@@ -95,92 +95,12 @@ namespace SIPView_PDF
 
         private void FilePrintBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.FilePrint();
-        }
-
-        private void FileOpenMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.FileLoad();
-        }
-
-        private void FileSaveMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.FileSave();
-        }
-
-        private void FilePrintMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.FilePrint();
-        }
-
-        private void PrevPageMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.PrevPage();
-        }
-
-        private void NextPageMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.NextPage();
-        }
-
-        private void RotateRightMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.RotateRight();
-        }
-
-        private void RotateLeftMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.RotateLeft();
-        }
-
-        private void ShowToolBarMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.ToolBarChangeVisibility();
-        }
-
-        private void BakeInMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.AnnotationBakeIn();
-        }
-
-        private void SelectAllMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.SelectAllMarks();
-        }
-
-        private void UndoMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.Undo();
-        }
-
-        private void RedoMenu_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.Redo();
-        }
-
-
-        private void MagnifierBtn_Click(object sender, EventArgs e)
-        {
-            PDFViewClass.MagnifierChangeVisibility();
-            MenuBarClass.MagnifierChangeCheck();
-        }
-
-        private void AddImageMenu_Click(object sender, EventArgs e)
-        {
-            AddImagesForm addImagesForm = new AddImagesForm(PDFViewClass.PDFDocument.Pages.Count);
-            addImagesForm.ShowDialog();
+            PDFVeiwPrint.FilePrint();
         }
 
         private void PrintSettingsMenu_Click(object sender, EventArgs e)
         {
-            PDFViewClass.ShowPrintMenu();
-        }
-
-        private void PDFSettingsMenu_Click(object sender, EventArgs e)
-        {
-            PDFCompressionForm compressioForm = new PDFCompressionForm();
-            compressioForm.ShowDialog();
-            
+            PDFVeiwPrint.ShowPageSetupMenu();
         }
 
         private void pDFSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -191,9 +111,13 @@ namespace SIPView_PDF
 
         private void TextSelectionBtn_Click(object sender, EventArgs e)
         {
-            PDFViewClass.TextSelectionModeChange();
+            PDFViewTextSelecting.TextSelectionModeChange();
             MenuBarClass.TextSelectionChangeCheck();
         }
 
+        private void CloseTabMenu_Click(object sender, EventArgs e)
+        {
+            PDFManager.CloseTab(PDFManager.SelectedTabID);
+        }
     }
 }

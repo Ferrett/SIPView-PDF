@@ -1,4 +1,4 @@
-namespace SIPView_PDF
+﻿namespace SIPView_PDF
 {
     partial class MenuBar
     {
@@ -33,12 +33,8 @@ namespace SIPView_PDF
             this.FileOpenMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FilePrintMenu = new System.Windows.Forms.ToolStripMenuItem();
-
             this.PrintSettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.PDFCompressionMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PDFSettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddImageMenu = new System.Windows.Forms.ToolStripMenuItem();
-
             this.ToolsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PrevPageMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.NextPageMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,10 +67,9 @@ namespace SIPView_PDF
             this.SelectAllBtn = new System.Windows.Forms.ToolStripButton();
             this.BakeInBtn = new System.Windows.Forms.ToolStripButton();
             this.ShowToolBarBtn = new System.Windows.Forms.ToolStripButton();
-
-            this.MagnifierBtn = new System.Windows.Forms.ToolStripButton();
             this.TextSelectionBtn = new System.Windows.Forms.ToolStripButton();
-
+            this.CloseTabMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.TextSelectionMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.ToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -98,13 +93,10 @@ namespace SIPView_PDF
             this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileOpenMenu,
             this.FileSaveMenu,
-
             this.FilePrintMenu,
             this.PrintSettingsMenu,
-            this.PDFCompressionMenu,
             this.PDFSettingsMenu,
-            this.AddImageMenu});
-
+            this.CloseTabMenu});
             this.FileMenu.Name = "FileMenu";
             this.FileMenu.Size = new System.Drawing.Size(37, 20);
             this.FileMenu.Text = "File";
@@ -112,69 +104,47 @@ namespace SIPView_PDF
             // FileOpenMenu
             // 
             this.FileOpenMenu.Name = "FileOpenMenu";
-
-            this.FileOpenMenu.Size = new System.Drawing.Size(166, 22);
-
+            this.FileOpenMenu.Size = new System.Drawing.Size(180, 22);
             this.FileOpenMenu.Text = "Open";
-            this.FileOpenMenu.Click += new System.EventHandler(this.FileOpenMenu_Click);
+            this.FileOpenMenu.Click += new System.EventHandler(this.FileOpenBtn_Click);
             // 
             // FileSaveMenu
             // 
             this.FileSaveMenu.Enabled = false;
             this.FileSaveMenu.Name = "FileSaveMenu";
-
-            this.FileSaveMenu.Size = new System.Drawing.Size(166, 22);
-
+            this.FileSaveMenu.Size = new System.Drawing.Size(180, 22);
             this.FileSaveMenu.Text = "Save";
-            this.FileSaveMenu.Click += new System.EventHandler(this.FileSaveMenu_Click);
+            this.FileSaveMenu.Click += new System.EventHandler(this.FileSaveBtn_Click);
             // 
             // FilePrintMenu
             // 
             this.FilePrintMenu.Enabled = false;
             this.FilePrintMenu.Name = "FilePrintMenu";
-
-            this.FilePrintMenu.Size = new System.Drawing.Size(166, 22);
+            this.FilePrintMenu.Size = new System.Drawing.Size(180, 22);
             this.FilePrintMenu.Text = "Print";
-            this.FilePrintMenu.Click += new System.EventHandler(this.FilePrintMenu_Click);
+            this.FilePrintMenu.Click += new System.EventHandler(this.FilePrintBtn_Click);
             // 
             // PrintSettingsMenu
             // 
             this.PrintSettingsMenu.Name = "PrintSettingsMenu";
-            this.PrintSettingsMenu.Size = new System.Drawing.Size(166, 22);
+            this.PrintSettingsMenu.Size = new System.Drawing.Size(180, 22);
             this.PrintSettingsMenu.Text = "Print settings";
             this.PrintSettingsMenu.Click += new System.EventHandler(this.PrintSettingsMenu_Click);
             // 
-            // PDFCompressionMenu
-            // 
-            this.PDFCompressionMenu.Name = "PDFCompressionMenu";
-            this.PDFCompressionMenu.Size = new System.Drawing.Size(166, 22);
-            this.PDFCompressionMenu.Text = "PDF compression";
-            this.PDFCompressionMenu.Click += new System.EventHandler(this.PDFSettingsMenu_Click);
-            // 
             // PDFSettingsMenu
             // 
-            this.PDFSettingsMenu.Enabled = false;
             this.PDFSettingsMenu.Name = "PDFSettingsMenu";
-            this.PDFSettingsMenu.Size = new System.Drawing.Size(166, 22);
+            this.PDFSettingsMenu.Size = new System.Drawing.Size(180, 22);
             this.PDFSettingsMenu.Text = "PDF settings";
             this.PDFSettingsMenu.Click += new System.EventHandler(this.pDFSettingsToolStripMenuItem_Click);
             // 
-            // AddImageMenu
-            // 
-            this.AddImageMenu.Enabled = false;
-            this.AddImageMenu.Name = "AddImageMenu";
-            this.AddImageMenu.Size = new System.Drawing.Size(166, 22);
-            this.AddImageMenu.Text = "Add image";
-            this.AddImageMenu.Click += new System.EventHandler(this.AddImageMenu_Click);
-            // 
-
             // ToolsMenu
             // 
             this.ToolsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.PrevPageMenu,
             this.NextPageMenu,
-            this.RotateRightMenu,
-            this.RotateLeftMenu});
+            this.RotateLeftMenu,
+            this.RotateRightMenu});
             this.ToolsMenu.Enabled = false;
             this.ToolsMenu.Name = "ToolsMenu";
             this.ToolsMenu.Size = new System.Drawing.Size(46, 20);
@@ -184,33 +154,33 @@ namespace SIPView_PDF
             // 
             this.PrevPageMenu.Enabled = false;
             this.PrevPageMenu.Name = "PrevPageMenu";
-            this.PrevPageMenu.Size = new System.Drawing.Size(148, 22);
+            this.PrevPageMenu.Size = new System.Drawing.Size(180, 22);
             this.PrevPageMenu.Text = "Previous page";
-            this.PrevPageMenu.Click += new System.EventHandler(this.PrevPageMenu_Click);
+            this.PrevPageMenu.Click += new System.EventHandler(this.PrevPageBtn_Click);
             // 
             // NextPageMenu
             // 
             this.NextPageMenu.Enabled = false;
             this.NextPageMenu.Name = "NextPageMenu";
-            this.NextPageMenu.Size = new System.Drawing.Size(148, 22);
+            this.NextPageMenu.Size = new System.Drawing.Size(180, 22);
             this.NextPageMenu.Text = "Next page";
-            this.NextPageMenu.Click += new System.EventHandler(this.NextPageMenu_Click);
+            this.NextPageMenu.Click += new System.EventHandler(this.NextPageBtn_Click);
             // 
             // RotateRightMenu
             // 
             this.RotateRightMenu.Enabled = false;
             this.RotateRightMenu.Name = "RotateRightMenu";
-            this.RotateRightMenu.Size = new System.Drawing.Size(148, 22);
+            this.RotateRightMenu.Size = new System.Drawing.Size(180, 22);
             this.RotateRightMenu.Text = "Rotate right";
-            this.RotateRightMenu.Click += new System.EventHandler(this.RotateRightMenu_Click);
+            this.RotateRightMenu.Click += new System.EventHandler(this.RotateRightBtn_Click);
             // 
             // RotateLeftMenu
             // 
             this.RotateLeftMenu.Enabled = false;
             this.RotateLeftMenu.Name = "RotateLeftMenu";
-            this.RotateLeftMenu.Size = new System.Drawing.Size(148, 22);
+            this.RotateLeftMenu.Size = new System.Drawing.Size(180, 22);
             this.RotateLeftMenu.Text = "Rotate left";
-            this.RotateLeftMenu.Click += new System.EventHandler(this.RotateLeftMenu_Click);
+            this.RotateLeftMenu.Click += new System.EventHandler(this.RotateLeftBtn_Click);
             // 
             // EditMenu
             // 
@@ -219,7 +189,8 @@ namespace SIPView_PDF
             this.RedoMenu,
             this.SelectAllMenu,
             this.BakeInMenu,
-            this.ShowToolBarMenu});
+            this.ShowToolBarMenu,
+            this.TextSelectionMenu});
             this.EditMenu.Enabled = false;
             this.EditMenu.Name = "EditMenu";
             this.EditMenu.Size = new System.Drawing.Size(39, 20);
@@ -229,41 +200,41 @@ namespace SIPView_PDF
             // 
             this.UndoMenu.Enabled = false;
             this.UndoMenu.Name = "UndoMenu";
-            this.UndoMenu.Size = new System.Drawing.Size(144, 22);
+            this.UndoMenu.Size = new System.Drawing.Size(180, 22);
             this.UndoMenu.Text = "Undo";
-            this.UndoMenu.Click += new System.EventHandler(this.UndoMenu_Click);
+            this.UndoMenu.Click += new System.EventHandler(this.UndoBtn_Click);
             // 
             // RedoMenu
             // 
             this.RedoMenu.Enabled = false;
             this.RedoMenu.Name = "RedoMenu";
-            this.RedoMenu.Size = new System.Drawing.Size(144, 22);
+            this.RedoMenu.Size = new System.Drawing.Size(180, 22);
             this.RedoMenu.Text = "Redo";
-            this.RedoMenu.Click += new System.EventHandler(this.RedoMenu_Click);
+            this.RedoMenu.Click += new System.EventHandler(this.RedoBtn_Click);
             // 
             // SelectAllMenu
             // 
             this.SelectAllMenu.Enabled = false;
             this.SelectAllMenu.Name = "SelectAllMenu";
-            this.SelectAllMenu.Size = new System.Drawing.Size(144, 22);
+            this.SelectAllMenu.Size = new System.Drawing.Size(180, 22);
             this.SelectAllMenu.Text = "Select all";
-            this.SelectAllMenu.Click += new System.EventHandler(this.SelectAllMenu_Click);
+            this.SelectAllMenu.Click += new System.EventHandler(this.SelectAllBtn_Click);
             // 
             // BakeInMenu
             // 
             this.BakeInMenu.Enabled = false;
             this.BakeInMenu.Name = "BakeInMenu";
-            this.BakeInMenu.Size = new System.Drawing.Size(144, 22);
+            this.BakeInMenu.Size = new System.Drawing.Size(180, 22);
             this.BakeInMenu.Text = "Bake in";
-            this.BakeInMenu.Click += new System.EventHandler(this.BakeInMenu_Click);
+            this.BakeInMenu.Click += new System.EventHandler(this.BakeInBtn_Click);
             // 
             // ShowToolBarMenu
             // 
             this.ShowToolBarMenu.Enabled = false;
             this.ShowToolBarMenu.Name = "ShowToolBarMenu";
-            this.ShowToolBarMenu.Size = new System.Drawing.Size(144, 22);
+            this.ShowToolBarMenu.Size = new System.Drawing.Size(180, 22);
             this.ShowToolBarMenu.Text = "Show toolbar";
-            this.ShowToolBarMenu.Click += new System.EventHandler(this.ShowToolBarMenu_Click);
+            this.ShowToolBarMenu.Click += new System.EventHandler(this.EditBtn_Click);
             // 
             // BatchProcessesMenu
             // 
@@ -318,11 +289,8 @@ namespace SIPView_PDF
             this.toolStripSeparator4,
             this.SelectAllBtn,
             this.BakeInBtn,
-
             this.ShowToolBarBtn,
-            this.MagnifierBtn,
             this.TextSelectionBtn});
-
             this.ToolStrip.Location = new System.Drawing.Point(0, 24);
             this.ToolStrip.Margin = new System.Windows.Forms.Padding(20);
             this.ToolStrip.Name = "ToolStrip";
@@ -498,19 +466,6 @@ namespace SIPView_PDF
             this.ShowToolBarBtn.ToolTipText = "Edit";
             this.ShowToolBarBtn.Click += new System.EventHandler(this.EditBtn_Click);
             // 
-
-            // MagnifierBtn
-            // 
-            this.MagnifierBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.MagnifierBtn.Enabled = false;
-            this.MagnifierBtn.Image = global::SIPView_PDF.Properties.Resources.glass;
-            this.MagnifierBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.MagnifierBtn.Name = "MagnifierBtn";
-            this.MagnifierBtn.Size = new System.Drawing.Size(23, 22);
-            this.MagnifierBtn.Text = "toolStripButton1";
-            this.MagnifierBtn.ToolTipText = "Magnifying glass";
-            this.MagnifierBtn.Click += new System.EventHandler(this.MagnifierBtn_Click);
-            // 
             // TextSelectionBtn
             // 
             this.TextSelectionBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -523,7 +478,21 @@ namespace SIPView_PDF
             this.TextSelectionBtn.ToolTipText = "Text selection";
             this.TextSelectionBtn.Click += new System.EventHandler(this.TextSelectionBtn_Click);
             // 
-
+            // CloseTabMenu
+            // 
+            this.CloseTabMenu.Enabled = false;
+            this.CloseTabMenu.Name = "CloseTabMenu";
+            this.CloseTabMenu.Size = new System.Drawing.Size(180, 22);
+            this.CloseTabMenu.Text = "Close Tab";
+            this.CloseTabMenu.Click += new System.EventHandler(this.CloseTabMenu_Click);
+            // 
+            // TextSelectionMenu
+            // 
+            this.TextSelectionMenu.Enabled = false;
+            this.TextSelectionMenu.Name = "TextSelectionMenu";
+            this.TextSelectionMenu.Size = new System.Drawing.Size(180, 22);
+            this.TextSelectionMenu.Text = "Text selection";
+            // 
             // MenuBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -580,13 +549,10 @@ namespace SIPView_PDF
         private System.Windows.Forms.ToolStripButton ShowToolBarBtn;
         private System.Windows.Forms.ToolStripButton FilePrintBtn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-
-        private System.Windows.Forms.ToolStripButton MagnifierBtn;
-        private System.Windows.Forms.ToolStripMenuItem AddImageMenu;
         private System.Windows.Forms.ToolStripMenuItem PrintSettingsMenu;
-        private System.Windows.Forms.ToolStripMenuItem PDFCompressionMenu;
         private System.Windows.Forms.ToolStripMenuItem PDFSettingsMenu;
         private System.Windows.Forms.ToolStripButton TextSelectionBtn;
-
+        private System.Windows.Forms.ToolStripMenuItem CloseTabMenu;
+        private System.Windows.Forms.ToolStripMenuItem TextSelectionMenu;
     }
 }
